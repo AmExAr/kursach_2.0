@@ -1,0 +1,82 @@
+# depslib dependency file v1.0
+1727765134 source:c:\users\2vova\onedrive\Рабочий стол\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1727764839 c:\users\2vova\onedrive\Рабочий стол\compounddocumentobjecttest\compdocobj.h
+
+1727806417 source:c:\users\2vova\onedrive\Рабочий стол\compounddocumentobjecttest\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<iomanip>
+	<cassert>
+	<vector>
+	<map>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1728728202 source:d:\Учёба\3 курс\c++\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1728658468 d:\Учёба\3 курс\c++\compounddocumentobjecttest\compdocobj.h
+
+1730125151 source:d:\Учёба\3 курс\c++\compounddocumentobjecttest\main.cpp
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<map>
+	<string>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1730134225 source:d:\Учёба\3 курс\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1728658468 d:\Учёба\3 курс\compounddocumentobjecttest\compdocobj.h
+
+1730283726 source:d:\Учёба\3 курс\compounddocumentobjecttest\main.cpp
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<map>
+	<string>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1730134225 source:c:\users\alex\desktop\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1728658468 c:\users\alex\desktop\compounddocumentobjecttest\compdocobj.h
+
+1730655223 source:c:\users\alex\desktop\compounddocumentobjecttest\main.cpp
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<map>
+	<string>
+	<wtypes.h>
+	"CompDocObj.h"
+
