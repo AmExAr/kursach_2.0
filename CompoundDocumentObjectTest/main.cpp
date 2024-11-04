@@ -75,6 +75,7 @@ void processStream(const vector<BYTE>& targetStream) {
             const size_t sequence3Size = sizeof(sequence3) / sizeof(sequence3[0]);
 
             for (size_t j = 0; j <= combinedSize - sequence2Size; ++j) {
+                //Поиск и обработка последовательности A8 0F
                 if (memcmp(targetStream.data() + lastSequenceIndex + sequence1Size + 2 + j, sequence2, sequence2Size) == 0) {
                     if (j + sequence2Size + 1 < combinedSize) {
                         BYTE sizeByte3 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size];
@@ -82,67 +83,35 @@ void processStream(const vector<BYTE>& targetStream) {
                         uint16_t sizeText = (static_cast<uint16_t>(sizeByte4) << 8) | static_cast<uint16_t>(sizeByte3);
 
                         if (j + sequence2Size + 2 + sizeText <= combinedSize) {
-                            string utf8String;
                             wstring utf16String;
 
                             for (size_t k = 0; k < sizeText; ++k) {
                                 BYTE byte = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 4 + k];
-                                //wcout << hex << setw(2) << setfill(L'0') << byte;
-
-                                if (isprint(byte)) {
-                                    utf8String += static_cast<char>(byte);
+                                wchar_t wchar = static_cast<wchar_t>(byte);
+                                if (iswprint(wchar)) {
+                                    utf16String += wchar;
                                 } else {
-                                    utf8String += '\n';
-                                }
-
-                                // Обработка символов UTF-16LE
-                                if (k + 1 < sizeText) {
-                                    BYTE byte1 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 4 + k];
-                                    BYTE byte2 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 4 + k + 1];
-                                    wchar_t wchar = static_cast<wchar_t>(byte2 << 8 | byte1);
-
-                                    if (iswprint(wchar)) {
-                                        utf16String += wchar;
-                                    } else {
-                                        utf16String += L'\n';
-                                    }
-
-                                    ++k;
+                                    utf16String += L'\n';
                                 }
                             }
-
-                            // Вывод UTF-8 и UTF-16LE строк
-                            cout << utf8String << endl;
+                            // Вывод UTF-16LE строки
                             wcout << utf16String << endl;
-                        } else {
-                            wcout << L"Ошибка: выход за пределы потока при извлечении байтов." << endl;
                         }
-                        cout << endl;
                     }
                 }
 
                 // Поиск и обработка последовательности A0 0F аналогично
                 if (memcmp(targetStream.data() + lastSequenceIndex + sequence1Size + 2 + j, sequence3, sequence3Size) == 0) {
-                    const BYTE carriage_return[] = {0x0D};
                     if (j + sequence3Size + 1 < combinedSize) {
                         BYTE sizeByte5 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size];
                         BYTE sizeByte6 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 1];
                         uint16_t sizeText = (static_cast<uint16_t>(sizeByte6) << 8) | static_cast<uint16_t>(sizeByte5);
 
                         if (j + sequence3Size + 2 + sizeText <= combinedSize) {
-                            string utf8String;
                             wstring utf16String;
 
                             for (size_t k = 0; k < sizeText; ++k) {
                                 BYTE byte = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 4 + k];
-                                //wcout << hex << setw(2) << setfill(L'0') << byte;
-
-                                if (byte == carriage_return[0]) {
-                                    utf8String += '\n';
-                                } else if (isprint(byte)) {
-                                    utf8String += static_cast<char>(byte);
-                                }
-
                                 if (k + 1 < sizeText) {
                                     BYTE byte1 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 4 + k];
                                     BYTE byte2 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 4 + k + 1];
@@ -157,8 +126,6 @@ void processStream(const vector<BYTE>& targetStream) {
                                     ++k;
                                 }
                             }
-
-                            //cout << utf8String << endl;
                             wcout << utf16String << endl;
                         }
                     }
@@ -177,7 +144,7 @@ int main() {
     size_t fileSize = 0;
 
     // Чтение файла
-    if (!readFile("Second.ppt", dataBuffer, fileSize)) {
+    if (!readFile("First.ppt", dataBuffer, fileSize)) {
         return 1; // Ошибка при чтении файла
     }
 
