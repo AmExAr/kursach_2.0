@@ -6,8 +6,6 @@
 #include <string>
 #include <wtypes.h>
 #include "CompDocObj.h"
-
-#include <locale>
 #include <codecvt>
 
 using namespace std;
@@ -16,7 +14,7 @@ using namespace std;
 int findStreamIndexByName(const vector<CompoundDocumentObject::CompoundDocument_DirectoryEntryStruct>& Directory, const wstring& targetName) {
     for (size_t i = 0; i < Directory.size(); ++i) {
         if (Directory[i].EntryName == targetName) {
-            return static_cast<int>(i);
+            return int(i);
         }
     }
     return -1;
@@ -46,6 +44,18 @@ bool readFile(const string& fileName, BYTE*& dataBuffer, size_t& fileSize) {
     return true;
 }
 
+// Функция для записи текста в txt
+void writeToTxt(const wstring& text, const string& fileName) {
+    ofstream outFile(fileName, ios::app);
+    if (!outFile.is_open()) {
+        wcout << L"Ошибка открытия файла для записи!" << endl;
+        return;
+    }
+    outFile << wstring_convert<codecvt_utf8<wchar_t>>().to_bytes(text) << endl;
+    outFile.close();
+}
+
+
 // Функция для обработки потока
 void processStream(const vector<BYTE>& targetStream) {
     size_t targetSize = targetStream.size();
@@ -66,7 +76,7 @@ void processStream(const vector<BYTE>& targetStream) {
     if (lastSequenceIndex != SIZE_MAX && lastSequenceIndex + sequence1Size < targetSize) {
         BYTE sizeByte1 = targetStream[lastSequenceIndex + sequence1Size];
         BYTE sizeByte2 = targetStream[lastSequenceIndex + sequence1Size + 1];
-        uint16_t combinedSize = (static_cast<uint16_t>(sizeByte2) << 8) | static_cast<uint16_t>(sizeByte1);
+        uint16_t combinedSize = (uint16_t(sizeByte2) << 8) | uint16_t(sizeByte1);
 
         if (lastSequenceIndex + sequence1Size + 2 + combinedSize <= targetSize) {
             const BYTE sequence2[] = {0xA8, 0x0F};
@@ -80,22 +90,22 @@ void processStream(const vector<BYTE>& targetStream) {
                     if (j + sequence2Size + 1 < combinedSize) {
                         BYTE sizeByte3 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size];
                         BYTE sizeByte4 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 1];
-                        uint16_t sizeText = (static_cast<uint16_t>(sizeByte4) << 8) | static_cast<uint16_t>(sizeByte3);
+                        uint16_t sizeText = (uint16_t(sizeByte4) << 8) | uint16_t(sizeByte3);
 
                         if (j + sequence2Size + 2 + sizeText <= combinedSize) {
                             wstring utf16String;
 
                             for (size_t k = 0; k < sizeText; ++k) {
                                 BYTE byte = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 4 + k];
-                                wchar_t wchar = static_cast<wchar_t>(byte);
+                                wchar_t wchar = wchar_t(byte);
                                 if (iswprint(wchar)) {
                                     utf16String += wchar;
                                 } else {
                                     utf16String += L'\n';
                                 }
                             }
-                            // Вывод UTF-16LE строки
-                            wcout << utf16String << endl;
+                            // Запись в файл
+                            writeToTxt(utf16String, "FileText.txt");
                         }
                     }
                 }
@@ -105,7 +115,7 @@ void processStream(const vector<BYTE>& targetStream) {
                     if (j + sequence3Size + 1 < combinedSize) {
                         BYTE sizeByte5 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size];
                         BYTE sizeByte6 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 1];
-                        uint16_t sizeText = (static_cast<uint16_t>(sizeByte6) << 8) | static_cast<uint16_t>(sizeByte5);
+                        uint16_t sizeText = (uint16_t(sizeByte6) << 8) | uint16_t(sizeByte5);
 
                         if (j + sequence3Size + 2 + sizeText <= combinedSize) {
                             wstring utf16String;
@@ -115,7 +125,7 @@ void processStream(const vector<BYTE>& targetStream) {
                                 if (k + 1 < sizeText) {
                                     BYTE byte1 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 4 + k];
                                     BYTE byte2 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence3Size + 4 + k + 1];
-                                    wchar_t wchar = static_cast<wchar_t>(byte2 << 8 | byte1);
+                                    wchar_t wchar = wchar_t(byte2 << 8 | byte1);
 
                                     if (iswprint(wchar)) {
                                         utf16String += wchar;
@@ -126,7 +136,9 @@ void processStream(const vector<BYTE>& targetStream) {
                                     ++k;
                                 }
                             }
-                            wcout << utf16String << endl;
+                            // Запись в файл
+                            writeToTxt(utf16String, "FileText.txt");
+
                         }
                     }
                 }
@@ -134,6 +146,7 @@ void processStream(const vector<BYTE>& targetStream) {
         } else {
             wcout << L"Ошибка: выход за пределы потока при извлечении байтов." << endl;
         }
+    wcout << L"Весь текст записан в файл FileText.txt!!" << endl;
     }
 }
 
@@ -144,7 +157,7 @@ int main() {
     size_t fileSize = 0;
 
     // Чтение файла
-    if (!readFile("First.ppt", dataBuffer, fileSize)) {
+    if (!readFile("Second.ppt", dataBuffer, fileSize)) {
         return 1; // Ошибка при чтении файла
     }
 
@@ -173,7 +186,7 @@ int main() {
 
     // Поиск и обработка потока
     int targetStreamIndex = findStreamIndexByName(Directory, L"PowerPoint Document");
-    if (targetStreamIndex >= 0 && targetStreamIndex < static_cast<int>(DataStreams.size())) {
+    if (targetStreamIndex >= 0 && targetStreamIndex < int(DataStreams.size())) {
         const vector<BYTE>& targetStream = DataStreams[targetStreamIndex];
         processStream(targetStream);
     } else {
