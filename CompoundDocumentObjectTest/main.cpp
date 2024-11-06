@@ -46,6 +46,17 @@ bool readFile(const string& fileName, BYTE*& dataBuffer, size_t& fileSize) {
 
 // Функция для записи текста в txt
 void writeToTxt(const wstring& text, const string& fileName) {
+    static bool firstCall = true;
+
+    if (firstCall) {
+        ofstream outFile(fileName, ios::trunc);
+        if (!outFile.is_open()) {
+            wcout << L"Ошибка открытия файла для записи!" << endl;
+            return;
+        }
+        firstCall = false;
+    }
+
     ofstream outFile(fileName, ios::app);
     if (!outFile.is_open()) {
         wcout << L"Ошибка открытия файла для записи!" << endl;
@@ -157,7 +168,7 @@ int main() {
     size_t fileSize = 0;
 
     // Чтение файла
-    if (!readFile("Second.ppt", dataBuffer, fileSize)) {
+    if (!readFile("Launguage.ppt", dataBuffer, fileSize)) {
         return 1; // Ошибка при чтении файла
     }
 

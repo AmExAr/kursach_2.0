@@ -80,3 +80,13 @@
 	<wtypes.h>
 	"CompDocObj.h"
 
+1730894454 source:d:\codeblocks\programs\thirdsemestr\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1730894454 d:\codeblocks\programs\thirdsemestr\compounddocumentobjecttest\compdocobj.h
+
