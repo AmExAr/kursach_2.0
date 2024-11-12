@@ -1,3 +1,7 @@
+/**
+    \file
+    \brief Данный текст носит ознакомительный характер. Он создан в целях обучения и совершенствования навыков работы в Doxygen.
+*/
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -11,6 +15,9 @@
 using namespace std;
 
 // Функция для поиска индекса потока по имени EntryName
+/**
+    \brief Функция для поиска индекса потока по имени EntryName
+*/
 int findStreamIndexByName(const vector<CompoundDocumentObject::CompoundDocument_DirectoryEntryStruct>& Directory, const wstring& targetName) {
     for (size_t i = 0; i < Directory.size(); ++i) {
         if (Directory[i].EntryName == targetName) {
@@ -21,6 +28,9 @@ int findStreamIndexByName(const vector<CompoundDocumentObject::CompoundDocument_
 }
 
 // Функция для чтения файла и заполнения данных
+/**
+ \brief Функция для чтения файла и заполнения данных
+*/
 bool readFile(const string& fileName, BYTE*& dataBuffer, size_t& fileSize) {
     ifstream inFile(fileName, ios::binary);
     if (!inFile.is_open()) {
@@ -45,6 +55,9 @@ bool readFile(const string& fileName, BYTE*& dataBuffer, size_t& fileSize) {
 }
 
 // Функция для записи текста в txt
+/**
+    \date 28.10.24
+*/
 void writeToTxt(const wstring& text, const string& fileName) {
     static bool firstCall = true;
 

@@ -1,0 +1,102 @@
+\doxysection{Comp\+Doc\+Obj.\+h}
+\hypertarget{_comp_doc_obj_8h_source}{}\label{_comp_doc_obj_8h_source}\mbox{\hyperlink{_comp_doc_obj_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ COMPDOCOBJ\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ COMPDOCOBJ\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{typedef}\ std::vector<BYTE>\ \mbox{\hyperlink{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{BinaryBlock}};}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_compound_document_object}{CompoundDocumentObject}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#pragma\ pack(push,\ 1)}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ ULARGE\_INTEGER\ \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct_ae575d1e04ba23c6d5325ddd285aa635b}{TimeStamp}};}
+\DoxyCodeLine{00013\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct_aceba34286d54613b66caf77d4cbdf33a}{ClockSerialNumber}};}
+\DoxyCodeLine{00014\ \ \ \ \ BYTE\ MAC[6];}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \}\ UUIDStruct,\ *\mbox{\hyperlink{namespace_compound_document_object_a8ce94d0075decb88ec77d850ec00e12a}{PUUIDStruct}};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ BYTE\ Signature[8];\ \textcolor{comment}{//\ \{0xD0,\ 0xCF,\ 0x11,\ 0xE0,\ 0xA1,\ 0xB1,\ 0x1A,\ 0xE1\}}}
+\DoxyCodeLine{00021\ \ \ \ \ BYTE\ Padding1[16];}
+\DoxyCodeLine{00022\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a5c51bc2516091c6869f78a3d7870d688}{Version1}};\ \textcolor{comment}{//\ 0x003E}}
+\DoxyCodeLine{00023\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a9a363f245dd1ea5e5bb896f61739d081}{Version2}};\ \textcolor{comment}{//\ 0x0003}}
+\DoxyCodeLine{00024\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_ae698985ec7810af844dc460d56a44eb5}{ByteOrder}};\ \textcolor{comment}{//\ 0xFFFE\ -\/\ пор€док\ от старшего к младшему байту, 0xFEFF\ -\/\ пор€док\ от младшего к старшему\ байту}}
+\DoxyCodeLine{00025\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a3a20ed6d6351f27f4d80efaea8373c58}{SSZ}};\ \textcolor{comment}{//\ ќпредел€ет размер сектора в\ файле; SectorSize\ =\ 2\string^SSZ\ байт}}
+\DoxyCodeLine{00026\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a875655b0c617694ce94b920a3b79aa32}{SSSZ}};\ \textcolor{comment}{//\ ќпредел€ет размер короткого\ сектора\ в файле: ShortSectorSize\ =\ 2\string^SSSZ\ байт}}
+\DoxyCodeLine{00027\ \ \ \ \ BYTE\ Padding2[10];}
+\DoxyCodeLine{00028\ \ \ \ \ DWORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a3d3810113cdd7fd82eed71e1d8e9ac52}{SAT\_SizeInSectors}};\ \textcolor{comment}{//\ ќбщее количество секторов, которые используютс€\ дл€\ составлени€\ таблицы\ распределени€ сектора}}
+\DoxyCodeLine{00029\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_ac1a81bd1145ca07f9e3ceacd1242d482}{DirectoryStreamSecId}};\ \textcolor{comment}{//\ »дентификатор первого сектора\ каталога Directory\ Entries}}
+\DoxyCodeLine{00030\ \ \ \ \ BYTE\ Padding3[4];}
+\DoxyCodeLine{00031\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a7c67488c8aa36af9f49bc9d14286da6e}{StdStreamMinSize}};\ \textcolor{comment}{//\ ћинимальный\ размер стандартного потока}}
+\DoxyCodeLine{00032\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a33fb9aeedbdbf77b94721cffaec1346a}{SSAT\_SecId}};\ \textcolor{comment}{//\ »дентификатор первого сектора\ таблицы\ размещени€\ коротких секторов}}
+\DoxyCodeLine{00033\ \ \ \ \ DWORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_ab6d32a3575fa57eade1f412aeb2723c2}{SSAT\_SizeInSectors}};\ \textcolor{comment}{//\ ќбщее количество секторов, используемых\ дл€\ таблицы\ размещени€\ коротких секторов}}
+\DoxyCodeLine{00034\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a5be681a6699c7429ce33fd3f4fa0ba13}{MSAT\_SecId}};\ \textcolor{comment}{//\ »дентификатор первого сектора\ таблицы\ распределени€ мастер-\/сектора}}
+\DoxyCodeLine{00035\ \ \ \ \ DWORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct_a168aca608facfc57478e5f987281cce7}{MSAT\_SizeInSectors}};\ \textcolor{comment}{//\ ќбщее количество секторов, используемых\ дл€\ таблицы\ распределени€ мастер-\/сектора}}
+\DoxyCodeLine{00036\ \ \ \ \ LONG\ MSAT[109];\ \textcolor{comment}{//\ ѕерва€\ часть таблицы\ распределени€ мастер-\/сектора,\ в которой содержитс€ 109\ записей SectorId}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \}\ CompoundDocumentObjectHeaderStruct,\ *\mbox{\hyperlink{namespace_compound_document_object_a0092f752fa4a404d83951b1826a7b23b}{PCompoundDocumentObjectHeaderStruct}};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ WCHAR\ EntryName[32];}
+\DoxyCodeLine{00043\ \ \ \ \ WORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a5e9804bfde2a15c3f4ff94331dbd3fac}{NameLength}};}
+\DoxyCodeLine{00044\ \ \ \ \ BYTE\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_adc611ad29afcf70b477b70fa87a590f3}{Type}};\ \textcolor{comment}{//\ “ип записи: 0x00-\/Empty,\ 0x01-\/User\ storage,\ 0x02-\/User\ stream,\ 0x03-\/Lock\ Bytes,\ 0x04-\/Property,\ 0x05-\/Root\ storage}}
+\DoxyCodeLine{00045\ \ \ \ \ BYTE\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_aa93a6073fe8dab854d6dacc9ce47574f}{Color}};\ \textcolor{comment}{//\ ÷вет записи:\ 0x00-\/красный,\ 0x01-\/черный}}
+\DoxyCodeLine{00046\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_ad202b0f660371ab7374d448ebcd9896f}{LeftChildDirId}};\ \textcolor{comment}{//\ DirId\ левого\ дочернего\ узла\ внутри красно-\/черного\ дерева\ всех пр€мых\ членов родительского хранени€}}
+\DoxyCodeLine{00047\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a48845d93fe32af4908fcce6c2970e696}{RightChildDirId}};\ \textcolor{comment}{//\ DirId\ правого дочернего узла\ внутри красно-\/черного\ дерева\ всех пр€мых\ членов родительского хранени€}}
+\DoxyCodeLine{00048\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a5291ddcbe70ae402a1b496f22a5d7d14}{RootDirId}};\ \textcolor{comment}{//\ DirId\ входа в корневой узел\ красно-\/черного\ дерева\ всех членов хранилища}}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct}{UUIDStruct}}\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a48ca4a3fe375660645cc14c40d2ced50}{UUID}};}
+\DoxyCodeLine{00050\ \ \ \ \ DWORD\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a23608062e546d27df28071337be93967}{UserFlags}};}
+\DoxyCodeLine{00051\ \ \ \ \ ULARGE\_INTEGER\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a369153ad4cd381fefe5f3e7da898be52}{TimeCreate}};\ \textcolor{comment}{//\ ¬рем€\ создани€\ записи}}
+\DoxyCodeLine{00052\ \ \ \ \ ULARGE\_INTEGER\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a026d81924356c8e3454bfe53df5aeee1}{TimeModify}};\ \textcolor{comment}{//\ ¬рем€\ последней\ модификации записи}}
+\DoxyCodeLine{00053\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a62f59383390252b3d53ee24a8ccbb40e}{StreamFirstSectorId}};\ \textcolor{comment}{//\ SecId\ первого сектора\ или\ короткого\ сектора,\ если эта запись относитс€\ к потоку}}
+\DoxyCodeLine{00054\ \ \ \ \ LONG\ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct_a93f93c68a0ed50dcd6f122ccf47be983}{StreamSize}};\ \textcolor{comment}{//\ ќбщий размер потока\ в байтах,\ если запись относитс€\ к потоку}}
+\DoxyCodeLine{00055\ \ \ \ \ BYTE\ Padding[4];}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \}\ CompoundDocument\_DirectoryEntryStruct,\ *\mbox{\hyperlink{namespace_compound_document_object_ae0e9b558f8abf7cc9ca475bc2c9dda76}{PCompoundDocument\_DirectoryEntryStruct}};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#pragma\ pack(pop)}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_compound_document_object_aa6fea7882a02a6de95b2e6cc07155b44}{GetStreamOffsets}}(}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ LONG\ firstSecId,\ LONG\ maxSecId,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ LONG\ *SAT,\ DWORD\ SAT\_SizeInRecords,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ DWORD\ sectorSize,\ \textcolor{keywordtype}{bool}\ shortOffsets,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ std::vector<LONG>\ \&streamOffsets}
+\DoxyCodeLine{00066\ \ \ \ \ );}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ DWORD\ \mbox{\hyperlink{namespace_compound_document_object_a69474307cc856f8ec987d543c06ee748}{ReadStreamDataByOffsets}}(}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ *documentData,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ DWORD\ documentDataSize,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ std::vector<LONG>\ streamOffsets,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ DWORD\ sectorSize,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ DWORD\ streamSize,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ BYTE\ *outDataBuffer,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ DWORD\ outDataBufferSize}
+\DoxyCodeLine{00076\ \ \ \ \ );}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ DWORD\ \mbox{\hyperlink{namespace_compound_document_object_a69474307cc856f8ec987d543c06ee748}{ReadStreamDataByOffsets}}(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ *documentData,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ DWORD\ documentDataSize,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ std::vector<LONG>\ streamOffsets,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ DWORD\ sectorSize,}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ DWORD\ streamSize,}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ BYTE\ *outDataBuffer,}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ DWORD\ outDataBufferSize}
+\DoxyCodeLine{00086\ \ \ \ \ );}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ DWORD\ \mbox{\hyperlink{namespace_compound_document_object_a1e33b6a4c89ae03c181a51c2d27a1ce9}{GetCompoundDocumentInfo}}(\textcolor{keyword}{const}\ BYTE\ *documentData,\ DWORD\ dataSize,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ std::wstring\ \&defaultExtension,}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ std::vector<CompoundDocument\_DirectoryEntryStruct>\ \&Directory,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ std::map<std::wstring,\ ULONGLONG>\ \&NameMap,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ std::vector<BinaryBlock>\ \&dataStreams}
+\DoxyCodeLine{00093\ \ \ \ \ );}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ COMPDOCOBJ\_H\_INCLUDED}}
+
+\end{DoxyCode}

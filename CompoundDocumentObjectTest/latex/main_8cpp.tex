@@ -1,0 +1,78 @@
+\doxysection{main.\+cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{main.cpp@{main.cpp}}
+
+
+Данный текст носит ознакомительный характер. Он создан в целях обучения и совершенствования навыков работы в Doxygen.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$wtypes.\+h$>$}\newline
+{\ttfamily \#include "{}Comp\+Doc\+Obj.\+h"{}}\newline
+{\ttfamily \#include $<$codecvt$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_a1a55e3dd712779071ea6af4191fca29d}{find\+Stream\+Index\+By\+Name}} (const vector$<$ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} $>$ \&Directory, const wstring \&target\+Name)
+\begin{DoxyCompactList}\small\item\em Функция для поиска индекса потока по имени Entry\+Name. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{main_8cpp_a5f437b0e4e4b1635577cd0940515f5f1}{read\+File}} (const string \&file\+Name, BYTE \texorpdfstring{$\ast$}{*}\&data\+Buffer, size\+\_\+t \&file\+Size)
+\begin{DoxyCompactList}\small\item\em Функция для чтения файла и заполнения данных \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a222068fccfcb2c4c2dfd728e3e461980}{write\+To\+Txt}} (const wstring \&text, const string \&file\+Name)
+\item 
+void \mbox{\hyperlink{main_8cpp_afe71e10c2491277b49c86b7e1a205629}{process\+Stream}} (const vector$<$ BYTE $>$ \&target\+Stream)
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Данный текст носит ознакомительный характер. Он создан в целях обучения и совершенствования навыков работы в Doxygen. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_a1a55e3dd712779071ea6af4191fca29d}\index{main.cpp@{main.cpp}!findStreamIndexByName@{findStreamIndexByName}}
+\index{findStreamIndexByName@{findStreamIndexByName}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{findStreamIndexByName()}{findStreamIndexByName()}}
+{\footnotesize\ttfamily \label{main_8cpp_a1a55e3dd712779071ea6af4191fca29d} 
+int find\+Stream\+Index\+By\+Name (\begin{DoxyParamCaption}\item[{const vector$<$ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} $>$ \&}]{Directory}{, }\item[{const wstring \&}]{target\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Функция для поиска индекса потока по имени Entry\+Name. 
+
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_afe71e10c2491277b49c86b7e1a205629}\index{main.cpp@{main.cpp}!processStream@{processStream}}
+\index{processStream@{processStream}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{processStream()}{processStream()}}
+{\footnotesize\ttfamily \label{main_8cpp_afe71e10c2491277b49c86b7e1a205629} 
+void process\+Stream (\begin{DoxyParamCaption}\item[{const vector$<$ BYTE $>$ \&}]{target\+Stream}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8cpp_a5f437b0e4e4b1635577cd0940515f5f1}\index{main.cpp@{main.cpp}!readFile@{readFile}}
+\index{readFile@{readFile}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily \label{main_8cpp_a5f437b0e4e4b1635577cd0940515f5f1} 
+bool read\+File (\begin{DoxyParamCaption}\item[{const string \&}]{file\+Name}{, }\item[{BYTE \texorpdfstring{$\ast$}{*}\&}]{data\+Buffer}{, }\item[{size\+\_\+t \&}]{file\+Size}{}\end{DoxyParamCaption})}
+
+
+
+Функция для чтения файла и заполнения данных 
+
+\Hypertarget{main_8cpp_a222068fccfcb2c4c2dfd728e3e461980}\index{main.cpp@{main.cpp}!writeToTxt@{writeToTxt}}
+\index{writeToTxt@{writeToTxt}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{writeToTxt()}{writeToTxt()}}
+{\footnotesize\ttfamily \label{main_8cpp_a222068fccfcb2c4c2dfd728e3e461980} 
+void write\+To\+Txt (\begin{DoxyParamCaption}\item[{const wstring \&}]{text}{, }\item[{const string \&}]{file\+Name}{}\end{DoxyParamCaption})}
+
+\begin{DoxyDate}{Date}
+28.\+10.\+24 
+\end{DoxyDate}

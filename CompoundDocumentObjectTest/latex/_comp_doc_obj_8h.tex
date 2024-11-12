@@ -1,0 +1,45 @@
+\doxysection{Comp\+Doc\+Obj.\+h File Reference}
+\hypertarget{_comp_doc_obj_8h}{}\label{_comp_doc_obj_8h}\index{CompDocObj.h@{CompDocObj.h}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct}{Compound\+Document\+Object\+::\+UUIDStruct}}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+Object\+Header\+Struct}}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_compound_document_object}{Compound\+Document\+Object}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ BYTE $>$ \mbox{\hyperlink{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct}{Compound\+Document\+Object\+::\+UUIDStruct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_a8ce94d0075decb88ec77d850ec00e12a}{Compound\+Document\+Object\+::\+PUUIDStruct}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+Object\+Header\+Struct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_a0092f752fa4a404d83951b1826a7b23b}{Compound\+Document\+Object\+::\+PCompound\+Document\+Object\+Header\+Struct}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_ae0e9b558f8abf7cc9ca475bc2c9dda76}{Compound\+Document\+Object\+::\+PCompound\+Document\+\_\+\+Directory\+Entry\+Struct}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespace_compound_document_object_a880bbcda5509cf006b1bf2828751f577}{Compound\+Document\+Object\+::\+Get\+Stream\+Offsets}} (LONG first\+Sec\+Id, LONG max\+Sec\+Id, const LONG \texorpdfstring{$\ast$}{*}SAT, DWORD SAT\+\_\+\+Size\+In\+Records, DWORD sector\+Size, bool short\+Offsets, std\+::vector$<$ LONG $>$ \&stream\+Offsets)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_afad90ea0157d6107fc80085106a06e90}{Compound\+Document\+Object\+::\+Read\+Stream\+Data\+By\+Offsets}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD document\+Data\+Size, std\+::vector$<$ LONG $>$ stream\+Offsets, DWORD sector\+Size, DWORD stream\+Size, BYTE \texorpdfstring{$\ast$}{*}out\+Data\+Buffer, DWORD out\+Data\+Buffer\+Size)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_a36f1664a22505ca92cff6b770c65b3f1}{Compound\+Document\+Object\+::\+Get\+Compound\+Document\+Info}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD data\+Size, std\+::wstring \&default\+Extension, std\+::vector$<$ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} $>$ \&Directory, std\+::map$<$ std\+::wstring, ULONGLONG $>$ \&Name\+Map, std\+::vector$<$ \mbox{\hyperlink{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}} $>$ \&data\+Streams)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635}\index{CompDocObj.h@{CompDocObj.h}!BinaryBlock@{BinaryBlock}}
+\index{BinaryBlock@{BinaryBlock}!CompDocObj.h@{CompDocObj.h}}
+\doxysubsubsection{\texorpdfstring{BinaryBlock}{BinaryBlock}}
+{\footnotesize\ttfamily \label{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635} 
+typedef std\+::vector$<$BYTE$>$ \mbox{\hyperlink{_comp_doc_obj_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}}}
+

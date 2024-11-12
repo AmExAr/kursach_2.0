@@ -1,0 +1,206 @@
+\doxysection{Untitled1.\+h}
+\hypertarget{_untitled1_8h_source}{}\label{_untitled1_8h_source}\mbox{\hyperlink{_untitled1_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <wtypes.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_comp_doc_obj_8h}{CompDocObj.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ Функция для\ поиска индекса потока по имени EntryName}}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_untitled1_8h_a1a55e3dd712779071ea6af4191fca29d}{findStreamIndexByName}}(\textcolor{keyword}{const}\ vector<CompoundDocumentObject::CompoundDocument\_DirectoryEntryStruct>\&\ Directory,\ \textcolor{keyword}{const}\ wstring\&\ targetName)\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ Directory.size();\ ++i)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Directory[i].EntryName\ ==\ targetName)\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(i);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00018\ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_untitled1_8h_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ setlocale(LC\_ALL,\ \textcolor{stringliteral}{"{}Russian"{}});}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ ifstream\ inFile(\textcolor{stringliteral}{"{}12.ppt"{}},\ ios::binary);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{if}\ (!inFile.is\_open())\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка открытия файла!"{}}\ <<\ endl;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ inFile.seekg(0,\ ios\_base::end);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ fileSize\ =\ inFile.tellg();}
+\DoxyCodeLine{00033\ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Размер файла:\ "{}}\ <<\ fileSize\ <<\ L\textcolor{stringliteral}{"{}\ байт"{}}\ <<\ endl;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ BYTE\ *dataBuffer\ =\ \textcolor{keyword}{new}\ BYTE[fileSize];}
+\DoxyCodeLine{00036\ \ \ \ \ inFile.seekg(0,\ ios\_base::beg);}
+\DoxyCodeLine{00037\ \ \ \ \ inFile.read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(dataBuffer),\ fileSize);}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (inFile.fail())\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка при чтении файла!"{}}\ <<\ endl;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ dataBuffer;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ wstring\ defaultExtension;}
+\DoxyCodeLine{00045\ \ \ \ \ vector<CompoundDocumentObject::CompoundDocument\_DirectoryEntryStruct>\ Directory;}
+\DoxyCodeLine{00046\ \ \ \ \ map<wstring,\ ULONGLONG>\ NameMap;}
+\DoxyCodeLine{00047\ \ \ \ \ vector<BinaryBlock>\ DataStreams;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ DWORD\ realDataSize\ =\ \mbox{\hyperlink{namespace_compound_document_object_a1e33b6a4c89ae03c181a51c2d27a1ce9}{CompoundDocumentObject::GetCompoundDocumentInfo}}(dataBuffer,\ fileSize,\ defaultExtension,\ Directory,\ NameMap,\ DataStreams);}
+\DoxyCodeLine{00050\ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Размер файла\ проверенный: "{}}\ <<\ realDataSize\ <<\ L\textcolor{stringliteral}{"{}\ байт"{}}\ <<\ endl;}
+\DoxyCodeLine{00051\ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Расширение по умолчанию:\ "{}}\ <<\ defaultExtension\ <<\ endl\ <<\ endl;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{comment}{//\ Вывод\ оглавления\ и сопоставления записей}}
+\DoxyCodeLine{00054\ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Оглавление:"{}}\ <<\ endl;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ entry\ :\ Directory)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Имя:\ "{}}\ <<\ entry.EntryName\ <<\ L\textcolor{stringliteral}{"{},\ Размер: "{}}\ <<\ entry.StreamSize\ <<\ L\textcolor{stringliteral}{"{}\ байт"{}}\ <<\ endl;}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ wcout\ <<\ endl;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Сопоставление записей с индексами\ потоков:"{}}\ <<\ endl;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ pair\ :\ NameMap)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ wcout\ <<\ pair.first\ <<\ L\textcolor{stringliteral}{"{}\ :\ "{}}\ <<\ hex\ <<\ pair.second\ <<\ endl;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ wcout\ <<\ endl;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ Находим индекс потока\ с именем "{}PowerPoint\ Document"{}}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ targetStreamIndex\ =\ \mbox{\hyperlink{_untitled1_8h_a1a55e3dd712779071ea6af4191fca29d}{findStreamIndexByName}}(Directory,\ L\textcolor{stringliteral}{"{}PowerPoint\ Document"{}});}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ что индекс\ потока\ найден\ и находится в\ пределах размера\ DataStreams}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (targetStreamIndex\ >=\ 0\ \&\&\ targetStreamIndex\ <\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(DataStreams.size()))\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ vector<BYTE>\&\ targetStream\ =\ DataStreams[targetStreamIndex];}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ targetSize\ =\ targetStream.size();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Последовательность для поиска}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ sequence1[]\ =\ \{0x0F,\ 0x00,\ 0xF0,\ 0x0F\};}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ sequence1Size\ =\ \textcolor{keyword}{sizeof}(sequence1)\ /\ \textcolor{keyword}{sizeof}(sequence1[0]);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ lastSequenceIndex\ =\ SIZE\_MAX;\ \textcolor{comment}{//\ Индекс последней\ найденной\ последовательности}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Поиск\ последней\ последовательности 0F\ 00\ F0\ 0F\ в потоке}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <=\ targetSize\ -\/\ sequence1Size;\ ++i)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(targetStream.data()\ +\ i,\ sequence1,\ sequence1Size)\ ==\ 0)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastSequenceIndex\ =\ i;\ \textcolor{comment}{//\ Сохраняем индекс\ последнего вхождения}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ было ли найдено\ хотя\ бы одно вхождение}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lastSequenceIndex\ !=\ SIZE\_MAX)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Извлекаем данные после последнего вхождения}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lastSequenceIndex\ +\ sequence1Size\ <\ targetSize)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte1\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size];\ \ \ \ \ \ \ \textcolor{comment}{//\ Младший байт}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte2\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 1];\ \ \ \textcolor{comment}{//\ Старший байт}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Объединение двух\ байтов в одно\ 16-\/битное\ целое число в\ правильном порядке\ для\ little-\/endian}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint16\_t\ combinedSize\ =\ (\textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte2)\ <<\ 8)\ |\ \textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte1);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Преобразование в десятичное значение и\ вывод}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ std::dec\ <<\ L\textcolor{stringliteral}{"{}Размер (после последовательности 0F\ 00\ F0\ 0F):\ "{}}\ <<\ combinedSize\ <<\ L\textcolor{stringliteral}{"{}\ (десятичный формат)"{}}\ <<\ endl;}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Извлечение байтов после combinedSize}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ combinedSize\ <=\ targetSize)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ sequence2[]\ =\ \{0xA8,\ 0x0F\};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ sequence2Size\ =\ \textcolor{keyword}{sizeof}(sequence2)\ /\ \textcolor{keyword}{sizeof}(sequence2[0]);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ sequence3[]\ =\ \{0xA0,\ 0x0F\};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ sequence3Size\ =\ \textcolor{keyword}{sizeof}(sequence3)\ /\ \textcolor{keyword}{sizeof}(sequence3[0]);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Поиск\ последовательности A8\ 0F\ и A0\ 0F\ в извлеченной последовательности}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ j\ =\ 0;\ j\ <=\ combinedSize\ -\/\ sequence2Size;\ ++j)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(targetStream.data()\ +\ lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j,\ sequence2,\ sequence2Size)\ ==\ 0)\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Найдено совпадение,\ выводим два байта, следующие за A8\ 0F}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\ +\ sequence2Size\ +\ 1\ <\ combinedSize)\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte3\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence2Size];\ \ \ \ \ \ \ \textcolor{comment}{//\ Младший байт}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte4\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence2Size\ +\ 1];\ \ \ \textcolor{comment}{//\ Старший байт}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Объединение двух\ байтов в одно\ 16-\/битное\ целое число в\ правильном порядке\ для\ little-\/endian}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint16\_t\ sizeText\ =\ (\textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte4)\ <<\ 8)\ |\ \textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte3);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Преобразование в десятичное значение и\ вывод}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ std::dec\ <<\ L\textcolor{stringliteral}{"{}Размер (после последовательности A8\ 0F):\ "{}}\ <<\ sizeText\ <<\ L\textcolor{stringliteral}{"{}\ (десятичный формат)"{}}\ <<\ endl;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Извлечение байтов после sizeText}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\ +\ sequence2Size\ +\ 2\ +\ sizeText\ <=\ combinedSize)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Последовательность байтов от A8\ 0F\ до sizeText\ (в UTF-\/8):"{}}\ <<\ endl;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Переводим\ байты в\ строку UTF-\/8\ с заменой неотображаемых символов\ на перенос строки}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ utf8String;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ k\ =\ 0;\ k\ <\ sizeText;\ ++k)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ \textcolor{keywordtype}{byte}\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence2Size\ +\ 4\ +\ k];}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ является\ ли байт отображаемым символом}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isprint(\textcolor{keywordtype}{byte}))\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ utf8String\ +=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(byte);\ \ \textcolor{comment}{//\ Добавляем байт\ как\ символ}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ utf8String\ +=\ \textcolor{charliteral}{'\(\backslash\)n'};\ \ \textcolor{comment}{//\ Неотображаемые\ символы\ заменяем на перенос строки}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Выводим строку UTF-\/8}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ utf8String\ <<\ endl;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка: выход за пределы потока\ при\ извлечении байтов."{}}\ <<\ endl;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ endl;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(targetStream.data()\ +\ lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j,\ sequence3,\ sequence3Size)\ ==\ 0)\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Найдено совпадение,\ выводим два байта, следующие за A8\ 0F}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BYTE\ carriage\_return[]\ =\ \{0x0D\};\ \textcolor{comment}{//\ Для\ enter\ (carriage\ return)}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\ +\ sequence3Size\ +\ 1\ <\ combinedSize)\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte5\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence3Size];\ \ \ \ \ \ \ \textcolor{comment}{//\ Младший байт}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ sizeByte6\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence3Size\ +\ 1];\ \ \ \textcolor{comment}{//\ Старший байт}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Объединение двух\ байтов в одно\ 16-\/битное\ целое число в\ правильном порядке\ для\ little-\/endian}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint16\_t\ sizeText\ =\ (\textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte6)\ <<\ 8)\ |\ \textcolor{keyword}{static\_cast<}uint16\_t\textcolor{keyword}{>}(sizeByte5);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Преобразование в десятичное значение и\ вывод}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ std::dec\ <<\ L\textcolor{stringliteral}{"{}Размер (после последовательности A0\ 0F):\ "{}}\ <<\ sizeText\ <<\ L\textcolor{stringliteral}{"{}\ (десятичный формат)"{}}\ <<\ endl;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Извлечение байтов после sizeText}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (j\ +\ sequence3Size\ +\ 2\ +\ sizeText\ <=\ combinedSize)\ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Последовательность байтов от A8\ 0F\ до sizeText\ (в UTF-\/8):"{}}\ <<\ endl;}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Переводим\ байты в\ строку UTF-\/8\ с заменой неотображаемых символов\ на перенос строки}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ utf8String;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ k\ =\ 0;\ k\ <\ sizeText;\ ++k)\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ \textcolor{keywordtype}{byte}\ =\ targetStream[lastSequenceIndex\ +\ sequence1Size\ +\ 2\ +\ j\ +\ sequence3Size\ +\ 4\ +\ k];}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Проверяем,\ является\ ли байт carriage\ return\ и заменяем его на '\(\backslash\)n'}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{byte}\ ==\ carriage\_return[0])\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ utf8String\ +=\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isprint(\textcolor{keywordtype}{byte}))\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ utf8String\ +=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(byte);\ \ \textcolor{comment}{//\ Добавляем байт\ как\ символ}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Выводим строку UTF-\/8}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout\ <<\ utf8String\ <<\ endl;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка: выход за пределы потока\ при\ извлечении байтов."{}}\ <<\ endl;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Следующие байты после последней\ последовательности выходят за\ пределы потока."{}}\ <<\ endl;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка: последовательность 0F\ 00\ F0\ 0F\ не найдена."{}}\ <<\ endl;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка: Поток с именем 'PowerPoint\ Document'\ не найден."{}}\ <<\ endl;}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{delete}[]\ dataBuffer;}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00200\ \}}
+\DoxyCodeLine{00201\ }
+
+\end{DoxyCode}
