@@ -170,96 +170,95 @@ void processStream(const vector<BYTE>& targetStream) {
         } else {
             wcout << L"Ошибка: выход за пределы потока при извлечении байтов." << endl;
         }
-    wcout << L"Весь текст записан в файл FileText.txt!!" << endl;
     }
 
-    // Последовательность для поиска
+    // Последовательность для поиска в PPT позднее 2003 года
     const BYTE sequenceBox[] = {0x0F, 0x00, 0x0D, 0xF0};
     const size_t sequenceBoxSize = sizeof(sequenceBox) / sizeof(sequenceBox[0]);
-    /*size_t*/ lastSequenceIndex = SIZE_MAX;
 
-    // Поиск последней последовательности 0F 00 0D F0
-    for (size_t i = 0; i <= targetSize - sequenceBoxSize; ++i) {
-        if (memcmp(targetStream.data() + i, sequenceBox, sequenceBoxSize) == 0) {
-            lastSequenceIndex = i;
-        }
-    }
+    // Проход по потоку для поиска всех вхождений последовательности
+    for (size_t startIndex = 0; startIndex <= targetSize - sequenceBoxSize; ++startIndex) {
+        if (memcmp(targetStream.data() + startIndex, sequenceBox, sequenceBoxSize) == 0) {
+            size_t lastSequenceIndex = startIndex;
 
-if (lastSequenceIndex != SIZE_MAX && lastSequenceIndex + sequenceBoxSize < targetSize) {
-        BYTE sizeByte1 = targetStream[lastSequenceIndex + sequenceBoxSize];
-        BYTE sizeByte2 = targetStream[lastSequenceIndex + sequenceBoxSize + 1];
-        uint16_t combinedSize = (uint16_t(sizeByte2) << 8) | uint16_t(sizeByte1); // ???
+            if (lastSequenceIndex + sequenceBoxSize < targetSize) {
+                BYTE sizeByte1 = targetStream[lastSequenceIndex + sequenceBoxSize];
+                BYTE sizeByte2 = targetStream[lastSequenceIndex + sequenceBoxSize + 1];
+                uint16_t combinedSize = (uint16_t(sizeByte2) << 8) | uint16_t(sizeByte1);
 
-        if (lastSequenceIndex + sequenceBoxSize + 2 + combinedSize <= targetSize) {
-            const BYTE sequence2[] = {0xA8, 0x0F};
-            const size_t sequence2Size = sizeof(sequence2) / sizeof(sequence2[0]);
-            const BYTE sequence3[] = {0xA0, 0x0F};
-            const size_t sequence3Size = sizeof(sequence3) / sizeof(sequence3[0]);
+                if (lastSequenceIndex + sequenceBoxSize + 2 + combinedSize <= targetSize) {
+                    const BYTE sequence2[] = {0xA8, 0x0F};
+                    const size_t sequence2Size = sizeof(sequence2) / sizeof(sequence2[0]);
+                    const BYTE sequence3[] = {0xA0, 0x0F};
+                    const size_t sequence3Size = sizeof(sequence3) / sizeof(sequence3[0]);
 
-            for (size_t j = 0; j <= combinedSize - sequence2Size; ++j) {
-                //Поиск и обработка последовательности A8 0F
-                if (memcmp(targetStream.data() + lastSequenceIndex + sequence1Size + 2 + j, sequence2, sequence2Size) == 0) {
-                    if (j + sequence2Size + 1 < combinedSize) {
-                        BYTE sizeByte3 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size];
-                        BYTE sizeByte4 = targetStream[lastSequenceIndex + sequence1Size + 2 + j + sequence2Size + 1];
-                        uint16_t sizeText = (uint16_t(sizeByte4) << 8) | uint16_t(sizeByte3);
+                    for (size_t j = 0; j <= combinedSize - sequence2Size; ++j) {
+                        // Поиск и обработка последовательности A8 0F
+                        if (memcmp(targetStream.data() + lastSequenceIndex + sequenceBoxSize + 2 + j, sequence2, sequence2Size) == 0) {
+                            if (j + sequence2Size + 1 < combinedSize) {
+                                BYTE sizeByte3 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence2Size];
+                                BYTE sizeByte4 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence2Size + 1];
+                                uint16_t sizeText = (uint16_t(sizeByte4) << 8) | uint16_t(sizeByte3);
 
-                        if (j + sequence2Size + 2 + sizeText <= combinedSize) {
-                            wstring utf16String;
+                                if (j + sequence2Size + 2 + sizeText <= combinedSize) {
+                                    wstring utf16String;
 
-                            for (size_t k = 0; k < sizeText; ++k) {
-                                BYTE byte = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence2Size + 4 + k];
-                                wchar_t wchar = wchar_t(byte);
-                                if (iswprint(wchar)) {
-                                    utf16String += wchar;
-                                } else {
-                                    utf16String += L'\n';
-                                }
-                            }
-                            // Запись в файл
-                            writeToTxt(utf16String, "FileText.txt");
-                        }
-                    }
-                }
-
-                // Поиск и обработка последовательности A0 0F аналогично
-                if (memcmp(targetStream.data() + lastSequenceIndex + sequenceBoxSize + 2 + j, sequence3, sequence3Size) == 0) {
-                    if (j + sequence3Size + 1 < combinedSize) {
-                        BYTE sizeByte5 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size];
-                        BYTE sizeByte6 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 1];
-                        uint16_t sizeText = (uint16_t(sizeByte6) << 8) | uint16_t(sizeByte5);
-
-                        if (j + sequence3Size + 2 + sizeText <= combinedSize) {
-                            wstring utf16String;
-
-                            for (size_t k = 0; k < sizeText; ++k) {
-                                BYTE byte = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k];
-                                if (k + 1 < sizeText) {
-                                    BYTE byte1 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k];
-                                    BYTE byte2 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k + 1];
-                                    wchar_t wchar = wchar_t(byte2 << 8 | byte1);
-
-                                    if (iswprint(wchar)) {
-                                        utf16String += wchar;
-                                    } else {
-                                        utf16String += L'\n';
+                                    for (size_t k = 0; k < sizeText; ++k) {
+                                        BYTE byte = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence2Size + 4 + k];
+                                        wchar_t wchar = wchar_t(byte);
+                                        if (iswprint(wchar)) {
+                                            utf16String += wchar;
+                                        } else {
+                                            utf16String += L'\n';
+                                        }
                                     }
-
-                                    ++k;
+                                    // Запись в файл
+                                    writeToTxt(utf16String, "FileText.txt");
                                 }
                             }
-                            // Запись в файл
-                            writeToTxt(utf16String, "FileText.txt");
+                        }
 
+                        // Поиск и обработка последовательности A0 0F аналогично
+                        if (memcmp(targetStream.data() + lastSequenceIndex + sequenceBoxSize + 2 + j, sequence3, sequence3Size) == 0) {
+                            if (j + sequence3Size + 1 < combinedSize) {
+                                BYTE sizeByte5 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size];
+                                BYTE sizeByte6 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 1];
+                                uint16_t sizeText = (uint16_t(sizeByte6) << 8) | uint16_t(sizeByte5);
+
+                                if (j + sequence3Size + 2 + sizeText <= combinedSize) {
+                                    wstring utf16String;
+
+                                    for (size_t k = 0; k < sizeText; ++k) {
+                                        BYTE byte = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k];
+                                        if (k + 1 < sizeText) {
+                                            BYTE byte1 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k];
+                                            BYTE byte2 = targetStream[lastSequenceIndex + sequenceBoxSize + 2 + j + sequence3Size + 4 + k + 1];
+                                            wchar_t wchar = wchar_t(byte2 << 8 | byte1);
+
+                                            if (iswprint(wchar)) {
+                                                utf16String += wchar;
+                                            } else {
+                                                utf16String += L'\n';
+                                            }
+
+                                            ++k;
+                                        }
+                                    }
+                                    // Запись в файл
+                                    writeToTxt(utf16String, "FileText.txt");
+                                }
+                            }
                         }
                     }
+                } else {
+                    wcout << L"Ошибка: выход за пределы потока при извлечении байтов." << endl;
                 }
             }
-        } else {
-            wcout << L"Ошибка: выход за пределы потока при извлечении байтов." << endl;
         }
-    wcout << L"Весь текст записан в файл FileText.txt!!" << endl;
     }
+
+    wcout << L"Весь текст записан в файл FileText.txt!!" << endl;
+
 }
 
 int main() {
@@ -269,7 +268,7 @@ int main() {
     size_t fileSize = 0;
 
     // Чтение файла
-    if (!readFile("PPT365.ppt", dataBuffer, fileSize)) {
+    if (!readFile("Launguage.ppt", dataBuffer, fileSize)) {
         return 1; // Ошибка при чтении файла
     }
 
