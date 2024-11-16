@@ -90,3 +90,24 @@
 
 1730894454 d:\codeblocks\programs\thirdsemestr\compounddocumentobjecttest\compdocobj.h
 
+1730894454 source:d:\codeblocks\programs\thirdsemestr\kursach_2.0\compounddocumentobjecttest\compdocobj.cpp
+	<iostream>
+	<vector>
+	<map>
+	<cassert>
+	<wtypes.h>
+	"CompDocObj.h"
+
+1730894454 d:\codeblocks\programs\thirdsemestr\kursach_2.0\compounddocumentobjecttest\compdocobj.h
+
+1731762774 source:d:\codeblocks\programs\thirdsemestr\kursach_2.0\compounddocumentobjecttest\main.cpp
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<map>
+	<string>
+	<wtypes.h>
+	"CompDocObj.h"
+	<codecvt>
+
