@@ -488,8 +488,9 @@ PPT::PPT(wchar_t *filePath)
     // Разобрать файл
 	DWORD realDataSize = CompoundDocumentObject::GetCompoundDocumentInfo(buffer, fileSize, defaultExtension, Directory, NameMap, DataStreams);
 
-    uint64_t powerPointDocumentIndex;
-    uint64_t currentUserIndex;
+    DWORDLONG powerPointDocumentIndex;
+    DWORDLONG currentUserIndex;
+    DWORDLONG picturesIndex;
 
     for(std::map<std::wstring, ULONGLONG>::const_iterator i=NameMap.begin(); i!=NameMap.end(); i++)
     {
@@ -501,10 +502,16 @@ PPT::PPT(wchar_t *filePath)
         {
             currentUserIndex = i->second;
         }
+        else if(i->first == L"Pictures")
+        {
+            picturesIndex = i->second;
+            Pictures = DataStreams[picturesIndex];
+        }
     }
 
     BinaryBlock CurrentUser = DataStreams[currentUserIndex];
     PowerPointDocument = DataStreams[powerPointDocumentIndex];
+
 
 
     CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
@@ -575,7 +582,6 @@ PPT::GetText(wchar_t *filePath)
 
                 fwrite(text, 1, rh->recLen, file);
                 fwprintf(file, L"\n");
-
             }
             else
             {
@@ -589,15 +595,74 @@ PPT::GetText(wchar_t *filePath)
                 delete[] chars;
             }
         }
-
         buffer += sizeof(RecordHeader) + rh->recLen;
         rh = (RecordHeader*)buffer;
-
     }
     if(isTextHere)
     {
         fclose(file);
-        std::wcout << L"Текст из презентации был успещно сохранён в ваш файл!" << std::endl;
+        std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
+    }
+    else
+    {
+        for(DWORD i = 2; i < cPersist; i++)
+        {
+            buffer = powerPointDocumentBegin + directoryEntry[i];
+
+            rh = (RecordHeader*)buffer;
+
+            BYTE *endOfSlide = buffer + rh->recLen + sizeof(RecordHeader);
+
+            buffer += sizeof(SlideContainer) + sizeof(OfficeArtDgContainer);
+
+            rh = (RecordHeader*)buffer;
+            while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtSpContainer || rh->recVerAndInstance != 0x000F)
+            {
+                buffer += rh->recLen + sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+            }
+
+            buffer += sizeof(RecordHeader);
+            rh = (RecordHeader*)buffer;
+
+            while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox || rh->recVerAndInstance != 0x000F)
+            {
+                buffer += rh->recLen + sizeof(RecordHeader);;
+                rh = (RecordHeader*)buffer;
+            }
+
+            buffer += sizeof(RecordHeader);
+            rh = (RecordHeader*)buffer;
+
+            while(buffer != endOfSlide)
+            {
+                if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+                         rh->recVerAndInstance == 0x0000)
+                {
+                    if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
+                    {
+                        BYTE *text = buffer + sizeof(RecordHeader);
+
+                        fwrite(text, 1, rh->recLen, file);
+                        fwprintf(file, L"\n");
+                    }
+                    else
+                    {
+                        BYTE *text = buffer + sizeof(RecordHeader);
+
+                        BYTE *chars = TextBytesToChars(text, rh->recLen);
+
+                        fwrite(chars, 1, (rh->recLen)*2, file);
+                        fwprintf(file, L"\n");
+
+                        delete[] chars;
+                    }
+                }
+                buffer += sizeof(RecordHeader) + rh->recLen;
+                rh = (RecordHeader*)buffer;
+            }
+        }
+        fclose(file);
     }
 }
 

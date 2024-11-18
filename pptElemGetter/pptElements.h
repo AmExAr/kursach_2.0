@@ -170,6 +170,9 @@ typedef struct
 
 enum class RecordTypeEnum : WORD
 {
+    RT_OfficeArtSpContainer = 0xF004,
+    RT_OfficeArtClientTextbox = 0xF00D,
+
     RT_Document	= 0x03E8,
     RT_DocumentAtom = 0x03E9,
     RT_EndDocumentAtom = 0x03EA,
