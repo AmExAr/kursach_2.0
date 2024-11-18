@@ -578,18 +578,18 @@ PPT::GetText(wchar_t *filePath)
 
             if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
             {
-                BYTE *text = buffer + sizeof(RecordHeader);
+                WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
 
-                fwrite(text, 1, rh->recLen, file);
+                fwrite(text, 2, (rh->recLen)/2, file);
                 fwprintf(file, L"\n");
             }
             else
             {
                 BYTE *text = buffer + sizeof(RecordHeader);
 
-                BYTE *chars = TextBytesToChars(text, rh->recLen);
+                WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
 
-                fwrite(chars, 1, (rh->recLen)*2, file);
+                fwrite(chars, 2, rh->recLen, file);
                 fwprintf(file, L"\n");
 
                 delete[] chars;
@@ -636,23 +636,44 @@ PPT::GetText(wchar_t *filePath)
 
             while(buffer != endOfSlide)
             {
-                if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+                if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAndInstance == 0x000F)
+                {
+                    BYTE *endOfSpContainer = buffer + sizeof(RecordHeader) + rh->recLen;
+
+                    buffer += sizeof(RecordHeader);;
+                    rh = (RecordHeader*)buffer;
+
+                    while(buffer != endOfSpContainer)
+                    {
+                        buffer += rh->recLen + sizeof(RecordHeader);;
+                        rh = (RecordHeader*)buffer;
+
+                        if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox && rh->recVerAndInstance == 0x000F)
+                        {
+                            buffer += sizeof(RecordHeader);
+                            rh = (RecordHeader*)buffer;
+
+                            break;
+                        }
+                    }
+                }
+                else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
                          rh->recVerAndInstance == 0x0000)
                 {
                     if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
                     {
-                        BYTE *text = buffer + sizeof(RecordHeader);
+                        WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
 
-                        fwrite(text, 1, rh->recLen, file);
+                        fwrite(text, 2, (rh->recLen)/2, file);
                         fwprintf(file, L"\n");
                     }
                     else
                     {
                         BYTE *text = buffer + sizeof(RecordHeader);
 
-                        BYTE *chars = TextBytesToChars(text, rh->recLen);
+                        WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
 
-                        fwrite(chars, 1, (rh->recLen)*2, file);
+                        fwrite(chars, 2, rh->recLen, file);
                         fwprintf(file, L"\n");
 
                         delete[] chars;
@@ -663,6 +684,7 @@ PPT::GetText(wchar_t *filePath)
             }
         }
         fclose(file);
+        std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
     }
 }
 
