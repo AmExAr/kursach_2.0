@@ -561,6 +561,8 @@ PPT::GetText(wchar_t *filePath)
         rh = (RecordHeader*)buffer;
     }
 
+    std::wcout << L"Успешно найден SlideListWithText" << std::endl << std::endl;
+
     buffer += sizeof(RecordHeader);
     rh = (RecordHeader*)buffer;
 
@@ -568,8 +570,14 @@ PPT::GetText(wchar_t *filePath)
 
     FILE *file = _wfopen(filePath, L"wb");
 
+    DWORD slideNumber = 0;
+
     while(rh->recType != (WORD)RecordTypeEnum::RT_EndDocumentAtom)
     {
+        if(rh->recType == (WORD)RecordTypeEnum::RT_SlidePersistAtom && rh->recVerAndInstance == 0x0000)
+        {
+            fwprintf(file, L"Слайд номер %u: \n", ++slideNumber);
+        }
 
         if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
             rh->recVerAndInstance == 0x0000)
@@ -581,7 +589,7 @@ PPT::GetText(wchar_t *filePath)
                 WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
 
                 fwrite(text, 2, (rh->recLen)/2, file);
-                fwprintf(file, L"\n");
+                fwprintf(file, L"\n\n");
             }
             else
             {
@@ -590,7 +598,7 @@ PPT::GetText(wchar_t *filePath)
                 WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
 
                 fwrite(chars, 2, rh->recLen, file);
-                fwprintf(file, L"\n");
+                fwprintf(file, L"\n\n");
 
                 delete[] chars;
             }
@@ -598,15 +606,28 @@ PPT::GetText(wchar_t *filePath)
         buffer += sizeof(RecordHeader) + rh->recLen;
         rh = (RecordHeader*)buffer;
     }
+
+    std::wcout << L"DocumentContainer успешно просмотрен" << std::endl << std::endl;
+
+    fclose(file);
     if(isTextHere)
     {
-        fclose(file);
         std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
     }
+
     else
     {
+        std::wcout << L"Данная презентация была создана офисом версии после 2007 года!" << std::endl << std::endl;
+        _wfopen(filePath, L"wb");
+
         for(DWORD i = 2; i < cPersist; i++)
         {
+            if(i > 2)
+            {
+                fwprintf(file, L"\n");
+            }
+            fwprintf(file, L"Слайд номер %u: \n", (i - 1));
+
             buffer = powerPointDocumentBegin + directoryEntry[i];
 
             rh = (RecordHeader*)buffer;
@@ -621,6 +642,7 @@ PPT::GetText(wchar_t *filePath)
                 buffer += rh->recLen + sizeof(RecordHeader);
                 rh = (RecordHeader*)buffer;
             }
+            std::wcout << L"OfficeArtSpContainer успешно найден" << std::endl << std::endl;
 
             buffer += sizeof(RecordHeader);
             rh = (RecordHeader*)buffer;
@@ -630,6 +652,7 @@ PPT::GetText(wchar_t *filePath)
                 buffer += rh->recLen + sizeof(RecordHeader);;
                 rh = (RecordHeader*)buffer;
             }
+            std::wcout << L"OfficeArtClientTextbox успешно найден" << std::endl << std::endl;
 
             buffer += sizeof(RecordHeader);
             rh = (RecordHeader*)buffer;
@@ -682,6 +705,7 @@ PPT::GetText(wchar_t *filePath)
                 buffer += sizeof(RecordHeader) + rh->recLen;
                 rh = (RecordHeader*)buffer;
             }
+            std::wcout << L"слайд номер " << i - 1 << L" успешно просмотрен" << std::endl << std::endl;
         }
         fclose(file);
         std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;

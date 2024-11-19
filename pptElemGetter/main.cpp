@@ -4,7 +4,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    PPT presentation(L"C:\\Users\\Artyom\\Downloads\\PPT365.ppt");
+    PPT presentation(L"Language22.ppt");
 
     presentation.GetText(L"test1.txt");
 
