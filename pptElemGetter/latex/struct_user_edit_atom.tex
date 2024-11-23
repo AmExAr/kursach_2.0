@@ -1,0 +1,93 @@
+\doxysection{User\+Edit\+Atom Struct Reference}
+\hypertarget{struct_user_edit_atom}{}\label{struct_user_edit_atom}\index{UserEditAtom@{UserEditAtom}}
+
+
+{\ttfamily \#include $<$ppt\+Elements.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_record_header}{Record\+Header}} \mbox{\hyperlink{struct_user_edit_atom_a0188bb5c23cfd50cac6467ee130e2c5d}{rh}}
+\item 
+DWORD \mbox{\hyperlink{struct_user_edit_atom_af4220168260ed4104dcadacb68135bd4}{last\+Slide\+Id\+Ref}}
+\item 
+WORD \mbox{\hyperlink{struct_user_edit_atom_a72be9ce8db543e7c76dc95d1b91dfa2f}{version}}
+\item 
+BYTE \mbox{\hyperlink{struct_user_edit_atom_af6432fc2eed98746edff3c139777a8be}{minor\+Version}}
+\item 
+BYTE \mbox{\hyperlink{struct_user_edit_atom_a613debb970c6abcb4e5bf3f4ca87f192}{major\+Version}}
+\item 
+DWORD \mbox{\hyperlink{struct_user_edit_atom_ab8f0d0038cd04f49f1552a91989ad6b6}{offset\+Last\+Edit}}
+\item 
+DWORD \mbox{\hyperlink{struct_user_edit_atom_a13ec0d26a2cc047b380cefa3ae2d19d5}{offset\+Persist\+Directory}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Структура, которая описывает запись об изменении пользователя 
+\begin{DoxyParams}{Parameters}
+{\em rh} & Заголовок записи \\
+\hline
+{\em last\+Slide\+Id\+Ref} & поле, указывающее последний просмотренный слайд \\
+\hline
+{\em version} & Игноририруется PP 1992-\/2013 \\
+\hline
+{\em minor\+Version} & Описывает незначительную версию формата хранилища \\
+\hline
+{\em major\+Version} & Описывает незначительную версию формата хранилища \\
+\hline
+{\em offset\+Last\+Edit} & Описывает смещение байтов с начала этого потока к записи прошлого изменения пользователя \\
+\hline
+{\em offset\+Persist\+Directory} & Описывает смещение байтов с начала этого потока к Persist\+Directory\+Atom \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_user_edit_atom_af4220168260ed4104dcadacb68135bd4}\index{UserEditAtom@{UserEditAtom}!lastSlideIdRef@{lastSlideIdRef}}
+\index{lastSlideIdRef@{lastSlideIdRef}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{lastSlideIdRef}{lastSlideIdRef}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_af4220168260ed4104dcadacb68135bd4} 
+DWORD User\+Edit\+Atom\+::last\+Slide\+Id\+Ref}
+
+\Hypertarget{struct_user_edit_atom_a613debb970c6abcb4e5bf3f4ca87f192}\index{UserEditAtom@{UserEditAtom}!majorVersion@{majorVersion}}
+\index{majorVersion@{majorVersion}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{majorVersion}{majorVersion}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_a613debb970c6abcb4e5bf3f4ca87f192} 
+BYTE User\+Edit\+Atom\+::major\+Version}
+
+\Hypertarget{struct_user_edit_atom_af6432fc2eed98746edff3c139777a8be}\index{UserEditAtom@{UserEditAtom}!minorVersion@{minorVersion}}
+\index{minorVersion@{minorVersion}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{minorVersion}{minorVersion}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_af6432fc2eed98746edff3c139777a8be} 
+BYTE User\+Edit\+Atom\+::minor\+Version}
+
+\Hypertarget{struct_user_edit_atom_ab8f0d0038cd04f49f1552a91989ad6b6}\index{UserEditAtom@{UserEditAtom}!offsetLastEdit@{offsetLastEdit}}
+\index{offsetLastEdit@{offsetLastEdit}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{offsetLastEdit}{offsetLastEdit}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_ab8f0d0038cd04f49f1552a91989ad6b6} 
+DWORD User\+Edit\+Atom\+::offset\+Last\+Edit}
+
+\Hypertarget{struct_user_edit_atom_a13ec0d26a2cc047b380cefa3ae2d19d5}\index{UserEditAtom@{UserEditAtom}!offsetPersistDirectory@{offsetPersistDirectory}}
+\index{offsetPersistDirectory@{offsetPersistDirectory}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{offsetPersistDirectory}{offsetPersistDirectory}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_a13ec0d26a2cc047b380cefa3ae2d19d5} 
+DWORD User\+Edit\+Atom\+::offset\+Persist\+Directory}
+
+\Hypertarget{struct_user_edit_atom_a0188bb5c23cfd50cac6467ee130e2c5d}\index{UserEditAtom@{UserEditAtom}!rh@{rh}}
+\index{rh@{rh}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{rh}{rh}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_a0188bb5c23cfd50cac6467ee130e2c5d} 
+\mbox{\hyperlink{struct_record_header}{Record\+Header}} User\+Edit\+Atom\+::rh}
+
+\Hypertarget{struct_user_edit_atom_a72be9ce8db543e7c76dc95d1b91dfa2f}\index{UserEditAtom@{UserEditAtom}!version@{version}}
+\index{version@{version}!UserEditAtom@{UserEditAtom}}
+\doxysubsubsection{\texorpdfstring{version}{version}}
+{\footnotesize\ttfamily \label{struct_user_edit_atom_a72be9ce8db543e7c76dc95d1b91dfa2f} 
+WORD User\+Edit\+Atom\+::version}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ppt_elements_8h}{ppt\+Elements.\+h}}\end{DoxyCompactItemize}

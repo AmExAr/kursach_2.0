@@ -455,7 +455,114 @@ DWORD GetCompoundDocumentInfo(const BYTE *documentData, DWORD dataSize,
 
 } // CompoundDocumentObject
 
+/**
+Констурктор класса
+\param filePath Путь к объекту
 
+Открытие файла презентации в режиме бинарного чтения:
+\code
+FILE *file = _wfopen(filePath, L"rb")
+\endcode
+
+
+\code
+if(file == NULL)
+    {
+        std::wcout << L"Файл не открылся!!!" << std::endl;
+        return;
+    }
+\endcode
+
+Переходим в конец файла, получаем его размер и переходим в начало файла
+\code
+    _fseeki64(file, 0, SEEK_END);
+    size_t fileSize = _ftelli64(file);
+    _fseeki64(file, 0, SEEK_SET);
+\endcode
+
+Массив, в которы загружаем весь файл
+\code
+BYTE *buffer = new BYTE[fileSize];
+\endcode
+
+Записываем в буффер каждый элемент. Если ошибка, то выводим сообщение
+\code
+if(fread(buffer, 1, fileSize, file) != fileSize)
+    {
+        std::wcout << L"Ошибка чтения файла" << std::endl;
+        return;
+    }
+\endcode
+
+Закрытие файла
+\code
+fclose (file);
+\endcode
+
+Создаем переменную для хранения имени потока и массив для хранения потока, далее сопоставляем массив и имя потока. DataStreams - массив из массивов потоков
+\code
+std::wstring defaultExtension;
+std::vector<CompoundDocumentObject::CompoundDocument_DirectoryEntryStruct> Directory;
+std::map<std::wstring, ULONGLONG> NameMap;
+std::vector<BinaryBlock> DataStreams;
+\endcode
+
+Разбор PPT файла
+\code
+DWORD realDataSize = CompoundDocumentObject::GetCompoundDocumentInfo(buffer, fileSize, defaultExtension, Directory, NameMap, DataStreams)
+\endcode
+
+Переменные для хранения индекса потока
+\code
+DWORDLONG powerPointDocumentIndex
+DWORDLONG currentUserIndex
+DWORDLONG picturesIndex
+\endcode
+
+Перебор всех потоков
+\code
+for(std::map<std::wstring, ULONGLONG>::const_iterator i=NameMap.begin(); i!=NameMap.end(); i++)
+    {
+        if(i->first == L"PowerPoint Document")
+        {
+            powerPointDocumentIndex = i->second;
+        }
+        else if(i->first == L"Current User")
+        {
+            currentUserIndex = i->second;
+        }
+        else if(i->first == L"Pictures")
+        {
+            picturesIndex = i->second;
+            Pictures = DataStreams[picturesIndex];
+        }
+    }
+\endcode
+
+Взятие из DataStreams массива необходимого потока
+\code
+BinaryBlock CurrentUser = DataStreams[currentUserIndex]
+PowerPointDocument = DataStreams[powerPointDocumentIndex]
+\endcode
+
+Применение к потоку CureentUser соответствующую структуру
+\code
+CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
+\endcode
+
+Присваивание смещения к последнему изменению
+\code
+offsetToCurrentEdit = user->offsetToCurrentEdit;
+\endcode
+
+Очистка памяти
+\code
+delete[] buffer;
+Directory.clear();
+NameMap.clear();
+DataStreams.clear();
+\endcode
+*/
 PPT::PPT(wchar_t *filePath)
 {
     FILE *file = _wfopen(filePath, L"rb");
@@ -488,9 +595,9 @@ PPT::PPT(wchar_t *filePath)
     // Разобрать файл
 	DWORD realDataSize = CompoundDocumentObject::GetCompoundDocumentInfo(buffer, fileSize, defaultExtension, Directory, NameMap, DataStreams);
 
-    DWORDLONG powerPointDocumentIndex;
-    DWORDLONG currentUserIndex;
-    DWORDLONG picturesIndex;
+    ULONGLONG powerPointDocumentIndex = NULL;
+    ULONGLONG currentUserIndex = NULL;
+    ULONGLONG picturesIndex;
 
     for(std::map<std::wstring, ULONGLONG>::const_iterator i=NameMap.begin(); i!=NameMap.end(); i++)
     {
@@ -509,14 +616,23 @@ PPT::PPT(wchar_t *filePath)
         }
     }
 
-    BinaryBlock CurrentUser = DataStreams[currentUserIndex];
-    PowerPointDocument = DataStreams[powerPointDocumentIndex];
+    if(currentUserIndex == NULL)
+    {
+        std::wcout << L"не найден поток Current User" << std::endl;
+    }
+    if(powerPointDocumentIndex == NULL)
+    {
+        std::wcout << L"не найден поток PowerPoint Document" << std::endl;
+    }
+    else
+    {
+        BinaryBlock CurrentUser = DataStreams[currentUserIndex];
+        PowerPointDocument = DataStreams[powerPointDocumentIndex];
 
+        CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
 
-
-    CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
-
-    offsetToCurrentEdit = user->offsetToCurrentEdit;
+        offsetToCurrentEdit = user->offsetToCurrentEdit;
+    }
 
 
     // Очистить память
@@ -526,13 +642,270 @@ PPT::PPT(wchar_t *filePath)
     DataStreams.clear();
 }
 
-
+/**
+Декструктор PPT файла
+*/
 PPT::~PPT()
 {
     PowerPointDocument.clear();
     Pictures.clear();
 }
 
+/**
+Получение указателя на поток PowerPointDocument
+\code
+BYTE *buffer = PowerPointDocument.data();
+\endcode
+
+Указатель на начало потока
+\code
+BYTE *powerPointDocumentBegin = buffer;
+\endcode
+
+Переход к записи текущего изменения и примененение структуры
+\code
+buffer = powerPointDocumentBegin + offsetToCurrentEdit;
+UserEditAtom *userEdit = (UserEditAtom*)buffer;
+\endcode
+
+Переход к DirectoryEntry и применение структуры
+\code
+buffer = powerPointDocumentBegin + userEdit->offsetPersistDirectory + sizeof(RecordHeader);
+persistIdAndcPersist *idAndCount = (persistIdAndcPersist*)buffer;
+\endcode
+
+Получение записи cPersist и преобразнование записей в LittleEndian
+\code
+DWORD cPersist = (*idAndCount >> 12) & 0xFFFFF;
+cPersist = (cPersist & 0xFF) << 8 | (cPersist & 0xFF00) >>  8;
+\endcode
+
+Составление таблицы смещений к сохраненным объектам
+\code
+DWORD *directoryEntry = (DWORD*)(buffer + sizeof(persistIdAndcPersist));
+\endcode
+
+Переход к DocumentContainer пропуская RecordHeader
+\code
+buffer = powerPointDocumentBegin + directoryEntry[0] + sizeof(RecordHeader);
+\endcode
+
+Применение структуры RecordHeader
+\code
+RecordHeader *rh = (RecordHeader*)buffer;
+\endcode
+
+Поиск типа записи, соотвествующей контейнеру с текстом (в MS PPT 1992-2003)
+\code
+while(rh->recType != (WORD)RecordTypeEnum::RT_SlideListWithText || rh->recVerAndInstance != 0x000F)
+{
+    buffer += rh->recLen + sizeof(RecordHeader);
+    rh = (RecordHeader*)buffer;
+}
+\endcode
+
+Вход в SlideListWithText
+\code
+while(rh->recType != (WORD)RecordTypeEnum::RT_SlideListWithText || rh->recVerAndInstance != 0x000F)
+{
+    buffer += sizeof(RecordHeader);
+    rh = (RecordHeader*)buffer;
+}
+\endcode
+
+
+
+\parma bool isTextHere переменная для проверки на наличие текста
+
+Открытие фалйа в бинарной записи
+\code
+FILE *file = _wfopen(filePath, L"wb")
+\endcode
+\parma DWORD slideNumber переменнная для подсчета слайдов
+
+Перебор всех элементов до конца DocumentContainer
+\code
+while(rh->recType != (WORD)RecordTypeEnum::RT_EndDocumentAtom)
+\endcode
+
+Если находится тип, соответствующий SlidePersistAtom, то увеличивается номер слайда и этот номер записывается
+\code
+if(rh->recType == (WORD)RecordTypeEnum::RT_SlidePersistAtom && rh->recVerAndInstance == 0x0000)
+{
+    fwprintf(file, L"Слайд номер %u: \n", ++slideNumber);
+}
+\endcode
+
+Если находится тип, соответствующий тексту, то isTextHere = true, после чего если текст хранится в UTF-16, то делаем указатель на начало текста и записываем это в файл
+\code
+else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+            rh->recVerAndInstance == 0x0000)
+        {
+            isTextHere = true;
+
+            if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
+            {
+                WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
+
+                fwrite(text, 2, (rh->recLen)/2, file);
+                fwprintf(file, L"\n\n");
+            }
+            else
+            {
+                BYTE *text = buffer + sizeof(RecordHeader);
+
+                WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
+
+                fwrite(chars, 2, rh->recLen, file);
+                fwprintf(file, L"\n\n");
+
+                delete[] chars;
+            }
+        }
+\endcode
+
+Если запись не была найдена, то переходим к другой записи
+\code
+buffer += sizeof(RecordHeader) + rh->recLen;
+rh = (RecordHeader*)buffer;
+\endcode
+
+Закрытие файла, вывод надписи, если текст был найден. Иначе используем другой алгоритм поиска (для MS PPT 2007 и позже)
+\code
+fclose(file);
+if(isTextHere)
+{
+    std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
+}
+\endcode
+
+Иначе используем другой алгоритм поиска (для MS PPT 2007 и позже)
+Происходит перебор всех элементов из directoryEntry, начиная со второго элемента
+Если не первый слайд, то добавляем пропуск строки.
+Написание номера слайда,
+\code
+if(i > 2)
+{
+    fwprintf(file, L"\n");
+}
+fwprintf(file, L"Слайд номер %u: \n", (i - 1));
+\endcode
+
+Переход к первому сохраненному объекту
+\code
+buffer = powerPointDocumentBegin + directoryEntry[i];
+\encdcode
+
+Применение струкутры RecordHeader. В нем находится размер всего слайда
+\code
+rh = (RecordHeader*)buffer;
+\encdcode
+
+Создать указатель на конец сладйа
+\code
+BYTE *endOfSlide = buffer + rh->recLen + sizeof(RecordHeader);
+\encdcode
+
+Пропуск записи SlideContainer и OfficeArtDgContainer
+\code
+ buffer += sizeof(SlideContainer) + sizeof(OfficeArtDgContainer);
+\encdcode
+
+Повторное применение струкутры RecordHeader
+\code
+rh = (RecordHeader*)buffer;
+\encdcode
+
+С помощью цикла ищем OfficeArtSpContainer
+\code
+while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtSpContainer || rh->recVerAndInstance != 0x000F)
+{
+    buffer += rh->recLen + sizeof(RecordHeader);
+    rh = (RecordHeader*)buffer;
+}
+\encdcode
+
+Пропуск заголовка
+\code
+buffer += sizeof(RecordHeader);
+rh = (RecordHeader*)buffer;
+\encdcode
+
+Поиск OfficeArtClientTextbox
+\code
+while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox || rh->recVerAndInstance != 0x000F)
+{
+    buffer += rh->recLen + sizeof(RecordHeader);;
+    rh = (RecordHeader*)buffer;
+}
+\encdcode
+
+Пока слайд не закончится, ищем текст в OfficeArtClientTextbox
+\code
+while(buffer != endOfSlide)
+\encdcode
+
+Если текст находится внутри текста, то аналогичным образом перейти к ClientTextBox
+\code
+if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAndInstance == 0x000F)
+{
+    BYTE *endOfSpContainer = buffer + sizeof(RecordHeader) + rh->recLen;
+
+    buffer += sizeof(RecordHeader);
+    rh = (RecordHeader*)buffer;            {
+
+
+                    while(buffer != endOfSpContainer)
+                    {
+                        buffer += rh->recLen + sizeof(RecordHeader);;
+                        rh = (RecordHeader*)buffer;
+
+                        if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox && rh->recVerAndInstance == 0x000F)
+                        {
+                            buffer += sizeof(RecordHeader);
+                            rh = (RecordHeader*)buffer;
+
+                            break;
+                        }
+                    }
+                }
+
+\encdcode
+
+Аналогичные действия, если найден текст
+\code
+else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+                         rh->recVerAndInstance == 0x0000)
+                {
+                    if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
+                    {
+                        WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
+
+                        fwrite(text, 2, (rh->recLen)/2, file);
+                        fwprintf(file, L"\n");
+                    }
+                    else
+                    {
+                        BYTE *text = buffer + sizeof(RecordHeader);
+
+                        WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
+
+                        fwrite(chars, 2, rh->recLen, file);
+                        fwprintf(file, L"\n");
+
+                        delete[] chars;
+                    }
+                }
+                buffer += sizeof(RecordHeader) + rh->recLen;
+                rh = (RecordHeader*)buffer;
+            }
+\endcode
+
+Закрытие файла
+\code
+fclose(file);
+\endcode
+*/
 PPT::GetText(wchar_t *filePath)
 {
     BYTE *buffer = PowerPointDocument.data();
@@ -579,7 +952,7 @@ PPT::GetText(wchar_t *filePath)
             fwprintf(file, L"Слайд номер %u: \n", ++slideNumber);
         }
 
-        if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+        else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
             rh->recVerAndInstance == 0x0000)
         {
             isTextHere = true;
@@ -617,7 +990,7 @@ PPT::GetText(wchar_t *filePath)
 
     else
     {
-        std::wcout << L"Данная презентация была создана офисом версии после 2007 года!" << std::endl << std::endl;
+        std::wcout << L"Данная презентация была создана офисом версии после 2003 года!" << std::endl << std::endl;
         _wfopen(filePath, L"wb");
 
         for(DWORD i = 2; i < cPersist; i++)
@@ -712,6 +1085,12 @@ PPT::GetText(wchar_t *filePath)
     }
 }
 
+/**
+Функция для преборазования UTF-8 в UTF-16LE
+\return chars
+\parma BYTE *text текст в UTF-8
+\parma DWORD textSize размер текста в UTF-8
+*/
 BYTE *TextBytesToChars(BYTE *text, DWORD textSize)
 {
     BYTE *chars = new BYTE[textSize*2];

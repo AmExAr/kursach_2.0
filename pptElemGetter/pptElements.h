@@ -102,10 +102,16 @@ DWORD GetCompoundDocumentInfo(
 
 }
 
-typedef uint32_t persistIdAndcPersist;
+typedef uint32_t persistIdAndcPersist; ///< \brief Id и количество DirectoryEntry
 
 #pragma pack(push, 1)
 
+/**
+Структура для заголовка записи
+\param recVerAndInstance Версия записи
+\param recType Тип записи
+\param recLen Длина записи
+*/
 typedef struct
 {
     WORD recVerAndInstance;
@@ -114,6 +120,13 @@ typedef struct
 
 } RecordHeader;
 
+/**
+Запись текущего пользователя
+\param rh Заголовок записи
+\param size Размер данных после hr и до ansiUserName
+\param headerToken Поле, которое указывыает на наличие шифрования
+\param offsetToCurrentEdit Смещение до изменения последнего пользователя
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -123,6 +136,16 @@ typedef struct
 
 } CurrentUserAtom;
 
+/**
+Структура, которая описывает запись об изменении пользователя
+\param rh Заголовок записи
+\param lastSlideIdRef поле, указывающее последний просмотренный слайд
+\param version Игноририруется PP 1992-2013
+\param minorVersion Описывает незначительную версию формата хранилища
+\param majorVersion Описывает незначительную версию формата хранилища
+\param offsetLastEdit Описывает смещение байтов с начала этого потока к записи прошлого изменения пользователя
+\param offsetPersistDirectory Описывает смещение байтов с начала этого потока к PersistDirectoryAtom
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -135,6 +158,11 @@ typedef struct
 
 } UserEditAtom;
 
+/**
+Запись, описывающая сслыку к слайду презентации
+\param rh Заголовок записи
+\param persistIdRef Описывает значение, котрое нужно найти в persist object directory, чтобы найти смещние к SlideContainer
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -142,6 +170,12 @@ typedef struct
 
 } SlidePersistAtom;
 
+/**
+Контейнер, который описывает слайд презентации
+\param rh Заголовок записи
+\param slideAtom Запись, которая описывает информацию конкретно этого слайда
+\param slideShowSlideInfoAtom Запись, которая описывает информацию о переходе слайда
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -150,6 +184,11 @@ typedef struct
 
 } SlideContainer;
 
+/**
+Контейнер, который описывает все записи рисуемого объекта
+\param rh Заголовок записи
+\param drawingData Описывает количество форм, идентификатор рисуемого объекта и идентификатор последней формы в этом рисуемом объекте
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -157,6 +196,13 @@ typedef struct
 
 } OfficeArtDgContainer;
 
+/**
+Структура, описывающая контейнер формы
+\param rh Заголовок записи
+\param shapeGroup Описывыает координатную систему, которой передвигается фигура относительно слайда
+\param shapeProp Описывает форму
+\param deletedShape Описывает форму иерархической позиции, содержащую объект
+*/
 typedef struct
 {
     RecordHeader rh;
@@ -168,6 +214,9 @@ typedef struct
 
 #pragma pack(pop)
 
+/**
+Список, описывающий все типы записей, используемые в программе
+*/
 enum class RecordTypeEnum : WORD
 {
     RT_OfficeArtSpContainer = 0xF004,
@@ -393,6 +442,15 @@ enum class RecordTypeEnum : WORD
     RT_TimeSubEffectContainer = 0xF145,
 };
 
+/**
+Класс для файлов формата PPT
+\param offsetToCurrentEdit смещение к последнему изменению
+\param PowerPointDocument Поток PowerPointDocument
+\param Pictures Поток Pictures
+\param PPT Конструктор PPT файла
+\param PPT Деструктор PPT файла
+\param GetText Метод, с помощью которого достется текст и записывается в файл
+*/
 class PPT
 {
 private:
@@ -406,7 +464,9 @@ public:
     GetText(wchar_t *filePath);
 };
 
-
+/**
+Функция для перевода в UTF-16LE
+*/
 BYTE *TextBytesToChars(BYTE *data, DWORD dataSize);
 
 #endif // pptElementsH

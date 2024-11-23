@@ -1,0 +1,1265 @@
+\doxysection{ppt\+Elements.\+h File Reference}
+\hypertarget{ppt_elements_8h}{}\label{ppt_elements_8h}\index{pptElements.h@{pptElements.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$wtypes.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct}{Compound\+Document\+Object\+::\+UUIDStruct}}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+Object\+Header\+Struct}}
+\item 
+struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}}
+\item 
+struct \mbox{\hyperlink{struct_record_header}{Record\+Header}}
+\item 
+struct \mbox{\hyperlink{struct_current_user_atom}{Current\+User\+Atom}}
+\item 
+struct \mbox{\hyperlink{struct_user_edit_atom}{User\+Edit\+Atom}}
+\item 
+struct \mbox{\hyperlink{struct_slide_persist_atom}{Slide\+Persist\+Atom}}
+\item 
+struct \mbox{\hyperlink{struct_slide_container}{Slide\+Container}}
+\item 
+struct \mbox{\hyperlink{struct_office_art_dg_container}{Office\+Art\+Dg\+Container}}
+\item 
+struct \mbox{\hyperlink{struct_office_art_sp_container}{Office\+Art\+Sp\+Container}}
+\item 
+class \mbox{\hyperlink{class_p_p_t}{PPT}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_compound_document_object}{Compound\+Document\+Object}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ BYTE $>$ \mbox{\hyperlink{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_u_u_i_d_struct}{Compound\+Document\+Object\+::\+UUIDStruct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_a8ce94d0075decb88ec77d850ec00e12a}{Compound\+Document\+Object\+::\+PUUIDStruct}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document_object_header_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+Object\+Header\+Struct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_a0092f752fa4a404d83951b1826a7b23b}{Compound\+Document\+Object\+::\+PCompound\+Document\+Object\+Header\+Struct}}
+\item 
+typedef struct \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+Object\+::\+Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_compound_document_object_ae0e9b558f8abf7cc9ca475bc2c9dda76}{Compound\+Document\+Object\+::\+PCompound\+Document\+\_\+\+Directory\+Entry\+Struct}}
+\item 
+typedef uint32\+\_\+t \mbox{\hyperlink{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}{persist\+Id\+Andc\+Persist}}
+\begin{DoxyCompactList}\small\item\em Id и количество Directory\+Entry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec}{Record\+Type\+Enum}} \+: WORD \{ \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad5470dfe01c26e15228661f87eb0cde}{RT\+\_\+\+Office\+Art\+Sp\+Container}} = 0x\+F004
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae4b4a80700b7566f2001137f86812dd7}{RT\+\_\+\+Office\+Art\+Client\+Textbox}} = 0x\+F00D
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca98f5d2a3789d7dfd3fd3b6cdd81a20ef}{RT\+\_\+\+Document}} = 0x03\+E8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecafde2d06f7feb30398d7c5e310bf5e13d}{RT\+\_\+\+Document\+Atom}} = 0x03\+E9
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac1c58b615dda4bd18696469f0e9b071d}{RT\+\_\+\+End\+Document\+Atom}} = 0x03\+EA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4351eab4929f2dff9b771f1bb90ee707}{RT\+\_\+\+Slide}} = 0x03\+EE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4b5cc94318da0b8d06137e3aed420c5b}{RT\+\_\+\+Slide\+Atom}} = 0x03\+EF
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5898450ad8ecd5fb018a602eb6a6a9ea}{RT\+\_\+\+Notes}} = 0x03\+F0
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2d9ad5a9589d7c9af540c7d5ca6167f8}{RT\+\_\+\+Notes\+Atom}} = 0x03\+F1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaec8a35ba35da4563d26508a4e0927a0c}{RT\+\_\+\+Environment}} = 0x03\+F2
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa02cbe42c111aa6dcf5a5804d823301f}{RT\+\_\+\+Slide\+Persist\+Atom}} = 0x03\+F3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca45e8190638abe19213097b661d474d26}{RT\+\_\+\+Main\+Master}} = 0x03\+F8
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca121c3b9a483a7b871c3bd753c9c31530}{RT\+\_\+\+Slide\+Show\+Slide\+Info\+Atom}} = 0x03\+F9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3b324b0afadea0d30a721f377ebd831b}{RT\+\_\+\+Slide\+View\+Info}} = 0x03\+FA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabee008cc74451cd7508cdf9b6d15dec0}{RT\+\_\+\+Guide\+Atom}} = 0x03\+FB
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1595eff9aacd0cd9d4456dcdf2e04abc}{RT\+\_\+\+View\+Info\+Atom}} = 0x03\+FD
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaa58a0cb262560b0b264c6870f43f4ca}{RT\+\_\+\+Slide\+View\+Info\+Atom}} = 0x03\+FE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca28968b1427870c4a25ecb54e9bfad4d8}{RT\+\_\+\+Vba\+Info}} = 0x03\+FF
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ff8f92396ecd0958969d0d52208efc1}{RT\+\_\+\+Vba\+Info\+Atom}} = 0x0400
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae1413af2796b43eef9532e19de015209}{RT\+\_\+\+Slide\+Show\+Doc\+Info\+Atom}} = 0x0401
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89dabc1682963c45ff473f06d8b5a9d4}{RT\+\_\+\+Summary}} = 0x0402
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca21366459d3cd89ffa7589e13b7c48060}{RT\+\_\+\+Doc\+Routing\+Slip\+Atom}} = 0x0406
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4539cb6282f278ef7215dd0b036cbc88}{RT\+\_\+\+Outline\+View\+Info}} = 0x0407
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca74164eec1b171314eb402db850abcf09}{RT\+\_\+\+Sorter\+View\+Info}} = 0x0408
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab45532d56465ae7c4594bc8c8e3b9e16}{RT\+\_\+\+External\+Object\+List}} = 0x0409
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0619b02d20e9526a4204c93b8d50cf27}{RT\+\_\+\+External\+Object\+List\+Atom}} = 0x040A
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadb4a1ec8011f903a11668d5213e24e46}{RT\+\_\+\+Drawing\+Group}} = 0x040B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca35a45a6fe0d23fb8589533fabc3b69bc}{RT\+\_\+\+Drawing}} = 0x040C
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1eb37f11f617fcdf8effc837708821a1}{RT\+\_\+\+Grid\+Spacing10\+Atom}} = 0x040D
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca95df63f0b6bd66e9f1c0f7afd74c9b88}{RT\+\_\+\+Round\+Trip\+Theme12\+Atom}} = 0x040E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca345070ee6592a017e365bfe8f7745f83}{RT\+\_\+\+Round\+Trip\+Color\+Mapping12\+Atom}} = 0x040F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6da08751a9f6907c0476843245550ed8}{RT\+\_\+\+Named\+Shows}} = 0x0410
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca7ee44f204e58c58e2413da052a331f66}{RT\+\_\+\+Named\+Show}} = 0x0411
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca55343f22e73ee8f9e74cfbdb819a7813}{RT\+\_\+\+Named\+Show\+Slides\+Atom}} = 0x0412
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca609239caff6b2fb0ab4fd650403bb407}{RT\+\_\+\+Notes\+Text\+View\+Info9}} = 0x0413
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca98ea2d25af3405bfdd8c555a610573eb}{RT\+\_\+\+Normal\+View\+Set\+Info9}} = 0x0414
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca47b33edf7f6cd835a4fb2c38debe4e1a}{RT\+\_\+\+Normal\+View\+Set\+Info9\+Atom}} = 0x0415
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca939ed363b882b42b6c342d8db8252a6a}{RT\+\_\+\+Round\+Trip\+Original\+Main\+Master\+Id12\+Atom}} = 0x041C
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab863ce05398f161a962302372a031ec4}{RT\+\_\+\+Round\+Trip\+Composite\+Master\+Id12\+Atom}} = 0x041D
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3bc2107c0f2036eeea256096e77580aa}{RT\+\_\+\+Round\+Trip\+Content\+Master\+Info12\+Atom}} = 0x041E
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca349647773c128cf2ad98e7832ecf4fad}{RT\+\_\+\+Round\+Trip\+Shape\+Id12\+Atom}} = 0x041F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2e22afd4f827d2616b42acadf3c424b4}{RT\+\_\+\+Round\+Trip\+HFPlaceholder12\+Atom}} =0x0420
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca26f2663fd7a4845ebaddbad74c34baf1}{RT\+\_\+\+Round\+Trip\+Content\+Master\+Id12\+Atom}} = 0x0422
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca124ec9a57a76f6cab33260efba4a9367}{RT\+\_\+\+Round\+Trip\+OArt\+Text\+Styles12\+Atom}} = 0x0423
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca16d820e9f3944dca5126648ce721eb7f}{RT\+\_\+\+Round\+Trip\+Header\+Footer\+Defaults12\+Atom}} = 0x0424
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca21028341dfaefb2ed33581d02bc3c106}{RT\+\_\+\+Round\+Trip\+Doc\+Flags12\+Atom}} = 0x0425
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca11bfb6286fda2a1c85c5d487b2245f34}{RT\+\_\+\+Round\+Trip\+Shape\+Check\+Sum\+For\+CL12\+Atom}} = 0x0426
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca826d15c97d86119a0b0a25e88c3716d1}{RT\+\_\+\+Round\+Trip\+Notes\+Master\+Text\+Styles12\+Atom}} = 0x0427
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab1f1f8131edfbdea044b6ff70161e1f}{RT\+\_\+\+Round\+Trip\+Custom\+Table\+Styles12\+Atom}} = 0x0428
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48ff9fa57651b51e6840b864174cfdf0}{RT\+\_\+\+List}} = 0x07\+D0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9dd0b5a67bd694aaaabd331b8da3242b}{RT\+\_\+\+Font\+Collection}} = 0x07\+D5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1b06a1c0c641fbd5d40b0a5189af76c1}{RT\+\_\+\+Font\+Collection10}} = 0x07\+D6
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca65a2eb26909071a3a80a47619dae74c5}{RT\+\_\+\+Bookmark\+Collection}} = 0x07\+E3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaba9dccdd0ecaaf8e854c56afbe4366f8}{RT\+\_\+\+Sound\+Collection}} = 0x07\+E4
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca315ffc5a1e1bf83ea18021b445bd5dd4}{RT\+\_\+\+Sound\+Collection\+Atom}} = 0x07\+E5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab212aeeda98c797a4432f02f78ffc51}{RT\+\_\+\+Sound}} = 0x07\+E6
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca531a3c7cf7b5b90fd93a85727ff4529f}{RT\+\_\+\+Sound\+Data\+Blob}} = 0x07\+E7
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4fdbef3edf4622ff1be1d14170c19209}{RT\+\_\+\+Bookmark\+Seed\+Atom}} = 0x07\+E9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa7db19b6cadb1e7b0c0b0a5d3f5d0860}{RT\+\_\+\+Color\+Scheme\+Atom}} = 0x07\+F0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8cc6c62efaeee43f4a810d36de067d69}{RT\+\_\+\+Blip\+Collection9}} = 0x07\+F8
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca184b48b4d46569da05d6c0df97f7f235}{RT\+\_\+\+Blip\+Entity9\+Atom}} = 0x07\+F9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca355939eb1f388090f8e307de601ed900}{RT\+\_\+\+External\+Object\+Ref\+Atom}} = 0x0\+BC1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab0bca7adc07c88e9fcbfa13878d509d0}{RT\+\_\+\+Placeholder\+Atom}} = 0x0\+BC3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6dd9685f1b913f1a9437090f58418348}{RT\+\_\+\+Shape\+Atom}} = 0x0\+BDB
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48903ef726342341274ce0f0dd06bd92}{RT\+\_\+\+Shape\+Flags10\+Atom}} = 0x0\+BDC
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4a2596e86be919ffcf1276276c87ef87}{RT\+\_\+\+Round\+Trip\+New\+Placeholder\+Id12\+Atom}} = 0x0\+BDD
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48c6bc39ef468b0f6595308bfecbda00}{RT\+\_\+\+Outline\+Text\+Ref\+Atom}} = 0x0\+F9E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabb346fdcb691fa065049eadc35df86e1}{RT\+\_\+\+Text\+Header\+Atom}} = 0x0\+F9F
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}{RT\+\_\+\+Text\+Chars\+Atom}} = 0x0\+FA0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1432fdc320034bb8bfc008fe955bf292}{RT\+\_\+\+Style\+Text\+Prop\+Atom}} = 0x0\+FA1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab3759a818c207eb34456799229cfa8c7}{RT\+\_\+\+Master\+Text\+Prop\+Atom}} = 0x0\+FA2
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaca4bfa134f37e226df13a7a724a42cdc}{RT\+\_\+\+Text\+Master\+Style\+Atom}} = 0x0\+FA3
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa3a64cf5380e6b5dce27af421518f144}{RT\+\_\+\+Text\+Char\+Format\+Exception\+Atom}} = 0x0\+FA4
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4315cd0d47103235ebb6c95a54e93efb}{RT\+\_\+\+Text\+Paragraph\+Format\+Exception\+Atom}} = 0x0\+FA5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9c4df6997ed85cce562ae9695cd20bcf}{RT\+\_\+\+Text\+Ruler\+Atom}} = 0x0\+FA6
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4dba8a49b9761539af4b5190afbbe5ac}{RT\+\_\+\+Text\+Bookmark\+Atom}} = 0x0\+FA7
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3aa82887da0f8e5bf43095d85332cac1}{RT\+\_\+\+Text\+Bytes\+Atom}} = 0x0\+FA8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6ba6b3e73b2a8446a650418541ab6e5a}{RT\+\_\+\+Text\+Special\+Info\+Default\+Atom}} = 0x0\+FA9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8c7eec1aa93c41bebd8b14709e6cb951}{RT\+\_\+\+Text\+Special\+Info\+Atom}} = 0x0\+FAA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3081ff88071bf55c3fcdaf3db42954f}{RT\+\_\+\+Default\+Ruler\+Atom}} = 0x0\+FAB
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca50ef81927d6c9851473a205dc3bff1e7}{RT\+\_\+\+Style\+Text\+Prop9\+Atom}} = 0x0\+FAC
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaeb42cac0f0c71124f7cb9311839e4238}{RT\+\_\+\+Text\+Master\+Style9\+Atom}} = 0x0\+FAD
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaeaa83627334bf22c4f791e1d4241bee5}{RT\+\_\+\+Outline\+Text\+Props9}} = 0x0\+FAE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae64940485a68ae59d071a65706d60af2}{RT\+\_\+\+Outline\+Text\+Props\+Header9\+Atom}} = 0x0\+FAF
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5c796a793b4194a75708e455c43c1177}{RT\+\_\+\+Text\+Defaults9\+Atom}} = 0x0\+FB0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad8ba5e2a2f6d90835c118971c38f5313}{RT\+\_\+\+Style\+Text\+Prop10\+Atom}} = 0x0\+FB1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca995eaf9eea0c5575e809478acebab5cb}{RT\+\_\+\+Text\+Master\+Style10\+Atom}} = 0x0\+FB2
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadbf74b260ef22af7461774f0d6580e89}{RT\+\_\+\+Outline\+Text\+Props10}} = 0x0\+FB3
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad28e1c4b43560c0412ae94c3c88a49be}{RT\+\_\+\+Text\+Defaults10\+Atom}} = 0x0\+FB4
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac69f0b7f777fd087ddd43f4e5a3920f6}{RT\+\_\+\+Outline\+Text\+Props11}} = 0x0\+FB5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab23a8eb25f0d3c742137f7faea5c740d}{RT\+\_\+\+Style\+Text\+Prop11\+Atom}} = 0x0\+FB6
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad2d94b75e86ec14c3ae8d8219967e58}{RT\+\_\+\+Font\+Entity\+Atom}} = 0x0\+FB7
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8e90f64efaa864319f38f31e566c0daf}{RT\+\_\+\+Font\+Embed\+Data\+Blob}} = 0x0\+FB8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3f46da7b7f52f79149b423803ee147d8}{RT\+\_\+\+CString}} = 0x0\+FBA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca56d7dc4386561050db31faa0bd172c64}{RT\+\_\+\+Meta\+File}} = 0x0\+FC1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9b75611b386ee442966194010c73a315}{RT\+\_\+\+External\+Ole\+Object\+Atom}} = 0x0\+FC3
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca13f7b9b5da491013566665a0ce64054d}{RT\+\_\+\+Kinsoku}} = 0x0\+FC8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaee5b1b39d9afff9f32e1df6e7b11753e}{RT\+\_\+\+Handout}} = 0x0\+FC9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabc7d4439f4386759e220eaf9f4cb776d}{RT\+\_\+\+External\+Ole\+Embed}} = 0x0\+FCC
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca00868bce12a0fbc977d17394010087ce}{RT\+\_\+\+External\+Ole\+Embed\+Atom}} = 0x0\+FCD
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3273f0d8fabe10056e134b6362e444bc}{RT\+\_\+\+External\+Ole\+Link}} = 0x0\+FCE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca58c016cb4ed9a619f1e42780a9966129}{RT\+\_\+\+Bookmark\+Entity\+Atom}} = 0x0\+FD0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89d345990cb4c34951d5a396f4505e8c}{RT\+\_\+\+External\+Ole\+Link\+Atom}} = 0x0\+FD1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca290d11ed8582bf65229630e827079270}{RT\+\_\+\+Kinsoku\+Atom}} = 0x0\+FD2
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4cc078a31c5f63d5f420bf38ddc52fc2}{RT\+\_\+\+External\+Hyperlink\+Atom}} = 0x0\+FD3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca258ba8eda570d9d9b3e240559f49b804}{RT\+\_\+\+External\+Hyperlink}} = 0x0\+FD7
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9b73e2a02d23ad0c50b4ce3946977efb}{RT\+\_\+\+Slide\+Number\+Meta\+Char\+Atom}} = 0x0\+FD8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacca99f3a8ab657199fd4faba0415d1ba}{RT\+\_\+\+Headers\+Footers}} = 0x0\+FD9
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaac2d4e251251a78ed86ccf9eecaa83f}{RT\+\_\+\+Headers\+Footers\+Atom}} = 0x0\+FDA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3325b647163765a5cc94590326da55de}{RT\+\_\+\+Text\+Interactive\+Info\+Atom}} = 0x0\+FDF
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac297b1a69f92ef794419dfbcb76dbd0f}{RT\+\_\+\+External\+Hyperlink9}} = 0x0\+FE4
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad012434f45fbfb17af75c11126ad22b9}{RT\+\_\+\+Recolor\+Info\+Atom}} = 0x0\+FE7
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0d178c750af923afae60139eb2583a6d}{RT\+\_\+\+External\+Ole\+Control}} = 0x0\+FEE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab6a457c65d4ffdaac7ec1941c94d5179}{RT\+\_\+\+Slide\+List\+With\+Text}} = 0x0\+FF0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89737c975c21af2d8140e0a54d0f0789}{RT\+\_\+\+Animation\+Info\+Atom}} = 0x0\+FF1
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca69c413f63a77ea4577748c01e785a578}{RT\+\_\+\+Interactive\+Info}} = 0x0\+FF2
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca310f32b99dae2a84205dc69572aa08b9}{RT\+\_\+\+Interactive\+Info\+Atom}} = 0x0\+FF3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadd543bdb34178811a0cd4b49e2f826ed}{RT\+\_\+\+User\+Edit\+Atom}} = 0x0\+FF5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca35c3ec50f76e218259de5d3762fb8723}{RT\+\_\+\+Current\+User\+Atom}} = 0x0\+FF6
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0129a00fe052625947f22c1711415127}{RT\+\_\+\+Date\+Time\+Meta\+Char\+Atom}} = 0x0\+FF7
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca425498250ea834b1f906db402079aefd}{RT\+\_\+\+Generic\+Date\+Meta\+Char\+Atom}} = 0x0\+FF8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf57c65adc07eb27723ab5dce9985d578}{RT\+\_\+\+Header\+Meta\+Char\+Atom}} = 0x0\+FF9
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca93282c11832aad3ef430e6ae97b1a79a}{RT\+\_\+\+Footer\+Meta\+Char\+Atom}} = 0x0\+FFA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaec1b689f562497ebe1b14e19b9639d2c}{RT\+\_\+\+External\+Ole\+Control\+Atom}} = 0x0\+FFB
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca22dbe378616bdeb251f7fd96bc0884f3}{RT\+\_\+\+External\+Media\+Atom}} = 0x1004
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5a834640619323ea65582f78a185d2c9}{RT\+\_\+\+External\+Video}} = 0x1005
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca246bf53d553b897f824fa3687b72230b}{RT\+\_\+\+External\+Avi\+Movie}} = 0x1006
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1224c13e9e8586a0ba7e956d878e6393}{RT\+\_\+\+External\+Mci\+Movie}} = 0x1007
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca610e02cbceeea025de9de9ca4ee29603}{RT\+\_\+\+External\+Midi\+Audio}} = 0x100D
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa94e83b5548f94259d90be17e4006e45}{RT\+\_\+\+External\+Cd\+Audio}} = 0x100E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab0c1619e22fc8c8d1e71b059ce13559b}{RT\+\_\+\+External\+Wav\+Audio\+Embedded}} = 0x100F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2a23a8590e4ca1f903a790b8268f264b}{RT\+\_\+\+External\+Wav\+Audio\+Link}} = 0x1010
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabb081723b0297b927e9b1dcdf4e57cbf}{RT\+\_\+\+External\+Ole\+Object\+Stg}} = 0x1011
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2311824e9d1d374dd0b95072664516b2}{RT\+\_\+\+External\+Cd\+Audio\+Atom}} = 0x1012
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca51c6eaa326be98ccc8b1cd999a27fb3c}{RT\+\_\+\+External\+Wav\+Audio\+Embedded\+Atom}} = 0x1013
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2fd6de980b06aa4a26272ec071f62b21}{RT\+\_\+\+Animation\+Info}} = 0x1014
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca989a4139c40b790e2f7250dfc87fc714}{RT\+\_\+\+Rtf\+Date\+Time\+Meta\+Char\+Atom}} = 0x1015
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadf758d4f95238be01566363a42fe0014}{RT\+\_\+\+External\+Hyperlink\+Flags\+Atom}} = 0x1018
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca36cf24ffe537779d4c23d215ba03bbc4}{RT\+\_\+\+Prog\+Tags}} = 0x1388
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabe26596801f61dbdd0ff9dbda7ddd54c}{RT\+\_\+\+Prog\+String\+Tag}} = 0x1389
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacfa2d7efd594e2197cd156b02beba505}{RT\+\_\+\+Prog\+Binary\+Tag}} = 0x138A
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2ed2a8534db1b19e61c7696841220725}{RT\+\_\+\+Binary\+Tag\+Data\+Blob}} = 0x138B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca061cd9a59e2aedd38e9bbc49dae700ed}{RT\+\_\+\+Print\+Options\+Atom}} = 0x1770
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac6d615b2267c24f034c143c479ef350a}{RT\+\_\+\+Persist\+Directory\+Atom}} = 0x1772
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca32658851e41ce2d854ede9c2c59207aa}{RT\+\_\+\+Presentation\+Advisor\+Flags9\+Atom}} = 0x177A
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ca2d28638223989748b4465d18ef39f}{RT\+\_\+\+Html\+Doc\+Info9\+Atom}} = 0x177B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca61367fcfccbb09518e7aa7f62d0a1694}{RT\+\_\+\+Html\+Publish\+Info\+Atom}} = 0x177C
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca388e64ba233de5617fdd9ab837e2360d}{RT\+\_\+\+Html\+Publish\+Info9}} = 0x177D
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5154a1f3ace73937ac7ae87732175a88}{RT\+\_\+\+Broadcast\+Doc\+Info9}} = 0x177E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacf40b9d0c03edb6872f2413d0aff00be}{RT\+\_\+\+Broadcast\+Doc\+Info9\+Atom}} = 0x177F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca71e84000613b477a7729d0429c9e14ea}{RT\+\_\+\+Envelope\+Flags9\+Atom}} = 0x1784
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2cdbb9268b886cf92b9ac876e65d7df9}{RT\+\_\+\+Envelope\+Data9\+Atom}} = 0x1785
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca18d2b1c74e4b9594ca08ed320d62480f}{RT\+\_\+\+Visual\+Shape\+Atom}} = 0x2\+AFB
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae21372ab9e05322663a36a4158d24d9c}{RT\+\_\+\+Hash\+Code\+Atom}} = 0x2\+B00
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab8bab2aac6d24df79b1ab6bd619db36b}{RT\+\_\+\+Visual\+Page\+Atom}} = 0x2\+B01
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa289ffce079bdea7c040fa532d700785}{RT\+\_\+\+Build\+List}} = 0x2\+B02
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca83e7186d2fe59dfb03990ad8809fb5be}{RT\+\_\+\+Build\+Atom}} = 0x2\+B03
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab8fc094d2f24f403284b95b281c09239}{RT\+\_\+\+Chart\+Build}} = 0x2\+B04
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca79d10ac5c8a811397e364a7e116ab935}{RT\+\_\+\+Chart\+Build\+Atom}} = 0x2\+B05
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca63eb308610b55861803ea09b079004a5}{RT\+\_\+\+Diagram\+Build}} = 0x2\+B06
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca20c74728f3289d367d62cf11e56c4bad}{RT\+\_\+\+Diagram\+Build\+Atom}} = 0x2\+B07
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab2c35d1294cf1e93f4b8045062fae7ba}{RT\+\_\+\+Para\+Build}} = 0x2\+B08
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabdfab73e18505190ac006b1f45317c29}{RT\+\_\+\+Para\+Build\+Atom}} = 0x2\+B09
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca757022c4296057352220d864df4384ec}{RT\+\_\+\+Level\+Info\+Atom}} = 0x2\+B0A
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecada5d2e21a79b3fd3a1f0b38aaa69019e}{RT\+\_\+\+Round\+Trip\+Animation\+Atom12\+Atom}} = 0x2\+B0B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0121331b7facf2c20cb3798660a1142f}{RT\+\_\+\+Round\+Trip\+Animation\+Hash\+Atom12\+Atom}} = 0x2\+B0D
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae34f6357d83e26c3db97906d3663acda}{RT\+\_\+\+Comment10}} = 0x2\+EE0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca03b9d3ff4289e58f76346157c33d4046}{RT\+\_\+\+Comment10\+Atom}} = 0x2\+EE1
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4cc87750ddc71060423a59b55dd02b3f}{RT\+\_\+\+Comment\+Index10}} = 0x2\+EE4
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6f417b2ccdc57945f341a76626869523}{RT\+\_\+\+Comment\+Index10\+Atom}} = 0x2\+EE5
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ee7b458cc022f292bb4867bb9d7a7fa}{RT\+\_\+\+Linked\+Shape10\+Atom}} = 0x2\+EE6
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf97980c0d74e39454f467cddfd751591}{RT\+\_\+\+Linked\+Slide10\+Atom}} = 0x2\+EE7
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca94ed42549c7480634dcff870a1f5d19c}{RT\+\_\+\+Slide\+Flags10\+Atom}} = 0x2\+EEA
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca564a75bbbe4e16793e6d9d74a42a4361}{RT\+\_\+\+Slide\+Time10\+Atom}} = 0x2\+EEB
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6876f95cfd8911f868aabb9f34cb170a}{RT\+\_\+\+Diff\+Tree10}} = 0x2\+EEC
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9a6a3b7594353c5d889f44725249f66e}{RT\+\_\+\+Diff10}} = 0x2\+EED
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca245de6c248e3b7bdd678c29ded774b92}{RT\+\_\+\+Diff10\+Atom}} = 0x2\+EEE
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca456e8bbb0b2c0d6c33c7f81478320aba}{RT\+\_\+\+Slide\+List\+Table\+Size10\+Atom}} = 0x2\+EEF
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9e69ed9b772cbabf954cda8f39f016c9}{RT\+\_\+\+Slide\+List\+Entry10\+Atom}} = 0x2\+EF0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6ad1d5930362e2300ba63196913d372f}{RT\+\_\+\+Slide\+List\+Table10}} = 0x2\+EF1
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaea71587f5df3822f3b8faadc18badb67}{RT\+\_\+\+Crypt\+Session10\+Container}} = 0x2\+F14
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa0425d080cd1efcf1e99d30b57c0a968}{RT\+\_\+\+Font\+Embed\+Flags10\+Atom}} = 0x32\+C8
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca88a744b6804561441807c9e0cff8d750}{RT\+\_\+\+Filter\+Privacy\+Flags10\+Atom}} = 0x36\+B0
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaa8b7ccf71bffbef8943c1a1ee299365}{RT\+\_\+\+Doc\+Toolbar\+States10\+Atom}} = 0x36\+B1
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2aad821d16d979d8d358bdd06dc3566c}{RT\+\_\+\+Photo\+Album\+Info10\+Atom}} = 0x36\+B2
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9a37d97f1282246123f50497ee23d29b}{RT\+\_\+\+Smart\+Tag\+Store11\+Container}} = 0x36\+B3
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab4c1ac1c74e0a0ffcca279d53fefb543}{RT\+\_\+\+Round\+Trip\+Slide\+Sync\+Info12}} = 0x3714
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6f0641dcaf9a576939e8b728efc478e8}{RT\+\_\+\+Round\+Trip\+Slide\+Sync\+Info\+Atom12}} = 0x3715
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae65116ec33ee11be1a7fca9e463ba8b7}{RT\+\_\+\+Time\+Condition\+Container}} = 0x\+F125
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae9e30547d752d0c9fab7058ac379a96a}{RT\+\_\+\+Time\+Node}} = 0x\+F127
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9f0d0f79c8d5462a9e1cb85f1407da02}{RT\+\_\+\+Time\+Condition}} = 0x\+F128
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa327b0641958f6d4568d068a27c1a842}{RT\+\_\+\+Time\+Modifier}} = 0x\+F129
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca831a128b519aca7fbc19bc8a5c9f120e}{RT\+\_\+\+Time\+Behavior\+Container}} = 0x\+F12A
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca45444ffa1a1256419d301e91bbb262f7}{RT\+\_\+\+Time\+Animate\+Behavior\+Container}} = 0x\+F12B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca861efebec97a11d7f11f3614f99060ca}{RT\+\_\+\+Time\+Color\+Behavior\+Container}} = 0x\+F12C
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab83a7ac08284e99ba34cf5523e5df81f}{RT\+\_\+\+Time\+Effect\+Behavior\+Container}} = 0x\+F12D
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3f897d71e1936bee49d5bfe0ef42267}{RT\+\_\+\+Time\+Motion\+Behavior\+Container}} = 0x\+F12E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca08649e6cdf93ed73345f0ae8220d3404}{RT\+\_\+\+Time\+Rotation\+Behavior\+Container}} = 0x\+F12F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac9b417614ee9f7adf62728c51d9c4d18}{RT\+\_\+\+Time\+Scale\+Behavior\+Container}} = 0x\+F130
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca18553b12f55109857bafd2bc5bc68cbb}{RT\+\_\+\+Time\+Set\+Behavior\+Container}} = 0x\+F131
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca49343b1ae23e4bb9ba6c80c5ae78739f}{RT\+\_\+\+Time\+Command\+Behavior\+Container}} = 0x\+F132
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad81bcffd18fa5cee5c116375d2c399bf}{RT\+\_\+\+Time\+Behavior}} = 0x\+F133
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca04637bb6bf5b17d61aa773a9e905f52a}{RT\+\_\+\+Time\+Animate\+Behavior}} = 0x\+F134
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca92a922b59d09f01dd5fe7157426afc45}{RT\+\_\+\+Time\+Color\+Behavior}} = 0x\+F135
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaced14947b6020385ce3b806851c5f4b7}{RT\+\_\+\+Time\+Effect\+Behavior}} = 0x\+F136
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaabbc118d70f77a0557478f870193740}{RT\+\_\+\+Time\+Motion\+Behavior}} = 0x\+F137
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae0519e2d60d5cdfe7975b5a6e5b2659b}{RT\+\_\+\+Time\+Rotation\+Behavior}} = 0x\+F138
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3d3a813acd9734f232da2d119a6a3a5}{RT\+\_\+\+Time\+Scale\+Behavior}} = 0x\+F139
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2637b9f193820f904ae769aff635b224}{RT\+\_\+\+Time\+Set\+Behavior}} = 0x\+F13A
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca43a362cd38ede471311da735132120e9}{RT\+\_\+\+Time\+Command\+Behavior}} = 0x\+F13B
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa5156e084137efb19916268aa26c2000}{RT\+\_\+\+Time\+Client\+Visual\+Element}} = 0x\+F13C
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaefe2151021833ca5be20f8bd798976c3}{RT\+\_\+\+Time\+Property\+List}} = 0x\+F13D
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca71348b733ca06f5bc1f02637a73dbf2d}{RT\+\_\+\+Time\+Variant\+List}} = 0x\+F13E
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0c88eed9906a02788e0008f99e7e465d}{RT\+\_\+\+Time\+Animation\+Value\+List}} = 0x\+F13F
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca03365a962cd23767fcb739de18301370}{RT\+\_\+\+Time\+Iterate\+Data}} = 0x\+F140
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6a6cd4fc1024bcc1c0ff9c092cdedb5a}{RT\+\_\+\+Time\+Sequence\+Data}} = 0x\+F141
+, \newline
+\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab2b0d323bdb28a8e49ed7601a016810}{RT\+\_\+\+Time\+Variant}} = 0x\+F142
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaae36fa420549a69eed89023ca207d895}{RT\+\_\+\+Time\+Animation\+Value}} = 0x\+F143
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1dd210b3a58642713cd179f1987f9294}{RT\+\_\+\+Time\+Ext\+Time\+Node\+Container}} = 0x\+F144
+, \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca32e6737eff6915b8bb67971d54d117ac}{RT\+\_\+\+Time\+Sub\+Effect\+Container}} = 0x\+F145
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespace_compound_document_object_a880bbcda5509cf006b1bf2828751f577}{Compound\+Document\+Object\+::\+Get\+Stream\+Offsets}} (LONG first\+Sec\+Id, LONG max\+Sec\+Id, const LONG \texorpdfstring{$\ast$}{*}SAT, DWORD SAT\+\_\+\+Size\+In\+Records, DWORD sector\+Size, bool short\+Offsets, std\+::vector$<$ LONG $>$ \&stream\+Offsets)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_afad90ea0157d6107fc80085106a06e90}{Compound\+Document\+Object\+::\+Read\+Stream\+Data\+By\+Offsets}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD document\+Data\+Size, std\+::vector$<$ LONG $>$ stream\+Offsets, DWORD sector\+Size, DWORD stream\+Size, BYTE \texorpdfstring{$\ast$}{*}out\+Data\+Buffer, DWORD out\+Data\+Buffer\+Size)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_a36f1664a22505ca92cff6b770c65b3f1}{Compound\+Document\+Object\+::\+Get\+Compound\+Document\+Info}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD data\+Size, std\+::wstring \&default\+Extension, std\+::vector$<$ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} $>$ \&Directory, std\+::map$<$ std\+::wstring, ULONGLONG $>$ \&Name\+Map, std\+::vector$<$ \mbox{\hyperlink{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}} $>$ \&data\+Streams)
+\item 
+BYTE \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ppt_elements_8h_a053f0a24d005008e8a2c0ec2461536d3}{Text\+Bytes\+To\+Chars}} (BYTE \texorpdfstring{$\ast$}{*}data, DWORD data\+Size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}\index{pptElements.h@{pptElements.h}!BinaryBlock@{BinaryBlock}}
+\index{BinaryBlock@{BinaryBlock}!pptElements.h@{pptElements.h}}
+\doxysubsubsection{\texorpdfstring{BinaryBlock}{BinaryBlock}}
+{\footnotesize\ttfamily \label{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635} 
+typedef std\+::vector$<$BYTE$>$ \mbox{\hyperlink{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}}}
+
+\Hypertarget{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}\index{pptElements.h@{pptElements.h}!persistIdAndcPersist@{persistIdAndcPersist}}
+\index{persistIdAndcPersist@{persistIdAndcPersist}!pptElements.h@{pptElements.h}}
+\doxysubsubsection{\texorpdfstring{persistIdAndcPersist}{persistIdAndcPersist}}
+{\footnotesize\ttfamily \label{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5} 
+typedef uint32\+\_\+t \mbox{\hyperlink{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}{persist\+Id\+Andc\+Persist}}}
+
+
+
+Id и количество Directory\+Entry. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec}\index{pptElements.h@{pptElements.h}!RecordTypeEnum@{RecordTypeEnum}}
+\index{RecordTypeEnum@{RecordTypeEnum}!pptElements.h@{pptElements.h}}
+\doxysubsubsection{\texorpdfstring{RecordTypeEnum}{RecordTypeEnum}}
+{\footnotesize\ttfamily \label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+enum class \mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec}{Record\+Type\+Enum}} \+: WORD\hspace{0.3cm}{\ttfamily [strong]}}
+
+Список, описывающий все типы записей, используемые в программе \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OfficeArtSpContainer@{RT\_OfficeArtSpContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OfficeArtSpContainer@{RT\_OfficeArtSpContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad5470dfe01c26e15228661f87eb0cde}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Office\+Art\+Sp\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OfficeArtClientTextbox@{RT\_OfficeArtClientTextbox}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OfficeArtClientTextbox@{RT\_OfficeArtClientTextbox}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae4b4a80700b7566f2001137f86812dd7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Office\+Art\+Client\+Textbox&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Document@{RT\_Document}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Document@{RT\_Document}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca98f5d2a3789d7dfd3fd3b6cdd81a20ef}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Document&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DocumentAtom@{RT\_DocumentAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DocumentAtom@{RT\_DocumentAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecafde2d06f7feb30398d7c5e310bf5e13d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Document\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_EndDocumentAtom@{RT\_EndDocumentAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_EndDocumentAtom@{RT\_EndDocumentAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac1c58b615dda4bd18696469f0e9b071d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+End\+Document\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Slide@{RT\_Slide}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Slide@{RT\_Slide}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4351eab4929f2dff9b771f1bb90ee707}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideAtom@{RT\_SlideAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideAtom@{RT\_SlideAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4b5cc94318da0b8d06137e3aed420c5b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Notes@{RT\_Notes}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Notes@{RT\_Notes}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5898450ad8ecd5fb018a602eb6a6a9ea}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Notes&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NotesAtom@{RT\_NotesAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NotesAtom@{RT\_NotesAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2d9ad5a9589d7c9af540c7d5ca6167f8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Notes\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Environment@{RT\_Environment}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Environment@{RT\_Environment}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaec8a35ba35da4563d26508a4e0927a0c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Environment&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlidePersistAtom@{RT\_SlidePersistAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlidePersistAtom@{RT\_SlidePersistAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa02cbe42c111aa6dcf5a5804d823301f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Persist\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_MainMaster@{RT\_MainMaster}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_MainMaster@{RT\_MainMaster}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca45e8190638abe19213097b661d474d26}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Main\+Master&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideShowSlideInfoAtom@{RT\_SlideShowSlideInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideShowSlideInfoAtom@{RT\_SlideShowSlideInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca121c3b9a483a7b871c3bd753c9c31530}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Show\+Slide\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideViewInfo@{RT\_SlideViewInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideViewInfo@{RT\_SlideViewInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3b324b0afadea0d30a721f377ebd831b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+View\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_GuideAtom@{RT\_GuideAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_GuideAtom@{RT\_GuideAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabee008cc74451cd7508cdf9b6d15dec0}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Guide\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ViewInfoAtom@{RT\_ViewInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ViewInfoAtom@{RT\_ViewInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1595eff9aacd0cd9d4456dcdf2e04abc}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+View\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideViewInfoAtom@{RT\_SlideViewInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideViewInfoAtom@{RT\_SlideViewInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaa58a0cb262560b0b264c6870f43f4ca}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+View\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_VbaInfo@{RT\_VbaInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_VbaInfo@{RT\_VbaInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca28968b1427870c4a25ecb54e9bfad4d8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Vba\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_VbaInfoAtom@{RT\_VbaInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_VbaInfoAtom@{RT\_VbaInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ff8f92396ecd0958969d0d52208efc1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Vba\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideShowDocInfoAtom@{RT\_SlideShowDocInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideShowDocInfoAtom@{RT\_SlideShowDocInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae1413af2796b43eef9532e19de015209}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Show\+Doc\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Summary@{RT\_Summary}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Summary@{RT\_Summary}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89dabc1682963c45ff473f06d8b5a9d4}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Summary&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DocRoutingSlipAtom@{RT\_DocRoutingSlipAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DocRoutingSlipAtom@{RT\_DocRoutingSlipAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca21366459d3cd89ffa7589e13b7c48060}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Doc\+Routing\+Slip\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineViewInfo@{RT\_OutlineViewInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineViewInfo@{RT\_OutlineViewInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4539cb6282f278ef7215dd0b036cbc88}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+View\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SorterViewInfo@{RT\_SorterViewInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SorterViewInfo@{RT\_SorterViewInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca74164eec1b171314eb402db850abcf09}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Sorter\+View\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalObjectList@{RT\_ExternalObjectList}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalObjectList@{RT\_ExternalObjectList}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab45532d56465ae7c4594bc8c8e3b9e16}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Object\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalObjectListAtom@{RT\_ExternalObjectListAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalObjectListAtom@{RT\_ExternalObjectListAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0619b02d20e9526a4204c93b8d50cf27}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Object\+List\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DrawingGroup@{RT\_DrawingGroup}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DrawingGroup@{RT\_DrawingGroup}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadb4a1ec8011f903a11668d5213e24e46}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Drawing\+Group&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Drawing@{RT\_Drawing}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Drawing@{RT\_Drawing}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca35a45a6fe0d23fb8589533fabc3b69bc}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Drawing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_GridSpacing10Atom@{RT\_GridSpacing10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_GridSpacing10Atom@{RT\_GridSpacing10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1eb37f11f617fcdf8effc837708821a1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Grid\+Spacing10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripTheme12Atom@{RT\_RoundTripTheme12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripTheme12Atom@{RT\_RoundTripTheme12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca95df63f0b6bd66e9f1c0f7afd74c9b88}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Theme12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripColorMapping12Atom@{RT\_RoundTripColorMapping12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripColorMapping12Atom@{RT\_RoundTripColorMapping12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca345070ee6592a017e365bfe8f7745f83}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Color\+Mapping12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NamedShows@{RT\_NamedShows}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NamedShows@{RT\_NamedShows}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6da08751a9f6907c0476843245550ed8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Named\+Shows&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NamedShow@{RT\_NamedShow}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NamedShow@{RT\_NamedShow}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca7ee44f204e58c58e2413da052a331f66}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Named\+Show&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NamedShowSlidesAtom@{RT\_NamedShowSlidesAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NamedShowSlidesAtom@{RT\_NamedShowSlidesAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca55343f22e73ee8f9e74cfbdb819a7813}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Named\+Show\+Slides\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NotesTextViewInfo9@{RT\_NotesTextViewInfo9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NotesTextViewInfo9@{RT\_NotesTextViewInfo9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca609239caff6b2fb0ab4fd650403bb407}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Notes\+Text\+View\+Info9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NormalViewSetInfo9@{RT\_NormalViewSetInfo9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NormalViewSetInfo9@{RT\_NormalViewSetInfo9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca98ea2d25af3405bfdd8c555a610573eb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Normal\+View\+Set\+Info9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_NormalViewSetInfo9Atom@{RT\_NormalViewSetInfo9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_NormalViewSetInfo9Atom@{RT\_NormalViewSetInfo9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca47b33edf7f6cd835a4fb2c38debe4e1a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Normal\+View\+Set\+Info9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripOriginalMainMasterId12Atom@{RT\_RoundTripOriginalMainMasterId12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripOriginalMainMasterId12Atom@{RT\_RoundTripOriginalMainMasterId12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca939ed363b882b42b6c342d8db8252a6a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Original\+Main\+Master\+Id12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripCompositeMasterId12Atom@{RT\_RoundTripCompositeMasterId12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripCompositeMasterId12Atom@{RT\_RoundTripCompositeMasterId12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab863ce05398f161a962302372a031ec4}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Composite\+Master\+Id12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripContentMasterInfo12Atom@{RT\_RoundTripContentMasterInfo12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripContentMasterInfo12Atom@{RT\_RoundTripContentMasterInfo12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3bc2107c0f2036eeea256096e77580aa}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Content\+Master\+Info12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripShapeId12Atom@{RT\_RoundTripShapeId12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripShapeId12Atom@{RT\_RoundTripShapeId12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca349647773c128cf2ad98e7832ecf4fad}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Shape\+Id12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripHFPlaceholder12Atom@{RT\_RoundTripHFPlaceholder12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripHFPlaceholder12Atom@{RT\_RoundTripHFPlaceholder12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2e22afd4f827d2616b42acadf3c424b4}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+HFPlaceholder12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripContentMasterId12Atom@{RT\_RoundTripContentMasterId12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripContentMasterId12Atom@{RT\_RoundTripContentMasterId12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca26f2663fd7a4845ebaddbad74c34baf1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Content\+Master\+Id12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripOArtTextStyles12Atom@{RT\_RoundTripOArtTextStyles12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripOArtTextStyles12Atom@{RT\_RoundTripOArtTextStyles12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca124ec9a57a76f6cab33260efba4a9367}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+OArt\+Text\+Styles12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripHeaderFooterDefaults12Atom@{RT\_RoundTripHeaderFooterDefaults12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripHeaderFooterDefaults12Atom@{RT\_RoundTripHeaderFooterDefaults12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca16d820e9f3944dca5126648ce721eb7f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Header\+Footer\+Defaults12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripDocFlags12Atom@{RT\_RoundTripDocFlags12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripDocFlags12Atom@{RT\_RoundTripDocFlags12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca21028341dfaefb2ed33581d02bc3c106}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Doc\+Flags12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripShapeCheckSumForCL12Atom@{RT\_RoundTripShapeCheckSumForCL12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripShapeCheckSumForCL12Atom@{RT\_RoundTripShapeCheckSumForCL12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca11bfb6286fda2a1c85c5d487b2245f34}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Shape\+Check\+Sum\+For\+CL12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripNotesMasterTextStyles12Atom@{RT\_RoundTripNotesMasterTextStyles12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripNotesMasterTextStyles12Atom@{RT\_RoundTripNotesMasterTextStyles12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca826d15c97d86119a0b0a25e88c3716d1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Notes\+Master\+Text\+Styles12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripCustomTableStyles12Atom@{RT\_RoundTripCustomTableStyles12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripCustomTableStyles12Atom@{RT\_RoundTripCustomTableStyles12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab1f1f8131edfbdea044b6ff70161e1f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Custom\+Table\+Styles12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_List@{RT\_List}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_List@{RT\_List}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48ff9fa57651b51e6840b864174cfdf0}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FontCollection@{RT\_FontCollection}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FontCollection@{RT\_FontCollection}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9dd0b5a67bd694aaaabd331b8da3242b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Font\+Collection&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FontCollection10@{RT\_FontCollection10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FontCollection10@{RT\_FontCollection10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1b06a1c0c641fbd5d40b0a5189af76c1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Font\+Collection10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BookmarkCollection@{RT\_BookmarkCollection}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BookmarkCollection@{RT\_BookmarkCollection}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca65a2eb26909071a3a80a47619dae74c5}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Bookmark\+Collection&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SoundCollection@{RT\_SoundCollection}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SoundCollection@{RT\_SoundCollection}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaba9dccdd0ecaaf8e854c56afbe4366f8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Sound\+Collection&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SoundCollectionAtom@{RT\_SoundCollectionAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SoundCollectionAtom@{RT\_SoundCollectionAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca315ffc5a1e1bf83ea18021b445bd5dd4}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Sound\+Collection\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Sound@{RT\_Sound}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Sound@{RT\_Sound}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab212aeeda98c797a4432f02f78ffc51}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Sound&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SoundDataBlob@{RT\_SoundDataBlob}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SoundDataBlob@{RT\_SoundDataBlob}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca531a3c7cf7b5b90fd93a85727ff4529f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Sound\+Data\+Blob&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BookmarkSeedAtom@{RT\_BookmarkSeedAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BookmarkSeedAtom@{RT\_BookmarkSeedAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4fdbef3edf4622ff1be1d14170c19209}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Bookmark\+Seed\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ColorSchemeAtom@{RT\_ColorSchemeAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ColorSchemeAtom@{RT\_ColorSchemeAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa7db19b6cadb1e7b0c0b0a5d3f5d0860}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Color\+Scheme\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BlipCollection9@{RT\_BlipCollection9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BlipCollection9@{RT\_BlipCollection9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8cc6c62efaeee43f4a810d36de067d69}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Blip\+Collection9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BlipEntity9Atom@{RT\_BlipEntity9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BlipEntity9Atom@{RT\_BlipEntity9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca184b48b4d46569da05d6c0df97f7f235}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Blip\+Entity9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalObjectRefAtom@{RT\_ExternalObjectRefAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalObjectRefAtom@{RT\_ExternalObjectRefAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca355939eb1f388090f8e307de601ed900}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Object\+Ref\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_PlaceholderAtom@{RT\_PlaceholderAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_PlaceholderAtom@{RT\_PlaceholderAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab0bca7adc07c88e9fcbfa13878d509d0}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Placeholder\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ShapeAtom@{RT\_ShapeAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ShapeAtom@{RT\_ShapeAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6dd9685f1b913f1a9437090f58418348}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Shape\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ShapeFlags10Atom@{RT\_ShapeFlags10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ShapeFlags10Atom@{RT\_ShapeFlags10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48903ef726342341274ce0f0dd06bd92}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Shape\+Flags10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripNewPlaceholderId12Atom@{RT\_RoundTripNewPlaceholderId12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripNewPlaceholderId12Atom@{RT\_RoundTripNewPlaceholderId12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4a2596e86be919ffcf1276276c87ef87}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+New\+Placeholder\+Id12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineTextRefAtom@{RT\_OutlineTextRefAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineTextRefAtom@{RT\_OutlineTextRefAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca48c6bc39ef468b0f6595308bfecbda00}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+Text\+Ref\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextHeaderAtom@{RT\_TextHeaderAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextHeaderAtom@{RT\_TextHeaderAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabb346fdcb691fa065049eadc35df86e1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Header\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextCharsAtom@{RT\_TextCharsAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextCharsAtom@{RT\_TextCharsAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Chars\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_StyleTextPropAtom@{RT\_StyleTextPropAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_StyleTextPropAtom@{RT\_StyleTextPropAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1432fdc320034bb8bfc008fe955bf292}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Style\+Text\+Prop\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_MasterTextPropAtom@{RT\_MasterTextPropAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_MasterTextPropAtom@{RT\_MasterTextPropAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab3759a818c207eb34456799229cfa8c7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Master\+Text\+Prop\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextMasterStyleAtom@{RT\_TextMasterStyleAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextMasterStyleAtom@{RT\_TextMasterStyleAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaca4bfa134f37e226df13a7a724a42cdc}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Master\+Style\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextCharFormatExceptionAtom@{RT\_TextCharFormatExceptionAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextCharFormatExceptionAtom@{RT\_TextCharFormatExceptionAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa3a64cf5380e6b5dce27af421518f144}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Char\+Format\+Exception\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextParagraphFormatExceptionAtom@{RT\_TextParagraphFormatExceptionAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextParagraphFormatExceptionAtom@{RT\_TextParagraphFormatExceptionAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4315cd0d47103235ebb6c95a54e93efb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Paragraph\+Format\+Exception\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextRulerAtom@{RT\_TextRulerAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextRulerAtom@{RT\_TextRulerAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9c4df6997ed85cce562ae9695cd20bcf}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Ruler\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextBookmarkAtom@{RT\_TextBookmarkAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextBookmarkAtom@{RT\_TextBookmarkAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4dba8a49b9761539af4b5190afbbe5ac}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Bookmark\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextBytesAtom@{RT\_TextBytesAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextBytesAtom@{RT\_TextBytesAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3aa82887da0f8e5bf43095d85332cac1}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Bytes\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextSpecialInfoDefaultAtom@{RT\_TextSpecialInfoDefaultAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextSpecialInfoDefaultAtom@{RT\_TextSpecialInfoDefaultAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6ba6b3e73b2a8446a650418541ab6e5a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Special\+Info\+Default\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextSpecialInfoAtom@{RT\_TextSpecialInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextSpecialInfoAtom@{RT\_TextSpecialInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8c7eec1aa93c41bebd8b14709e6cb951}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Special\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DefaultRulerAtom@{RT\_DefaultRulerAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DefaultRulerAtom@{RT\_DefaultRulerAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3081ff88071bf55c3fcdaf3db42954f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Default\+Ruler\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_StyleTextProp9Atom@{RT\_StyleTextProp9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_StyleTextProp9Atom@{RT\_StyleTextProp9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca50ef81927d6c9851473a205dc3bff1e7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Style\+Text\+Prop9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextMasterStyle9Atom@{RT\_TextMasterStyle9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextMasterStyle9Atom@{RT\_TextMasterStyle9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaeb42cac0f0c71124f7cb9311839e4238}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Master\+Style9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineTextProps9@{RT\_OutlineTextProps9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineTextProps9@{RT\_OutlineTextProps9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaeaa83627334bf22c4f791e1d4241bee5}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+Text\+Props9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineTextPropsHeader9Atom@{RT\_OutlineTextPropsHeader9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineTextPropsHeader9Atom@{RT\_OutlineTextPropsHeader9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae64940485a68ae59d071a65706d60af2}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+Text\+Props\+Header9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextDefaults9Atom@{RT\_TextDefaults9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextDefaults9Atom@{RT\_TextDefaults9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5c796a793b4194a75708e455c43c1177}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Defaults9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_StyleTextProp10Atom@{RT\_StyleTextProp10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_StyleTextProp10Atom@{RT\_StyleTextProp10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad8ba5e2a2f6d90835c118971c38f5313}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Style\+Text\+Prop10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextMasterStyle10Atom@{RT\_TextMasterStyle10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextMasterStyle10Atom@{RT\_TextMasterStyle10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca995eaf9eea0c5575e809478acebab5cb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Master\+Style10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineTextProps10@{RT\_OutlineTextProps10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineTextProps10@{RT\_OutlineTextProps10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadbf74b260ef22af7461774f0d6580e89}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+Text\+Props10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextDefaults10Atom@{RT\_TextDefaults10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextDefaults10Atom@{RT\_TextDefaults10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad28e1c4b43560c0412ae94c3c88a49be}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Defaults10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_OutlineTextProps11@{RT\_OutlineTextProps11}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_OutlineTextProps11@{RT\_OutlineTextProps11}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac69f0b7f777fd087ddd43f4e5a3920f6}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Outline\+Text\+Props11&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_StyleTextProp11Atom@{RT\_StyleTextProp11Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_StyleTextProp11Atom@{RT\_StyleTextProp11Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab23a8eb25f0d3c742137f7faea5c740d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Style\+Text\+Prop11\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FontEntityAtom@{RT\_FontEntityAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FontEntityAtom@{RT\_FontEntityAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad2d94b75e86ec14c3ae8d8219967e58}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Font\+Entity\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FontEmbedDataBlob@{RT\_FontEmbedDataBlob}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FontEmbedDataBlob@{RT\_FontEmbedDataBlob}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca8e90f64efaa864319f38f31e566c0daf}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Font\+Embed\+Data\+Blob&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_CString@{RT\_CString}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_CString@{RT\_CString}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3f46da7b7f52f79149b423803ee147d8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+CString&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_MetaFile@{RT\_MetaFile}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_MetaFile@{RT\_MetaFile}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca56d7dc4386561050db31faa0bd172c64}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Meta\+File&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleObjectAtom@{RT\_ExternalOleObjectAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleObjectAtom@{RT\_ExternalOleObjectAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9b75611b386ee442966194010c73a315}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Object\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Kinsoku@{RT\_Kinsoku}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Kinsoku@{RT\_Kinsoku}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca13f7b9b5da491013566665a0ce64054d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Kinsoku&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Handout@{RT\_Handout}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Handout@{RT\_Handout}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaee5b1b39d9afff9f32e1df6e7b11753e}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Handout&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleEmbed@{RT\_ExternalOleEmbed}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleEmbed@{RT\_ExternalOleEmbed}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabc7d4439f4386759e220eaf9f4cb776d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Embed&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleEmbedAtom@{RT\_ExternalOleEmbedAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleEmbedAtom@{RT\_ExternalOleEmbedAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca00868bce12a0fbc977d17394010087ce}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Embed\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleLink@{RT\_ExternalOleLink}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleLink@{RT\_ExternalOleLink}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3273f0d8fabe10056e134b6362e444bc}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Link&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BookmarkEntityAtom@{RT\_BookmarkEntityAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BookmarkEntityAtom@{RT\_BookmarkEntityAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca58c016cb4ed9a619f1e42780a9966129}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Bookmark\+Entity\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleLinkAtom@{RT\_ExternalOleLinkAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleLinkAtom@{RT\_ExternalOleLinkAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89d345990cb4c34951d5a396f4505e8c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Link\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_KinsokuAtom@{RT\_KinsokuAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_KinsokuAtom@{RT\_KinsokuAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca290d11ed8582bf65229630e827079270}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Kinsoku\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalHyperlinkAtom@{RT\_ExternalHyperlinkAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalHyperlinkAtom@{RT\_ExternalHyperlinkAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4cc078a31c5f63d5f420bf38ddc52fc2}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Hyperlink\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalHyperlink@{RT\_ExternalHyperlink}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalHyperlink@{RT\_ExternalHyperlink}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca258ba8eda570d9d9b3e240559f49b804}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Hyperlink&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideNumberMetaCharAtom@{RT\_SlideNumberMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideNumberMetaCharAtom@{RT\_SlideNumberMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9b73e2a02d23ad0c50b4ce3946977efb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Number\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HeadersFooters@{RT\_HeadersFooters}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HeadersFooters@{RT\_HeadersFooters}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacca99f3a8ab657199fd4faba0415d1ba}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Headers\+Footers&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HeadersFootersAtom@{RT\_HeadersFootersAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HeadersFootersAtom@{RT\_HeadersFootersAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaac2d4e251251a78ed86ccf9eecaa83f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Headers\+Footers\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TextInteractiveInfoAtom@{RT\_TextInteractiveInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TextInteractiveInfoAtom@{RT\_TextInteractiveInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3325b647163765a5cc94590326da55de}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Text\+Interactive\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalHyperlink9@{RT\_ExternalHyperlink9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalHyperlink9@{RT\_ExternalHyperlink9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac297b1a69f92ef794419dfbcb76dbd0f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Hyperlink9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RecolorInfoAtom@{RT\_RecolorInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RecolorInfoAtom@{RT\_RecolorInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad012434f45fbfb17af75c11126ad22b9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Recolor\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleControl@{RT\_ExternalOleControl}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleControl@{RT\_ExternalOleControl}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0d178c750af923afae60139eb2583a6d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Control&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideListWithText@{RT\_SlideListWithText}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideListWithText@{RT\_SlideListWithText}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab6a457c65d4ffdaac7ec1941c94d5179}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+List\+With\+Text&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_AnimationInfoAtom@{RT\_AnimationInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_AnimationInfoAtom@{RT\_AnimationInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca89737c975c21af2d8140e0a54d0f0789}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Animation\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_InteractiveInfo@{RT\_InteractiveInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_InteractiveInfo@{RT\_InteractiveInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca69c413f63a77ea4577748c01e785a578}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Interactive\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_InteractiveInfoAtom@{RT\_InteractiveInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_InteractiveInfoAtom@{RT\_InteractiveInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca310f32b99dae2a84205dc69572aa08b9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Interactive\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_UserEditAtom@{RT\_UserEditAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_UserEditAtom@{RT\_UserEditAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadd543bdb34178811a0cd4b49e2f826ed}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+User\+Edit\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_CurrentUserAtom@{RT\_CurrentUserAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_CurrentUserAtom@{RT\_CurrentUserAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca35c3ec50f76e218259de5d3762fb8723}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Current\+User\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DateTimeMetaCharAtom@{RT\_DateTimeMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DateTimeMetaCharAtom@{RT\_DateTimeMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0129a00fe052625947f22c1711415127}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Date\+Time\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_GenericDateMetaCharAtom@{RT\_GenericDateMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_GenericDateMetaCharAtom@{RT\_GenericDateMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca425498250ea834b1f906db402079aefd}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Generic\+Date\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HeaderMetaCharAtom@{RT\_HeaderMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HeaderMetaCharAtom@{RT\_HeaderMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf57c65adc07eb27723ab5dce9985d578}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Header\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FooterMetaCharAtom@{RT\_FooterMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FooterMetaCharAtom@{RT\_FooterMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca93282c11832aad3ef430e6ae97b1a79a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Footer\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleControlAtom@{RT\_ExternalOleControlAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleControlAtom@{RT\_ExternalOleControlAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaec1b689f562497ebe1b14e19b9639d2c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Control\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalMediaAtom@{RT\_ExternalMediaAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalMediaAtom@{RT\_ExternalMediaAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca22dbe378616bdeb251f7fd96bc0884f3}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Media\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalVideo@{RT\_ExternalVideo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalVideo@{RT\_ExternalVideo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5a834640619323ea65582f78a185d2c9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Video&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalAviMovie@{RT\_ExternalAviMovie}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalAviMovie@{RT\_ExternalAviMovie}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca246bf53d553b897f824fa3687b72230b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Avi\+Movie&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalMciMovie@{RT\_ExternalMciMovie}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalMciMovie@{RT\_ExternalMciMovie}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1224c13e9e8586a0ba7e956d878e6393}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Mci\+Movie&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalMidiAudio@{RT\_ExternalMidiAudio}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalMidiAudio@{RT\_ExternalMidiAudio}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca610e02cbceeea025de9de9ca4ee29603}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Midi\+Audio&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalCdAudio@{RT\_ExternalCdAudio}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalCdAudio@{RT\_ExternalCdAudio}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa94e83b5548f94259d90be17e4006e45}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Cd\+Audio&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalWavAudioEmbedded@{RT\_ExternalWavAudioEmbedded}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalWavAudioEmbedded@{RT\_ExternalWavAudioEmbedded}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab0c1619e22fc8c8d1e71b059ce13559b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Wav\+Audio\+Embedded&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalWavAudioLink@{RT\_ExternalWavAudioLink}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalWavAudioLink@{RT\_ExternalWavAudioLink}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2a23a8590e4ca1f903a790b8268f264b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Wav\+Audio\+Link&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalOleObjectStg@{RT\_ExternalOleObjectStg}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalOleObjectStg@{RT\_ExternalOleObjectStg}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabb081723b0297b927e9b1dcdf4e57cbf}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Ole\+Object\+Stg&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalCdAudioAtom@{RT\_ExternalCdAudioAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalCdAudioAtom@{RT\_ExternalCdAudioAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2311824e9d1d374dd0b95072664516b2}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Cd\+Audio\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalWavAudioEmbeddedAtom@{RT\_ExternalWavAudioEmbeddedAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalWavAudioEmbeddedAtom@{RT\_ExternalWavAudioEmbeddedAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca51c6eaa326be98ccc8b1cd999a27fb3c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Wav\+Audio\+Embedded\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_AnimationInfo@{RT\_AnimationInfo}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_AnimationInfo@{RT\_AnimationInfo}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2fd6de980b06aa4a26272ec071f62b21}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Animation\+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RtfDateTimeMetaCharAtom@{RT\_RtfDateTimeMetaCharAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RtfDateTimeMetaCharAtom@{RT\_RtfDateTimeMetaCharAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca989a4139c40b790e2f7250dfc87fc714}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Rtf\+Date\+Time\+Meta\+Char\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ExternalHyperlinkFlagsAtom@{RT\_ExternalHyperlinkFlagsAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ExternalHyperlinkFlagsAtom@{RT\_ExternalHyperlinkFlagsAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecadf758d4f95238be01566363a42fe0014}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+External\+Hyperlink\+Flags\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ProgTags@{RT\_ProgTags}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ProgTags@{RT\_ProgTags}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca36cf24ffe537779d4c23d215ba03bbc4}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Prog\+Tags&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ProgStringTag@{RT\_ProgStringTag}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ProgStringTag@{RT\_ProgStringTag}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabe26596801f61dbdd0ff9dbda7ddd54c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Prog\+String\+Tag&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ProgBinaryTag@{RT\_ProgBinaryTag}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ProgBinaryTag@{RT\_ProgBinaryTag}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacfa2d7efd594e2197cd156b02beba505}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Prog\+Binary\+Tag&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BinaryTagDataBlob@{RT\_BinaryTagDataBlob}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BinaryTagDataBlob@{RT\_BinaryTagDataBlob}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2ed2a8534db1b19e61c7696841220725}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Binary\+Tag\+Data\+Blob&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_PrintOptionsAtom@{RT\_PrintOptionsAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_PrintOptionsAtom@{RT\_PrintOptionsAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca061cd9a59e2aedd38e9bbc49dae700ed}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Print\+Options\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_PersistDirectoryAtom@{RT\_PersistDirectoryAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_PersistDirectoryAtom@{RT\_PersistDirectoryAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac6d615b2267c24f034c143c479ef350a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Persist\+Directory\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_PresentationAdvisorFlags9Atom@{RT\_PresentationAdvisorFlags9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_PresentationAdvisorFlags9Atom@{RT\_PresentationAdvisorFlags9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca32658851e41ce2d854ede9c2c59207aa}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Presentation\+Advisor\+Flags9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HtmlDocInfo9Atom@{RT\_HtmlDocInfo9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HtmlDocInfo9Atom@{RT\_HtmlDocInfo9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ca2d28638223989748b4465d18ef39f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Html\+Doc\+Info9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HtmlPublishInfoAtom@{RT\_HtmlPublishInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HtmlPublishInfoAtom@{RT\_HtmlPublishInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca61367fcfccbb09518e7aa7f62d0a1694}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Html\+Publish\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HtmlPublishInfo9@{RT\_HtmlPublishInfo9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HtmlPublishInfo9@{RT\_HtmlPublishInfo9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca388e64ba233de5617fdd9ab837e2360d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Html\+Publish\+Info9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BroadcastDocInfo9@{RT\_BroadcastDocInfo9}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BroadcastDocInfo9@{RT\_BroadcastDocInfo9}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca5154a1f3ace73937ac7ae87732175a88}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Broadcast\+Doc\+Info9&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BroadcastDocInfo9Atom@{RT\_BroadcastDocInfo9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BroadcastDocInfo9Atom@{RT\_BroadcastDocInfo9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecacf40b9d0c03edb6872f2413d0aff00be}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Broadcast\+Doc\+Info9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_EnvelopeFlags9Atom@{RT\_EnvelopeFlags9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_EnvelopeFlags9Atom@{RT\_EnvelopeFlags9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca71e84000613b477a7729d0429c9e14ea}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Envelope\+Flags9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_EnvelopeData9Atom@{RT\_EnvelopeData9Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_EnvelopeData9Atom@{RT\_EnvelopeData9Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2cdbb9268b886cf92b9ac876e65d7df9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Envelope\+Data9\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_VisualShapeAtom@{RT\_VisualShapeAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_VisualShapeAtom@{RT\_VisualShapeAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca18d2b1c74e4b9594ca08ed320d62480f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Visual\+Shape\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_HashCodeAtom@{RT\_HashCodeAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_HashCodeAtom@{RT\_HashCodeAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae21372ab9e05322663a36a4158d24d9c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Hash\+Code\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_VisualPageAtom@{RT\_VisualPageAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_VisualPageAtom@{RT\_VisualPageAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab8bab2aac6d24df79b1ab6bd619db36b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Visual\+Page\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BuildList@{RT\_BuildList}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BuildList@{RT\_BuildList}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa289ffce079bdea7c040fa532d700785}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Build\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_BuildAtom@{RT\_BuildAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_BuildAtom@{RT\_BuildAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca83e7186d2fe59dfb03990ad8809fb5be}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Build\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ChartBuild@{RT\_ChartBuild}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ChartBuild@{RT\_ChartBuild}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab8fc094d2f24f403284b95b281c09239}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Chart\+Build&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ChartBuildAtom@{RT\_ChartBuildAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ChartBuildAtom@{RT\_ChartBuildAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca79d10ac5c8a811397e364a7e116ab935}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Chart\+Build\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DiagramBuild@{RT\_DiagramBuild}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DiagramBuild@{RT\_DiagramBuild}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca63eb308610b55861803ea09b079004a5}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Diagram\+Build&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DiagramBuildAtom@{RT\_DiagramBuildAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DiagramBuildAtom@{RT\_DiagramBuildAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca20c74728f3289d367d62cf11e56c4bad}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Diagram\+Build\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ParaBuild@{RT\_ParaBuild}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ParaBuild@{RT\_ParaBuild}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab2c35d1294cf1e93f4b8045062fae7ba}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Para\+Build&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_ParaBuildAtom@{RT\_ParaBuildAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_ParaBuildAtom@{RT\_ParaBuildAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecabdfab73e18505190ac006b1f45317c29}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Para\+Build\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_LevelInfoAtom@{RT\_LevelInfoAtom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_LevelInfoAtom@{RT\_LevelInfoAtom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca757022c4296057352220d864df4384ec}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Level\+Info\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripAnimationAtom12Atom@{RT\_RoundTripAnimationAtom12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripAnimationAtom12Atom@{RT\_RoundTripAnimationAtom12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecada5d2e21a79b3fd3a1f0b38aaa69019e}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Animation\+Atom12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripAnimationHashAtom12Atom@{RT\_RoundTripAnimationHashAtom12Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripAnimationHashAtom12Atom@{RT\_RoundTripAnimationHashAtom12Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0121331b7facf2c20cb3798660a1142f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Animation\+Hash\+Atom12\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Comment10@{RT\_Comment10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Comment10@{RT\_Comment10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae34f6357d83e26c3db97906d3663acda}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Comment10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Comment10Atom@{RT\_Comment10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Comment10Atom@{RT\_Comment10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca03b9d3ff4289e58f76346157c33d4046}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Comment10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_CommentIndex10@{RT\_CommentIndex10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_CommentIndex10@{RT\_CommentIndex10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca4cc87750ddc71060423a59b55dd02b3f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Comment\+Index10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_CommentIndex10Atom@{RT\_CommentIndex10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_CommentIndex10Atom@{RT\_CommentIndex10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6f417b2ccdc57945f341a76626869523}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Comment\+Index10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_LinkedShape10Atom@{RT\_LinkedShape10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_LinkedShape10Atom@{RT\_LinkedShape10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1ee7b458cc022f292bb4867bb9d7a7fa}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Linked\+Shape10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_LinkedSlide10Atom@{RT\_LinkedSlide10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_LinkedSlide10Atom@{RT\_LinkedSlide10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf97980c0d74e39454f467cddfd751591}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Linked\+Slide10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideFlags10Atom@{RT\_SlideFlags10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideFlags10Atom@{RT\_SlideFlags10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca94ed42549c7480634dcff870a1f5d19c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Flags10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideTime10Atom@{RT\_SlideTime10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideTime10Atom@{RT\_SlideTime10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca564a75bbbe4e16793e6d9d74a42a4361}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+Time10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DiffTree10@{RT\_DiffTree10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DiffTree10@{RT\_DiffTree10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6876f95cfd8911f868aabb9f34cb170a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Diff\+Tree10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Diff10@{RT\_Diff10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Diff10@{RT\_Diff10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9a6a3b7594353c5d889f44725249f66e}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Diff10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_Diff10Atom@{RT\_Diff10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_Diff10Atom@{RT\_Diff10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca245de6c248e3b7bdd678c29ded774b92}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Diff10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideListTableSize10Atom@{RT\_SlideListTableSize10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideListTableSize10Atom@{RT\_SlideListTableSize10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca456e8bbb0b2c0d6c33c7f81478320aba}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+List\+Table\+Size10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideListEntry10Atom@{RT\_SlideListEntry10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideListEntry10Atom@{RT\_SlideListEntry10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9e69ed9b772cbabf954cda8f39f016c9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+List\+Entry10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SlideListTable10@{RT\_SlideListTable10}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SlideListTable10@{RT\_SlideListTable10}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6ad1d5930362e2300ba63196913d372f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Slide\+List\+Table10&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_CryptSession10Container@{RT\_CryptSession10Container}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_CryptSession10Container@{RT\_CryptSession10Container}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaea71587f5df3822f3b8faadc18badb67}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Crypt\+Session10\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FontEmbedFlags10Atom@{RT\_FontEmbedFlags10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FontEmbedFlags10Atom@{RT\_FontEmbedFlags10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa0425d080cd1efcf1e99d30b57c0a968}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Font\+Embed\+Flags10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_FilterPrivacyFlags10Atom@{RT\_FilterPrivacyFlags10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_FilterPrivacyFlags10Atom@{RT\_FilterPrivacyFlags10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca88a744b6804561441807c9e0cff8d750}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Filter\+Privacy\+Flags10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_DocToolbarStates10Atom@{RT\_DocToolbarStates10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_DocToolbarStates10Atom@{RT\_DocToolbarStates10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaa8b7ccf71bffbef8943c1a1ee299365}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Doc\+Toolbar\+States10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_PhotoAlbumInfo10Atom@{RT\_PhotoAlbumInfo10Atom}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_PhotoAlbumInfo10Atom@{RT\_PhotoAlbumInfo10Atom}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2aad821d16d979d8d358bdd06dc3566c}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Photo\+Album\+Info10\+Atom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_SmartTagStore11Container@{RT\_SmartTagStore11Container}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_SmartTagStore11Container@{RT\_SmartTagStore11Container}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9a37d97f1282246123f50497ee23d29b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Smart\+Tag\+Store11\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripSlideSyncInfo12@{RT\_RoundTripSlideSyncInfo12}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripSlideSyncInfo12@{RT\_RoundTripSlideSyncInfo12}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab4c1ac1c74e0a0ffcca279d53fefb543}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Slide\+Sync\+Info12&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_RoundTripSlideSyncInfoAtom12@{RT\_RoundTripSlideSyncInfoAtom12}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_RoundTripSlideSyncInfoAtom12@{RT\_RoundTripSlideSyncInfoAtom12}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6f0641dcaf9a576939e8b728efc478e8}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Round\+Trip\+Slide\+Sync\+Info\+Atom12&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeConditionContainer@{RT\_TimeConditionContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeConditionContainer@{RT\_TimeConditionContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae65116ec33ee11be1a7fca9e463ba8b7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Condition\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeNode@{RT\_TimeNode}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeNode@{RT\_TimeNode}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae9e30547d752d0c9fab7058ac379a96a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Node&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeCondition@{RT\_TimeCondition}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeCondition@{RT\_TimeCondition}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca9f0d0f79c8d5462a9e1cb85f1407da02}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Condition&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeModifier@{RT\_TimeModifier}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeModifier@{RT\_TimeModifier}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa327b0641958f6d4568d068a27c1a842}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Modifier&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeBehaviorContainer@{RT\_TimeBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeBehaviorContainer@{RT\_TimeBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca831a128b519aca7fbc19bc8a5c9f120e}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeAnimateBehaviorContainer@{RT\_TimeAnimateBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeAnimateBehaviorContainer@{RT\_TimeAnimateBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca45444ffa1a1256419d301e91bbb262f7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Animate\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeColorBehaviorContainer@{RT\_TimeColorBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeColorBehaviorContainer@{RT\_TimeColorBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca861efebec97a11d7f11f3614f99060ca}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Color\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeEffectBehaviorContainer@{RT\_TimeEffectBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeEffectBehaviorContainer@{RT\_TimeEffectBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab83a7ac08284e99ba34cf5523e5df81f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Effect\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeMotionBehaviorContainer@{RT\_TimeMotionBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeMotionBehaviorContainer@{RT\_TimeMotionBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3f897d71e1936bee49d5bfe0ef42267}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Motion\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeRotationBehaviorContainer@{RT\_TimeRotationBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeRotationBehaviorContainer@{RT\_TimeRotationBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca08649e6cdf93ed73345f0ae8220d3404}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Rotation\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeScaleBehaviorContainer@{RT\_TimeScaleBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeScaleBehaviorContainer@{RT\_TimeScaleBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac9b417614ee9f7adf62728c51d9c4d18}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Scale\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeSetBehaviorContainer@{RT\_TimeSetBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeSetBehaviorContainer@{RT\_TimeSetBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca18553b12f55109857bafd2bc5bc68cbb}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Set\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeCommandBehaviorContainer@{RT\_TimeCommandBehaviorContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeCommandBehaviorContainer@{RT\_TimeCommandBehaviorContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca49343b1ae23e4bb9ba6c80c5ae78739f}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Command\+Behavior\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeBehavior@{RT\_TimeBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeBehavior@{RT\_TimeBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecad81bcffd18fa5cee5c116375d2c399bf}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeAnimateBehavior@{RT\_TimeAnimateBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeAnimateBehavior@{RT\_TimeAnimateBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca04637bb6bf5b17d61aa773a9e905f52a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Animate\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeColorBehavior@{RT\_TimeColorBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeColorBehavior@{RT\_TimeColorBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca92a922b59d09f01dd5fe7157426afc45}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Color\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeEffectBehavior@{RT\_TimeEffectBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeEffectBehavior@{RT\_TimeEffectBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaced14947b6020385ce3b806851c5f4b7}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Effect\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeMotionBehavior@{RT\_TimeMotionBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeMotionBehavior@{RT\_TimeMotionBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaaabbc118d70f77a0557478f870193740}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Motion\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeRotationBehavior@{RT\_TimeRotationBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeRotationBehavior@{RT\_TimeRotationBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae0519e2d60d5cdfe7975b5a6e5b2659b}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Rotation\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeScaleBehavior@{RT\_TimeScaleBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeScaleBehavior@{RT\_TimeScaleBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac3d3a813acd9734f232da2d119a6a3a5}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Scale\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeSetBehavior@{RT\_TimeSetBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeSetBehavior@{RT\_TimeSetBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca2637b9f193820f904ae769aff635b224}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Set\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeCommandBehavior@{RT\_TimeCommandBehavior}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeCommandBehavior@{RT\_TimeCommandBehavior}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca43a362cd38ede471311da735132120e9}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Command\+Behavior&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeClientVisualElement@{RT\_TimeClientVisualElement}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeClientVisualElement@{RT\_TimeClientVisualElement}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa5156e084137efb19916268aa26c2000}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Client\+Visual\+Element&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimePropertyList@{RT\_TimePropertyList}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimePropertyList@{RT\_TimePropertyList}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaefe2151021833ca5be20f8bd798976c3}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Property\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeVariantList@{RT\_TimeVariantList}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeVariantList@{RT\_TimeVariantList}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca71348b733ca06f5bc1f02637a73dbf2d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Variant\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeAnimationValueList@{RT\_TimeAnimationValueList}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeAnimationValueList@{RT\_TimeAnimationValueList}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca0c88eed9906a02788e0008f99e7e465d}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Animation\+Value\+List&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeIterateData@{RT\_TimeIterateData}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeIterateData@{RT\_TimeIterateData}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca03365a962cd23767fcb739de18301370}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Iterate\+Data&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeSequenceData@{RT\_TimeSequenceData}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeSequenceData@{RT\_TimeSequenceData}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca6a6cd4fc1024bcc1c0ff9c092cdedb5a}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Sequence\+Data&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeVariant@{RT\_TimeVariant}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeVariant@{RT\_TimeVariant}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaab2b0d323bdb28a8e49ed7601a016810}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Variant&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeAnimationValue@{RT\_TimeAnimationValue}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeAnimationValue@{RT\_TimeAnimationValue}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaae36fa420549a69eed89023ca207d895}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Animation\+Value&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeExtTimeNodeContainer@{RT\_TimeExtTimeNodeContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeExtTimeNodeContainer@{RT\_TimeExtTimeNodeContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca1dd210b3a58642713cd179f1987f9294}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Ext\+Time\+Node\+Container&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RT\_TimeSubEffectContainer@{RT\_TimeSubEffectContainer}!pptElements.h@{pptElements.h}}\index{pptElements.h@{pptElements.h}!RT\_TimeSubEffectContainer@{RT\_TimeSubEffectContainer}}}\Hypertarget{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca32e6737eff6915b8bb67971d54d117ac}\label{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ec} 
+RT\+\_\+\+Time\+Sub\+Effect\+Container&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ppt_elements_8h_a053f0a24d005008e8a2c0ec2461536d3}\index{pptElements.h@{pptElements.h}!TextBytesToChars@{TextBytesToChars}}
+\index{TextBytesToChars@{TextBytesToChars}!pptElements.h@{pptElements.h}}
+\doxysubsubsection{\texorpdfstring{TextBytesToChars()}{TextBytesToChars()}}
+{\footnotesize\ttfamily \label{ppt_elements_8h_a053f0a24d005008e8a2c0ec2461536d3} 
+BYTE \texorpdfstring{$\ast$}{*} Text\+Bytes\+To\+Chars (\begin{DoxyParamCaption}\item[{BYTE \texorpdfstring{$\ast$}{*}}]{text}{, }\item[{DWORD}]{text\+Size}{}\end{DoxyParamCaption})}
+
+Функция для перевода в UTF-\/16\+LE
+
+Функция для преборазования UTF-\/8 в UTF-\/16\+LE \begin{DoxyReturn}{Returns}
+chars \textbackslash{}parma BYTE \texorpdfstring{$\ast$}{*}text текст в UTF-\/8 \textbackslash{}parma DWORD text\+Size размер текста в UTF-\/8 
+\end{DoxyReturn}

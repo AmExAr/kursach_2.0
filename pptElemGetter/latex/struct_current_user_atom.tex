@@ -1,0 +1,63 @@
+\doxysection{Current\+User\+Atom Struct Reference}
+\hypertarget{struct_current_user_atom}{}\label{struct_current_user_atom}\index{CurrentUserAtom@{CurrentUserAtom}}
+
+
+{\ttfamily \#include $<$ppt\+Elements.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_record_header}{Record\+Header}} \mbox{\hyperlink{struct_current_user_atom_a45d1416e01aef81d65e0fe2e3a1cc4be}{rh}}
+\item 
+DWORD \mbox{\hyperlink{struct_current_user_atom_ae4171977697c4194082ce21c6e336393}{size}}
+\item 
+DWORD \mbox{\hyperlink{struct_current_user_atom_a978a01e5361d352cb24eb41d2d458ff8}{header\+Token}}
+\item 
+DWORD \mbox{\hyperlink{struct_current_user_atom_a6bb89bfd9fe412a2b328674a60f95e74}{offset\+To\+Current\+Edit}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Запись текущего пользователя 
+\begin{DoxyParams}{Parameters}
+{\em rh} & Заголовок записи \\
+\hline
+{\em size} & Размер данных после hr и до ansi\+User\+Name \\
+\hline
+{\em header\+Token} & Поле, которое указывыает на наличие шифрования \\
+\hline
+{\em offset\+To\+Current\+Edit} & Смещение до изменения последнего пользователя \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_current_user_atom_a978a01e5361d352cb24eb41d2d458ff8}\index{CurrentUserAtom@{CurrentUserAtom}!headerToken@{headerToken}}
+\index{headerToken@{headerToken}!CurrentUserAtom@{CurrentUserAtom}}
+\doxysubsubsection{\texorpdfstring{headerToken}{headerToken}}
+{\footnotesize\ttfamily \label{struct_current_user_atom_a978a01e5361d352cb24eb41d2d458ff8} 
+DWORD Current\+User\+Atom\+::header\+Token}
+
+\Hypertarget{struct_current_user_atom_a6bb89bfd9fe412a2b328674a60f95e74}\index{CurrentUserAtom@{CurrentUserAtom}!offsetToCurrentEdit@{offsetToCurrentEdit}}
+\index{offsetToCurrentEdit@{offsetToCurrentEdit}!CurrentUserAtom@{CurrentUserAtom}}
+\doxysubsubsection{\texorpdfstring{offsetToCurrentEdit}{offsetToCurrentEdit}}
+{\footnotesize\ttfamily \label{struct_current_user_atom_a6bb89bfd9fe412a2b328674a60f95e74} 
+DWORD Current\+User\+Atom\+::offset\+To\+Current\+Edit}
+
+\Hypertarget{struct_current_user_atom_a45d1416e01aef81d65e0fe2e3a1cc4be}\index{CurrentUserAtom@{CurrentUserAtom}!rh@{rh}}
+\index{rh@{rh}!CurrentUserAtom@{CurrentUserAtom}}
+\doxysubsubsection{\texorpdfstring{rh}{rh}}
+{\footnotesize\ttfamily \label{struct_current_user_atom_a45d1416e01aef81d65e0fe2e3a1cc4be} 
+\mbox{\hyperlink{struct_record_header}{Record\+Header}} Current\+User\+Atom\+::rh}
+
+\Hypertarget{struct_current_user_atom_ae4171977697c4194082ce21c6e336393}\index{CurrentUserAtom@{CurrentUserAtom}!size@{size}}
+\index{size@{size}!CurrentUserAtom@{CurrentUserAtom}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily \label{struct_current_user_atom_ae4171977697c4194082ce21c6e336393} 
+DWORD Current\+User\+Atom\+::size}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ppt_elements_8h}{ppt\+Elements.\+h}}\end{DoxyCompactItemize}

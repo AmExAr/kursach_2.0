@@ -1,0 +1,37 @@
+\doxysection{ppt\+Elements.\+cpp File Reference}
+\hypertarget{ppt_elements_8cpp}{}\label{ppt_elements_8cpp}\index{pptElements.cpp@{pptElements.cpp}}
+{\ttfamily \#include "{}ppt\+Elements.\+h"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$wtypes.\+h$>$}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_compound_document_object}{Compound\+Document\+Object}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespace_compound_document_object_aa6fea7882a02a6de95b2e6cc07155b44}{Compound\+Document\+Object\+::\+Get\+Stream\+Offsets}} (LONG first\+Sec\+Id, LONG max\+Sec\+Id, const LONG \texorpdfstring{$\ast$}{*}SAT, DWORD SAT\+\_\+\+Size\+In\+Records, DWORD sector\+Size, bool short\+Offsets, vector$<$ LONG $>$ \&stream\+Offsets)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_a69474307cc856f8ec987d543c06ee748}{Compound\+Document\+Object\+::\+Read\+Stream\+Data\+By\+Offsets}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD document\+Data\+Size, vector$<$ LONG $>$ stream\+Offsets, DWORD sector\+Size, DWORD stream\+Size, BYTE \texorpdfstring{$\ast$}{*}out\+Data\+Buffer, DWORD out\+Data\+Buffer\+Size)
+\item 
+DWORD \mbox{\hyperlink{namespace_compound_document_object_a1e33b6a4c89ae03c181a51c2d27a1ce9}{Compound\+Document\+Object\+::\+Get\+Compound\+Document\+Info}} (const BYTE \texorpdfstring{$\ast$}{*}document\+Data, DWORD data\+Size, wstring \&default\+Extension, std\+::vector$<$ \mbox{\hyperlink{struct_compound_document_object_1_1_compound_document___directory_entry_struct}{Compound\+Document\+\_\+\+Directory\+Entry\+Struct}} $>$ \&Directory, std\+::map$<$ wstring, ULONGLONG $>$ \&Name\+Map, vector$<$ \mbox{\hyperlink{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{Binary\+Block}} $>$ \&data\+Streams)
+\item 
+BYTE \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ppt_elements_8cpp_abde8b780d8415af004f17a9bdcea4cc9}{Text\+Bytes\+To\+Chars}} (BYTE \texorpdfstring{$\ast$}{*}text, DWORD text\+Size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ppt_elements_8cpp_abde8b780d8415af004f17a9bdcea4cc9}\index{pptElements.cpp@{pptElements.cpp}!TextBytesToChars@{TextBytesToChars}}
+\index{TextBytesToChars@{TextBytesToChars}!pptElements.cpp@{pptElements.cpp}}
+\doxysubsubsection{\texorpdfstring{TextBytesToChars()}{TextBytesToChars()}}
+{\footnotesize\ttfamily \label{ppt_elements_8cpp_abde8b780d8415af004f17a9bdcea4cc9} 
+BYTE \texorpdfstring{$\ast$}{*} Text\+Bytes\+To\+Chars (\begin{DoxyParamCaption}\item[{BYTE \texorpdfstring{$\ast$}{*}}]{text}{, }\item[{DWORD}]{text\+Size}{}\end{DoxyParamCaption})}
+
+Функция для преборазования UTF-\/8 в UTF-\/16\+LE \begin{DoxyReturn}{Returns}
+chars \textbackslash{}parma BYTE \texorpdfstring{$\ast$}{*}text текст в UTF-\/8 \textbackslash{}parma DWORD text\+Size размер текста в UTF-\/8 
+\end{DoxyReturn}

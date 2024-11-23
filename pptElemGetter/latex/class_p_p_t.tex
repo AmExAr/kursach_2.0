@@ -1,0 +1,482 @@
+\doxysection{PPT Class Reference}
+\hypertarget{class_p_p_t}{}\label{class_p_p_t}\index{PPT@{PPT}}
+
+
+{\ttfamily \#include $<$ppt\+Elements.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_p_p_t_afb52a0e486f9ad4c1bb4334b39e36e3e}{PPT}} (wchar\+\_\+t \texorpdfstring{$\ast$}{*}file\+Path)
+\item 
+\mbox{\hyperlink{class_p_p_t_a34449b17365c5a447e3b8dcd8a17cf88}{\texorpdfstring{$\sim$}{\string~}\+PPT}} ()
+\item 
+\mbox{\hyperlink{class_p_p_t_a8e2aa83987ffbedf44f8f49444f894cc}{Get\+Text}} (wchar\+\_\+t \texorpdfstring{$\ast$}{*}file\+Path)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Класс для файлов формата \doxylink{class_p_p_t}{PPT} 
+\begin{DoxyParams}{Parameters}
+{\em offset\+To\+Current\+Edit} & смещение к последнему изменению \\
+\hline
+{\em Power\+Point\+Document} & Поток Power\+Point\+Document \\
+\hline
+{\em Pictures} & Поток Pictures \\
+\hline
+{\em \doxylink{class_p_p_t}{PPT}} & Конструктор \doxylink{class_p_p_t}{PPT} файла \\
+\hline
+{\em \doxylink{class_p_p_t}{PPT}} & Деструктор \doxylink{class_p_p_t}{PPT} файла \\
+\hline
+{\em Get\+Text} & Метод, с помощью которого достется текст и записывается в файл \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_p_p_t_afb52a0e486f9ad4c1bb4334b39e36e3e}\index{PPT@{PPT}!PPT@{PPT}}
+\index{PPT@{PPT}!PPT@{PPT}}
+\doxysubsubsection{\texorpdfstring{PPT()}{PPT()}}
+{\footnotesize\ttfamily \label{class_p_p_t_afb52a0e486f9ad4c1bb4334b39e36e3e} 
+PPT\+::\+PPT (\begin{DoxyParamCaption}\item[{wchar\+\_\+t \texorpdfstring{$\ast$}{*}}]{file\+Path}{}\end{DoxyParamCaption})}
+
+Констурктор класса 
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & Путь к объекту\\
+\hline
+\end{DoxyParams}
+Открытие файла презентации в режиме бинарного чтения\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{FILE\ *file\ =\ \_wfopen(filePath,\ L\textcolor{stringliteral}{"{}rb"{}})}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(file\ ==\ NULL)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ std::wcout\ <<\ L\textcolor{stringliteral}{"{}Файл\ не\ открылся!!!"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Переходим в конец файла, получаем его размер и переходим в начало файла 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\_fseeki64(file,\ 0,\ SEEK\_END);}
+\DoxyCodeLine{\textcolor{keywordtype}{size\_t}\ fileSize\ =\ \_ftelli64(file);}
+\DoxyCodeLine{\_fseeki64(file,\ 0,\ SEEK\_SET);}
+
+\end{DoxyCode}
+
+
+Массив, в которы загружаем весь файл 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{BYTE\ *buffer\ =\ \textcolor{keyword}{new}\ BYTE[fileSize];}
+
+\end{DoxyCode}
+
+
+Записываем в буффер каждый элемент. Если ошибка, то выводим сообщение 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(fread(buffer,\ 1,\ fileSize,\ file)\ !=\ fileSize)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ std::wcout\ <<\ L\textcolor{stringliteral}{"{}Ошибка\ чтения\ файла"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Закрытие файла 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{fclose\ (file);}
+
+\end{DoxyCode}
+
+
+Создаем переменную для хранения имени потока и массив для хранения потока, далее сопоставляем массив и имя потока. Data\+Streams -\/ массив из массивов потоков 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::wstring\ defaultExtension;}
+\DoxyCodeLine{std::vector<CompoundDocumentObject::CompoundDocument\_DirectoryEntryStruct>\ Directory;}
+\DoxyCodeLine{std::map<std::wstring,\ ULONGLONG>\ NameMap;}
+\DoxyCodeLine{std::vector<BinaryBlock>\ DataStreams;}
+
+\end{DoxyCode}
+
+
+Разбор \doxylink{class_p_p_t}{PPT} файла 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{DWORD\ realDataSize\ =\ \mbox{\hyperlink{namespace_compound_document_object_a1e33b6a4c89ae03c181a51c2d27a1ce9}{CompoundDocumentObject::GetCompoundDocumentInfo}}(buffer,\ fileSize,\ defaultExtension,\ Directory,\ NameMap,\ DataStreams)}
+
+\end{DoxyCode}
+
+
+Переменные для хранения индекса потока 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{DWORDLONG\ powerPointDocumentIndex}
+\DoxyCodeLine{DWORDLONG\ currentUserIndex}
+\DoxyCodeLine{DWORDLONG\ picturesIndex}
+
+\end{DoxyCode}
+
+
+Перебор всех потоков 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{for}(std::map<std::wstring,\ ULONGLONG>::const\_iterator\ i=NameMap.begin();\ i!=NameMap.end();\ i++)}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(i-\/>first\ ==\ L\textcolor{stringliteral}{"{}PowerPoint\ Document"{}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ powerPointDocumentIndex\ =\ i-\/>second;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(i-\/>first\ ==\ L\textcolor{stringliteral}{"{}Current\ User"{}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ currentUserIndex\ =\ i-\/>second;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(i-\/>first\ ==\ L\textcolor{stringliteral}{"{}Pictures"{}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ picturesIndex\ =\ i-\/>second;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ Pictures\ =\ DataStreams[picturesIndex];}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Взятие из Data\+Streams массива необходимого потока 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{ppt_elements_8h_a50bf96b5901e1f63b7f3d2937ecdf635}{BinaryBlock}}\ CurrentUser\ =\ DataStreams[currentUserIndex]}
+\DoxyCodeLine{PowerPointDocument\ =\ DataStreams[powerPointDocumentIndex]}
+
+\end{DoxyCode}
+
+
+Применение к потоку Cureent\+User соответствующую структуру 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_current_user_atom}{CurrentUserAtom}}\ *user\ =\ (\mbox{\hyperlink{struct_current_user_atom}{CurrentUserAtom}}*)CurrentUser.data();}
+
+\end{DoxyCode}
+
+
+Присваивание смещения к последнему изменению 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{offsetToCurrentEdit\ =\ user-\/>\mbox{\hyperlink{struct_current_user_atom_a6bb89bfd9fe412a2b328674a60f95e74}{offsetToCurrentEdit}};}
+
+\end{DoxyCode}
+
+
+Очистка памяти 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{delete}[]\ buffer;}
+\DoxyCodeLine{Directory.clear();}
+\DoxyCodeLine{NameMap.clear();}
+\DoxyCodeLine{DataStreams.clear();}
+
+\end{DoxyCode}
+ \Hypertarget{class_p_p_t_a34449b17365c5a447e3b8dcd8a17cf88}\index{PPT@{PPT}!````~PPT@{\texorpdfstring{$\sim$}{\string~}PPT}}
+\index{````~PPT@{\texorpdfstring{$\sim$}{\string~}PPT}!PPT@{PPT}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}PPT()}{\string~PPT()}}
+{\footnotesize\ttfamily \label{class_p_p_t_a34449b17365c5a447e3b8dcd8a17cf88} 
+PPT\+::\texorpdfstring{$\sim$}{\string~}\+PPT (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Декструктор \doxylink{class_p_p_t}{PPT} файла 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_p_p_t_a8e2aa83987ffbedf44f8f49444f894cc}\index{PPT@{PPT}!GetText@{GetText}}
+\index{GetText@{GetText}!PPT@{PPT}}
+\doxysubsubsection{\texorpdfstring{GetText()}{GetText()}}
+{\footnotesize\ttfamily \label{class_p_p_t_a8e2aa83987ffbedf44f8f49444f894cc} 
+PPT\+::\+Get\+Text (\begin{DoxyParamCaption}\item[{wchar\+\_\+t \texorpdfstring{$\ast$}{*}}]{file\+Path}{}\end{DoxyParamCaption})}
+
+Получение указателя на поток Power\+Point\+Document 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{BYTE\ *buffer\ =\ PowerPointDocument.data();}
+
+\end{DoxyCode}
+
+
+Указатель на начало потока 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{BYTE\ *powerPointDocumentBegin\ =\ buffer;}
+
+\end{DoxyCode}
+
+
+Переход к записи текущего изменения и примененение структуры 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buffer\ =\ powerPointDocumentBegin\ +\ offsetToCurrentEdit;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_user_edit_atom}{UserEditAtom}}\ *userEdit\ =\ (\mbox{\hyperlink{struct_user_edit_atom}{UserEditAtom}}*)buffer;}
+
+\end{DoxyCode}
+
+
+Переход к Directory\+Entry и применение структуры 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buffer\ =\ powerPointDocumentBegin\ +\ userEdit-\/>\mbox{\hyperlink{struct_user_edit_atom_a13ec0d26a2cc047b380cefa3ae2d19d5}{offsetPersistDirectory}}\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\mbox{\hyperlink{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}{persistIdAndcPersist}}\ *idAndCount\ =\ (\mbox{\hyperlink{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}{persistIdAndcPersist}}*)buffer;}
+
+\end{DoxyCode}
+
+
+Получение записи c\+Persist и преобразнование записей в Little\+Endian 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{DWORD\ cPersist\ =\ (*idAndCount\ >>\ 12)\ \&\ 0xFFFFF;}
+\DoxyCodeLine{cPersist\ =\ (cPersist\ \&\ 0xFF)\ <<\ 8\ |\ (cPersist\ \&\ 0xFF00)\ >>\ \ 8;}
+
+\end{DoxyCode}
+
+
+Составление таблицы смещений к сохраненным объектам 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{DWORD\ *directoryEntry\ =\ (DWORD*)(buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{ppt_elements_8h_a8f00d641132d057c36fa47edad8c9ef5}{persistIdAndcPersist}}));}
+
+\end{DoxyCode}
+
+
+Переход к Document\+Container пропуская \doxylink{struct_record_header}{Record\+Header} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buffer\ =\ powerPointDocumentBegin\ +\ directoryEntry[0]\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+
+\end{DoxyCode}
+
+
+Применение структуры \doxylink{struct_record_header}{Record\+Header} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_record_header}{RecordHeader}}\ *rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+
+\end{DoxyCode}
+
+
+Поиск типа записи, соотвествующей контейнеру с текстом (в MS \doxylink{class_p_p_t}{PPT} 1992-\/2003) 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ !=\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab6a457c65d4ffdaac7ec1941c94d5179}{RecordTypeEnum::RT\_SlideListWithText}}\ ||\ rh-\/>\mbox{\hyperlink{struct_record_header_a5657a2d9ed1bf1d410ca5c75fc7ebe9e}{recVerAndInstance}}\ !=\ 0x000F)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ buffer\ +=\ rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}}\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Вход в Slide\+List\+With\+Text 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ !=\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecab6a457c65d4ffdaac7ec1941c94d5179}{RecordTypeEnum::RT\_SlideListWithText}}\ ||\ rh-\/>\mbox{\hyperlink{struct_record_header_a5657a2d9ed1bf1d410ca5c75fc7ebe9e}{recVerAndInstance}}\ !=\ 0x000F)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\textbackslash{}parma bool is\+Text\+Here переменная для проверки на наличие текста
+
+Открытие фалйа в бинарной записи 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{FILE\ *file\ =\ \_wfopen(filePath,\ L\textcolor{stringliteral}{"{}wb"{}})}
+
+\end{DoxyCode}
+ \textbackslash{}parma DWORD slide\+Number переменнная для подсчета слайдов
+
+Перебор всех элементов до конца Document\+Container 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ !=\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecac1c58b615dda4bd18696469f0e9b071d}{RecordTypeEnum::RT\_EndDocumentAtom}})}
+
+\end{DoxyCode}
+
+
+Если находится тип, соответствующий \doxylink{struct_slide_persist_atom}{Slide\+Persist\+Atom}, то увеличивается номер слайда и этот номер записывается 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaa02cbe42c111aa6dcf5a5804d823301f}{RecordTypeEnum::RT\_SlidePersistAtom}}\ \&\&\ rh-\/>\mbox{\hyperlink{struct_record_header_a5657a2d9ed1bf1d410ca5c75fc7ebe9e}{recVerAndInstance}}\ ==\ 0x0000)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}Слайд\ номер\ \%u:\ \(\backslash\)n"{}},\ ++slideNumber);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Если находится тип, соответствующий тексту, то is\+Text\+Here = true, после чего если текст хранится в UTF-\/16, то делаем указатель на начало текста и записываем это в файл 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}((rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}{RecordTypeEnum::RT\_TextCharsAtom}}\ ||\ rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3aa82887da0f8e5bf43095d85332cac1}{RecordTypeEnum::RT\_TextBytesAtom}})\ \&\&}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ rh-\/>\mbox{\hyperlink{struct_record_header_a5657a2d9ed1bf1d410ca5c75fc7ebe9e}{recVerAndInstance}}\ ==\ 0x0000)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ isTextHere\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(rh-\/>\mbox{\hyperlink{struct_record_header_a90c5c22d140a359c49948ed2d036bc0c}{recType}}\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}{RecordTypeEnum::RT\_TextCharsAtom}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WORD\ *text\ =\ (WORD*)(buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}}));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwrite(text,\ 2,\ (rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}})/2,\ file);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ *text\ =\ buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WORD\ *chars\ =\ (WORD*)(\mbox{\hyperlink{ppt_elements_8h_a053f0a24d005008e8a2c0ec2461536d3}{TextBytesToChars}}(text,\ rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}}));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwrite(chars,\ 2,\ rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}},\ file);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ chars;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Если запись не была найдена, то переходим к другой записи 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}})\ +\ rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}};}
+\DoxyCodeLine{rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+
+\end{DoxyCode}
+
+
+Закрытие файла, вывод надписи, если текст был найден. Иначе используем другой алгоритм поиска (для MS \doxylink{class_p_p_t}{PPT} 2007 и позже) 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{fclose(file);}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(isTextHere)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ std::wcout\ <<\ L\textcolor{stringliteral}{"{}Текст\ из\ презентации\ был\ успешно\ сохранён\ в\ ваш\ файл!"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Иначе используем другой алгоритм поиска (для MS \doxylink{class_p_p_t}{PPT} 2007 и позже) Происходит перебор всех элементов из directory\+Entry, начиная со второго элемента Если не первый слайд, то добавляем пропуск строки. Написание номера слайда, 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(i\ >\ 2)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{fwprintf(file,\ L\textcolor{stringliteral}{"{}Слайд\ номер\ \%u:\ \(\backslash\)n"{}},\ (i\ -\/\ 1));}
+
+\end{DoxyCode}
+
+
+Переход к первому сохраненному объекту 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buffer\ =\ powerPointDocumentBegin\ +\ directoryEntry[i];}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Применение\ струкутры\ \mbox{\hyperlink{struct_record_header}{RecordHeader}}.\ В\ нем\ находится\ размер\ всего\ слайда}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Создать\ указатель\ на\ конец\ сладйа}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{BYTE\ *endOfSlide\ =\ buffer\ +\ rh-\/>\mbox{\hyperlink{struct_record_header_a03d23623eed1144460cfaaefe462ce32}{recLen}}\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Пропуск\ записи\ \mbox{\hyperlink{struct_slide_container}{SlideContainer}}\ и\ OfficeArtDgContainer}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\ buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_slide_container}{SlideContainer}})\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_office_art_dg_container}{OfficeArtDgContainer}});}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Повторное\ применение\ струкутры\ RecordHeader}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{С\ помощью\ цикла\ ищем\ OfficeArtSpContainer}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(rh-\/>recType\ !=\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad5470dfe01c26e15228661f87eb0cde}{RecordTypeEnum::RT\_OfficeArtSpContainer}}\ ||\ rh-\/>recVerAndInstance\ !=\ 0x000F)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ buffer\ +=\ rh-\/>recLen\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Пропуск\ заголовка}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Поиск\ OfficeArtClientTextbox}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(rh-\/>recType\ !=\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae4b4a80700b7566f2001137f86812dd7}{RecordTypeEnum::RT\_OfficeArtClientTextbox}}\ ||\ rh-\/>recVerAndInstance\ !=\ 0x000F)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ buffer\ +=\ rh-\/>recLen\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});;}
+\DoxyCodeLine{\ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Пока\ слайд\ не\ закончится,\ ищем\ текст\ в\ OfficeArtClientTextbox}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\textcolor{keywordflow}{while}(buffer\ !=\ endOfSlide)}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Если\ текст\ находится\ внутри\ текста,\ то\ аналогичным\ образом\ перейти\ к\ ClientTextBox}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(rh-\/>recType\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaad5470dfe01c26e15228661f87eb0cde}{RecordTypeEnum::RT\_OfficeArtSpContainer}}\ \&\&\ rh-\/>recVerAndInstance\ ==\ 0x000F)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ BYTE\ *endOfSpContainer\ =\ buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}})\ +\ rh-\/>recLen;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;\ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(buffer\ !=\ endOfSpContainer)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buffer\ +=\ rh-\/>recLen\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(rh-\/>recType\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecae4b4a80700b7566f2001137f86812dd7}{RecordTypeEnum::RT\_OfficeArtClientTextbox}}\ \&\&\ rh-\/>recVerAndInstance\ ==\ 0x000F)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\(\backslash\)encdcode}
+\DoxyCodeLine{}
+\DoxyCodeLine{Аналогичные\ действия,\ если\ найден\ текст}
+\DoxyCodeLine{\(\backslash\)code}
+\DoxyCodeLine{\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}((rh-\/>recType\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}{RecordTypeEnum::RT\_TextCharsAtom}}\ ||\ rh-\/>recType\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207eca3aa82887da0f8e5bf43095d85332cac1}{RecordTypeEnum::RT\_TextBytesAtom}})\ \&\&}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rh-\/>recVerAndInstance\ ==\ 0x0000)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(rh-\/>recType\ ==\ (WORD)\mbox{\hyperlink{ppt_elements_8h_a46a608b0e70d25d1aa164134b40207ecaf8a266a1da10e2f2cefd349d2a8ce0bb}{RecordTypeEnum::RT\_TextCharsAtom}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WORD\ *text\ =\ (WORD*)(buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}}));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwrite(text,\ 2,\ (rh-\/>recLen)/2,\ file);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BYTE\ *text\ =\ buffer\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WORD\ *chars\ =\ (WORD*)(\mbox{\hyperlink{ppt_elements_8h_a053f0a24d005008e8a2c0ec2461536d3}{TextBytesToChars}}(text,\ rh-\/>recLen));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwrite(chars,\ 2,\ rh-\/>recLen,\ file);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fwprintf(file,\ L\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]\ chars;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buffer\ +=\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_record_header}{RecordHeader}})\ +\ rh-\/>recLen;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rh\ =\ (\mbox{\hyperlink{struct_record_header}{RecordHeader}}*)buffer;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Закрытие файла 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{fclose(file);}
+
+\end{DoxyCode}
+ 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ppt_elements_8h}{ppt\+Elements.\+h}}\item 
+\mbox{\hyperlink{ppt_elements_8cpp}{ppt\+Elements.\+cpp}}\end{DoxyCompactItemize}
