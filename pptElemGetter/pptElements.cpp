@@ -715,13 +715,13 @@ while(rh->recType != (WORD)RecordTypeEnum::RT_SlideListWithText || rh->recVerAnd
 
 
 
-\parma bool isTextHere переменная для проверки на наличие текста
+\param bool isTextHere переменная для проверки на наличие текста
 
 Открытие фалйа в бинарной записи
 \code
 FILE *file = _wfopen(filePath, L"wb")
 \endcode
-\parma DWORD slideNumber переменнная для подсчета слайдов
+\param DWORD slideNumber переменнная для подсчета слайдов
 
 Перебор всех элементов до конца DocumentContainer
 \code
@@ -794,27 +794,27 @@ fwprintf(file, L"Слайд номер %u: \n", (i - 1));
 Переход к первому сохраненному объекту
 \code
 buffer = powerPointDocumentBegin + directoryEntry[i];
-\encdcode
+\endcode
 
 Применение струкутры RecordHeader. В нем находится размер всего слайда
 \code
 rh = (RecordHeader*)buffer;
-\encdcode
+\endcode
 
 Создать указатель на конец сладйа
 \code
 BYTE *endOfSlide = buffer + rh->recLen + sizeof(RecordHeader);
-\encdcode
+\endcode
 
 Пропуск записи SlideContainer и OfficeArtDgContainer
 \code
  buffer += sizeof(SlideContainer) + sizeof(OfficeArtDgContainer);
-\encdcode
+\endcode
 
 Повторное применение струкутры RecordHeader
 \code
 rh = (RecordHeader*)buffer;
-\encdcode
+\endcode
 
 С помощью цикла ищем OfficeArtSpContainer
 \code
@@ -823,13 +823,13 @@ while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtSpContainer || rh->recVer
     buffer += rh->recLen + sizeof(RecordHeader);
     rh = (RecordHeader*)buffer;
 }
-\encdcode
+\endcode
 
 Пропуск заголовка
 \code
 buffer += sizeof(RecordHeader);
 rh = (RecordHeader*)buffer;
-\encdcode
+\endcode
 
 Поиск OfficeArtClientTextbox
 \code
@@ -838,12 +838,12 @@ while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox || rh->recV
     buffer += rh->recLen + sizeof(RecordHeader);;
     rh = (RecordHeader*)buffer;
 }
-\encdcode
+\endcode
 
 Пока слайд не закончится, ищем текст в OfficeArtClientTextbox
 \code
 while(buffer != endOfSlide)
-\encdcode
+\endcode
 
 Если текст находится внутри текста, то аналогичным образом перейти к ClientTextBox
 \code
@@ -870,7 +870,7 @@ if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAnd
                     }
                 }
 
-\encdcode
+\endcode
 
 Аналогичные действия, если найден текст
 \code
@@ -1088,8 +1088,8 @@ PPT::GetText(wchar_t *filePath)
 /**
 Функция для преборазования UTF-8 в UTF-16LE
 \return chars
-\parma BYTE *text текст в UTF-8
-\parma DWORD textSize размер текста в UTF-8
+\param BYTE *text текст в UTF-8
+\param DWORD textSize размер текста в UTF-8
 */
 BYTE *TextBytesToChars(BYTE *text, DWORD textSize)
 {
