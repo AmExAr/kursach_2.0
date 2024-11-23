@@ -1,12 +1,10 @@
 #include "pptElements.h"
 #include <iostream>
 #include <stdio.h>
-#include <iostream>
 #include <vector>
 #include <map>
 #include <cassert>
 #include <wtypes.h>
-
 
 
 namespace CompoundDocumentObject {
@@ -906,7 +904,7 @@ else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType ==
 fclose(file);
 \endcode
 */
-PPT::GetText(wchar_t *filePath)
+void PPT::GetText(wchar_t *filePath)
 {
     BYTE *buffer = PowerPointDocument.data();
 
@@ -1108,4 +1106,233 @@ BYTE *TextBytesToChars(BYTE *text, DWORD textSize)
     }
 
     return chars;
+}
+
+void PPT::GetPics(std::wstring filePath)
+{
+    if (Pictures.size() == 0) {
+        std::wcout << L"В презентации картинок не обнаружено" << std::endl;
+        return;
+    }
+
+    BYTE *buffer = Pictures.data();
+    size_t bufferSize = Pictures.size(); // Размер буфера
+    DWORD sizeImg = 0;
+    RecordHeader *rh = (RecordHeader*)buffer; // Применение структуры RecordHeader
+    size_t bytesParsed = 0;
+    int imageIndex = 0;
+    while (bytesParsed < bufferSize) {
+        RecordHeader *rh = (RecordHeader*)buffer;
+
+        std::wstring fileFormat;
+        bool isValidImage = 0;
+
+        // Определяем тип изображения
+        if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePNG1)
+        {
+            fileFormat = L".png";
+            isValidImage = 1;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG1_1 || rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG1_2)
+        {
+            fileFormat = L".jpg";
+            isValidImage = 1;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceDIB1)
+        {
+            fileFormat = L".dib";
+            isValidImage = 1;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceTIFF1)
+        {
+            fileFormat = L".tiff";
+            isValidImage = 1;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePNG2)
+        {
+            fileFormat = L".png";
+            isValidImage = 2;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG2_1 || rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG2_2)
+        {
+            fileFormat = L".jpg";
+            isValidImage = 2;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceDIB2)
+        {
+            fileFormat = L".dib";
+            isValidImage = 2;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceTIFF2)
+        {
+            fileFormat = L".tiff";
+            isValidImage = 2;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceWMF1)
+        {
+            fileFormat = L".wmf";
+            isValidImage = 3;
+        }
+
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceWMF2)
+        {
+            fileFormat = L".wmf";
+            isValidImage = 4;
+        }
+
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceEMF1)
+        {
+            fileFormat = L".emf";
+            isValidImage = 3;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceEMF2)
+        {
+            fileFormat = L".emf";
+            isValidImage = 4;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePICT1)
+        {
+            fileFormat = L".pict";
+            isValidImage = 3;
+        }
+        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePICT2)
+        {
+            fileFormat = L".pict";
+            isValidImage = 4;
+        }
+
+
+        if (isValidImage == 1)
+        {
+            // Указатель на начало блока данных
+            BYTE *powerPicturesBegin = buffer;
+
+            OfficeArtBlipTagUid1 *officeBlip = (OfficeArtBlipTagUid1*)buffer;
+
+            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->tag);
+
+            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
+
+            // Создаем имя файла
+            std::wcout <<  fileFormat.c_str() << std::endl;
+            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+            // Открываем файл для записи
+            FILE *file = _wfopen(fileName.c_str(), L"wb");
+
+            // Записываем данные в файл
+            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
+            fclose(file);
+            if (bytesWritten == sizeImg)
+            {
+                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+            }
+            // Сдвигаем на следующий блок данных
+            buffer += sizeImg;
+            bytesParsed += sizeof(OfficeArtBlipTagUid1) + sizeImg;
+
+        }
+
+        else if (isValidImage == 2)
+        {
+            // Указатель на начало блока данных
+            BYTE *powerPicturesBegin = buffer;
+
+            OfficeArtBlipTagUid1andUid2 *officeBlip = (OfficeArtBlipTagUid1andUid2*)buffer;
+
+            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->tag);
+
+            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
+
+            // Создаем имя файла
+            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+
+            // Открываем файл для записи
+            std::wcout << filePath << std::endl;
+            FILE *file = _wfopen(fileName.c_str(), L"wb");
+
+            // Записываем данные в файл
+            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
+            if (bytesWritten == sizeImg)
+            {
+                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+            }
+            fclose(file);
+
+            // Сдвигаем на следующий блок данных
+            buffer += sizeImg;
+            bytesParsed += sizeof(OfficeArtBlipTagUid1andUid2) + sizeImg;
+
+        }
+        else if (isValidImage == 3)
+        {
+            // Указатель на начало блока данных
+            BYTE *powerPicturesBegin = buffer;
+
+            OfficeArtBlipMetafileUid1 *officeBlip = (OfficeArtBlipMetafileUid1*)buffer;
+
+            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->metafileHeader);
+
+            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
+
+            // Создаем имя файла
+            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+
+            // Открываем файл для записи
+            std::wcout << filePath << std::endl;
+            FILE *file = _wfopen(fileName.c_str(), L"wb");
+
+            // Записываем данные в файл
+            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
+            if (bytesWritten == sizeImg)
+            {
+                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+            }
+            fclose(file);
+
+            // Сдвигаем на следующий блок данных
+            buffer += sizeImg;
+            bytesParsed += sizeof(OfficeArtBlipMetafileUid1) + sizeImg;
+
+        }
+        else if (isValidImage == 4)
+        {
+            // Указатель на начало блока данных
+            BYTE *powerPicturesBegin = buffer;
+
+            OfficeArtBlipMetafileUid1andUid2 *officeBlip = (OfficeArtBlipMetafileUid1andUid2*)buffer;
+
+            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->metafileHeader);
+
+            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
+
+            // Создаем имя файла
+            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+
+            // Открываем файл для записи
+            std::wcout << filePath << std::endl;
+            FILE *file = _wfopen(fileName.c_str(), L"wb");
+
+            // Записываем данные в файл
+            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
+            if (bytesWritten == sizeImg)
+            {
+                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+            }
+            fclose(file);
+
+            // Сдвигае на следующий блок данных
+            buffer += sizeImg;
+            bytesParsed += sizeof(OfficeArtBlipMetafileUid1andUid2) + sizeImg;
+
+        }
+
+        else
+        {
+            // Пропускаем текущий заголовок
+            buffer += sizeof(RecordHeader) + rh->recLen;
+            bytesParsed += sizeof(RecordHeader) + rh->recLen;
+        }
+    }
+
+
 }

@@ -1,7 +1,6 @@
 #ifndef pptElementsH
 #define pptElementsH
 #include <iostream>
-#include <iostream>
 #include <vector>
 #include <map>
 #include <cassert>
@@ -211,6 +210,30 @@ typedef struct
     BYTE deletedShape[12];
 
 } OfficeArtSpContainer;
+
+typedef struct {
+    RecordHeader rh;
+    BYTE rgbUid[16];
+    BYTE metafileHeader[34];
+} OfficeArtBlipMetafileUid1; // для EMF, WMF, PICT
+
+typedef struct {
+    RecordHeader rh;
+    BYTE rgbUid[16];
+    BYTE tag[1];
+} OfficeArtBlipTagUid1; // для JPEG, PNG, DIB, TIFF
+
+typedef struct {
+    RecordHeader rh;
+    BYTE rgbUid[32];
+    BYTE metafileHeader[34];
+} OfficeArtBlipMetafileUid1andUid2; // для EMF, WMF, PICT
+
+typedef struct {
+    RecordHeader rh;
+    BYTE rgbUid[32];
+    BYTE tag[1];
+} OfficeArtBlipTagUid1andUid2; // для JPEG, PNG, DIB, TIFF
 
 #pragma pack(pop)
 
@@ -442,6 +465,26 @@ enum class RecordTypeEnum : WORD
     RT_TimeSubEffectContainer = 0xF145,
 };
 
+enum class PngTypeEnum : WORD
+{
+    RT_recVerAndInstancePNG1 = 0x6E00,
+    RT_recVerAndInstancePNG2 = 0x6E01,
+    RT_recVerAndInstanceWMF1 = 0x2106,
+    RT_recVerAndInstanceWMF2 = 0x2107,
+    RT_recVerAndInstanceEMF1 = 0x3D04,
+    RT_recVerAndInstanceEMF2 = 0x3D05,
+    RT_recVerAndInstancePICT1 = 0x5402,
+    RT_recVerAndInstancePICT2 = 0x5403,
+    RT_recVerAndInstanceDIB1 = 0x7A08,
+    RT_recVerAndInstanceDIB2 = 0x7A09,
+    RT_recVerAndInstanceTIFF1 = 0x6E04,
+    RT_recVerAndInstanceTIFF2 = 0x6E05,
+    RT_recVerAndInstanceJPEG1_1 = 0x46A0,
+    RT_recVerAndInstanceJPEG1_2 = 0x6E20,
+    RT_recVerAndInstanceJPEG2_1 = 0x46B0,
+    RT_recVerAndInstanceJPEG2_2 = 0x6E30
+};
+
 /**
 Класс для файлов формата PPT
 \param offsetToCurrentEdit смещение к последнему изменению
@@ -449,7 +492,8 @@ enum class RecordTypeEnum : WORD
 \param Pictures Поток Pictures
 \param PPT Конструктор PPT файла
 \param PPT Деструктор PPT файла
-\param GetText Метод, с помощью которого достется текст и записывается в файл
+GetText Метод, с помощью которого достется текст и записывается в файл
+GetPics Метод, с помощью которого достаются картинки и записываются в файл
 */
 class PPT
 {
@@ -461,7 +505,8 @@ private:
 public:
     PPT(wchar_t *filePath);
     ~PPT();
-    GetText(wchar_t *filePath);
+    void GetText(wchar_t *filePath);
+    void GetPics(std::wstring filePath);
 };
 
 /**
