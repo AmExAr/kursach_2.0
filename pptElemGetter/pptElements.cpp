@@ -5,7 +5,10 @@
 #include <map>
 #include <cassert>
 #include <wtypes.h>
-
+#include <cstdio>
+#include <sys/stat.h>
+#include <locale>
+#include <codecvt>
 
 namespace CompoundDocumentObject {
 
@@ -1079,7 +1082,7 @@ void PPT::GetText(wchar_t *filePath)
             std::wcout << L"слайд номер " << i - 1 << L" успешно просмотрен" << std::endl << std::endl;
         }
         fclose(file);
-        std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
+        std::wcout << L"Текст из презентации был успешно сохранён в файл: " << *filePath  << std::endl;
     }
 }
 
@@ -1329,6 +1332,34 @@ void PPT::GetPics(std::wstring filePath)
             bytesParsed += sizeof(RecordHeader) + rh->recLen;
         }
     }
+}
 
+void CheckAndCreateDir(const std::wstring& dirPath) {
+    DWORD ftyp = GetFileAttributesW(dirPath.c_str());
 
+    if (ftyp == INVALID_FILE_ATTRIBUTES) {
+        if (CreateDirectoryW(dirPath.c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS) {
+            std::wcout << L"Директория создана: " << dirPath << std::endl;
+        } else {
+            std::wcerr << L"Ошибка: не удалось создать директорию: " << dirPath << std::endl;
+        }
+    } else if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {
+        std::wcout << L"Директория уже существует: " << dirPath << std::endl;
+    } else {
+        std::wcerr << L"Ошибка: путь существует, но это не директория: " << dirPath << std::endl;
+    }
+}
+
+wchar_t *String2WChar(const std::string& str) {
+
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+
+    std::wstring wstr = converter.from_bytes(str);
+
+    wchar_t* wch = new wchar_t[wstr.size() + 1]; // +1 для нуль-терминатора
+
+    std::copy(wstr.begin(), wstr.end(), wch);
+    wch[wstr.size()] = L'\0';
+
+    return wch;
 }

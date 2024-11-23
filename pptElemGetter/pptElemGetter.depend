@@ -65,14 +65,14 @@
 1732390152 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\main.cpp
 	"pptElements.h"
 
-1732387138 c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.h
+1732401314 c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.h
 	<iostream>
 	<vector>
 	<map>
 	<cassert>
 	<wtypes.h>
 
-1732387200 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.cpp
+1732401164 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.cpp
 	"pptElements.h"
 	<iostream>
 	<stdio.h>
@@ -80,4 +80,8 @@
 	<map>
 	<cassert>
 	<wtypes.h>
+	<cstdio>
+	<sys/stat.h>
+	<locale>
+	<codecvt>
 
