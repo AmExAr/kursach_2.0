@@ -1214,7 +1214,6 @@ void PPT::GetPics(std::wstring filePath)
             buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
 
             // Создаем имя файла
-            std::wcout <<  fileFormat.c_str() << std::endl;
             std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
             // Открываем файл для записи
             FILE *file = _wfopen(fileName.c_str(), L"wb");
@@ -1247,7 +1246,6 @@ void PPT::GetPics(std::wstring filePath)
             std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
-            std::wcout << filePath << std::endl;
             FILE *file = _wfopen(fileName.c_str(), L"wb");
 
             // Записываем данные в файл
@@ -1278,7 +1276,6 @@ void PPT::GetPics(std::wstring filePath)
             std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
-            std::wcout << filePath << std::endl;
             FILE *file = _wfopen(fileName.c_str(), L"wb");
 
             // Записываем данные в файл
@@ -1309,7 +1306,6 @@ void PPT::GetPics(std::wstring filePath)
             std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
-            std::wcout << filePath << std::endl;
             FILE *file = _wfopen(fileName.c_str(), L"wb");
 
             // Записываем данные в файл
