@@ -10,9 +10,9 @@ int main(int argc, const char *argv[])
         po::options_description desc{"General options"};
         desc.add_options()
             ("help,h", "Show help")
-            ("file,f", po::value<std::string>()->default_value("Presentation.ppt"), "Path to the presentation. Default: Presentation.ppt")
-            ("text,t", po::value<std::string>(), "Path to the output file. Default: output_from_PPT.txt")
-            ("pictures,p", po::value<std::string>(), "Path to the directory for output files. Default: ./pictures/");
+            ("file,f", po::value<std::string>(), "Path to the presentation.")
+            ("text,t", po::value<std::string>(), "Path to the output file.")
+            ("pictures,p", po::value<std::string>(), "Path to the directory for output files.");
 
 
         po::variables_map vm;
@@ -25,32 +25,22 @@ int main(int argc, const char *argv[])
                 return 0;
         }
 
-
-        std::cout << vm["file"].as<std::string>() << std::endl;
-        std::cout << vm["text"].as<std::string>() << std::endl;
-        std::cout << vm["pictures"].as<std::string>() << std::endl;
-
-
-        wchar_t *presentationFile = String2WChar(vm["file"].as<std::string>());
+        wchar_t *presentationFile = _wcsdup((std::wstring((vm["file"].as<std::string>()).begin(), (vm["file"].as<std::string>()).end())).c_str());
         std::wcout << "Read presentation from: " << *presentationFile << std::endl;
         PPT presentation(presentationFile);
 
 
         if (vm.count("text")) {
-            std::string outputTextFile = vm["text"].as<std::string>();
+            std::wstring outputTextFile = std::wstring(vm["text"].as<std::string>().begin(), vm["text"].as<std::string>().end());
 
-            if (outputTextFile.empty()) { outputTextFile = ".\\output_from_PPT.txt"; }
+            std::wcout << "Output text file: " << outputTextFile << std::endl;
 
-            std::wcout << "Output text file: " << *String2WChar(outputTextFile) << std::endl;
-
-            presentation.GetText(String2WChar(outputTextFile));
+            presentation.GetText(_wcsdup(outputTextFile.c_str()));
         }
 
 
         if (vm.count("pictures")){
-            std::wstring picturesDir = vm["pictures"].as<std::wstring>();
-
-            if (picturesDir.empty()) { picturesDir = L".\\pictures"; }
+            std::wstring picturesDir = std::wstring((vm["pictures"].as<std::string>()).begin(), (vm["pictures"].as<std::string>()).end());
 
             CheckAndCreateDir(picturesDir);
             std::wcout << "Pictures will be saved to: " << picturesDir << std::endl;
@@ -65,7 +55,7 @@ int main(int argc, const char *argv[])
 
 
     /*
-    PPT presentation(L"2003_bouth.ppt");
+    //PPT presentation(L"2003_bouth.ppt");
     //PPT presentation(L"2007_bouth.ppt");
     //PPT presentation(L"PICTUR.ppt");
 

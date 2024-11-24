@@ -1217,7 +1217,7 @@ void PPT::GetPics(std::wstring filePath)
             buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
 
             // Создаем имя файла
-            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
             // Открываем файл для записи
             FILE *file = _wfopen(fileName.c_str(), L"wb");
 
@@ -1226,7 +1226,7 @@ void PPT::GetPics(std::wstring filePath)
             fclose(file);
             if (bytesWritten == sizeImg)
             {
-                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
             }
             // Сдвигаем на следующий блок данных
             buffer += sizeImg;
@@ -1246,7 +1246,7 @@ void PPT::GetPics(std::wstring filePath)
             buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
 
             // Создаем имя файла
-            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
             FILE *file = _wfopen(fileName.c_str(), L"wb");
@@ -1255,7 +1255,7 @@ void PPT::GetPics(std::wstring filePath)
             size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
             if (bytesWritten == sizeImg)
             {
-                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
             }
             fclose(file);
 
@@ -1276,7 +1276,7 @@ void PPT::GetPics(std::wstring filePath)
             buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
 
             // Создаем имя файла
-            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
             FILE *file = _wfopen(fileName.c_str(), L"wb");
@@ -1285,7 +1285,7 @@ void PPT::GetPics(std::wstring filePath)
             size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
             if (bytesWritten == sizeImg)
             {
-                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
             }
             fclose(file);
 
@@ -1306,7 +1306,7 @@ void PPT::GetPics(std::wstring filePath)
             buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
 
             // Создаем имя файла
-            std::wstring fileName = filePath + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
+            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
 
             // Открываем файл для записи
             FILE *file = _wfopen(fileName.c_str(), L"wb");
@@ -1315,7 +1315,7 @@ void PPT::GetPics(std::wstring filePath)
             size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
             if (bytesWritten == sizeImg)
             {
-                std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+               // std::wcout << L"Успешно записан файл: " << fileName << std::endl;
             }
             fclose(file);
 
@@ -1348,18 +1348,4 @@ void CheckAndCreateDir(const std::wstring& dirPath) {
     } else {
         std::wcerr << L"Ошибка: путь существует, но это не директория: " << dirPath << std::endl;
     }
-}
-
-wchar_t *String2WChar(const std::string& str) {
-
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-
-    std::wstring wstr = converter.from_bytes(str);
-
-    wchar_t* wch = new wchar_t[wstr.size() + 1]; // +1 для нуль-терминатора
-
-    std::copy(wstr.begin(), wstr.end(), wch);
-    wch[wstr.size()] = L'\0';
-
-    return wch;
 }

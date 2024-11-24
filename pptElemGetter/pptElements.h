@@ -516,7 +516,4 @@ BYTE *TextBytesToChars(BYTE *data, DWORD dataSize);
 
 
 void CheckAndCreateDir(const std::wstring& dirPath);
-
-
-wchar_t *String2WChar(const std::string& str);
 #endif // pptElementsH
