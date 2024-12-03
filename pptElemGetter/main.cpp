@@ -3,16 +3,16 @@
 
 namespace po = boost::program_options;
 
-int main(int argc, const char *argv[])
+int wmain(int argc, const wchar_t *argv[])
 {
     setlocale(LC_ALL, "Russian");
     try {
         po::options_description desc{"General options"};
         desc.add_options()
             ("help,h", "Show help")
-            ("file,f", po::value<std::string>(), "Path to the presentation.")
-            ("text,t", po::value<std::string>(), "Path to the output file.")
-            ("pictures,p", po::value<std::string>(), "Path to the directory for output files.");
+            ("file,f", po::wvalue<std::wstring>(), "Path to the presentation.")
+            ("text,t", po::wvalue<std::wstring>(), "Path to the output file.")
+            ("pictures,p", po::wvalue<std::wstring>(), "Path to the directory for output files.");
 
 
         po::variables_map vm;
@@ -20,27 +20,28 @@ int main(int argc, const char *argv[])
         po::notify(vm);
 
 
-        if (vm.count("help")) {
+        if (vm.count("help") || argc == 1) {
                 std::cout << desc << std::endl;
                 return 0;
         }
 
-        wchar_t *presentationFile = _wcsdup((std::wstring((vm["file"].as<std::string>()).begin(), (vm["file"].as<std::string>()).end())).c_str());
-        std::wcout << "Read presentation from: " << *presentationFile << std::endl;
+        const wchar_t *presentationFile = (vm["file"].as<std::wstring>()).c_str();
+        std::cout << "Pe" << std::endl;
+        std::wcout << L"Read presentation from: " << *presentationFile << std::endl;
         PPT presentation(presentationFile);
 
 
         if (vm.count("text")) {
-            std::wstring outputTextFile = std::wstring(vm["text"].as<std::string>().begin(), vm["text"].as<std::string>().end());
+            const wchar_t *outputTextFile = (vm["text"].as<std::wstring>()).c_str();
 
             std::wcout << "Output text file: " << outputTextFile << std::endl;
 
-            presentation.GetText(_wcsdup(outputTextFile.c_str()));
+            presentation.GetText(outputTextFile);
         }
 
 
         if (vm.count("pictures")){
-            std::wstring picturesDir = std::wstring((vm["pictures"].as<std::string>()).begin(), (vm["pictures"].as<std::string>()).end());
+            std::wstring picturesDir = vm["pictures"].as<std::wstring>();
 
             CheckAndCreateDir(picturesDir);
             std::wcout << "Pictures will be saved to: " << picturesDir << std::endl;
@@ -53,6 +54,7 @@ int main(int argc, const char *argv[])
         std::cerr << e.what() << std::endl;
     }
 
+    return 0;
 
     /*
     //PPT presentation(L"2003_bouth.ppt");

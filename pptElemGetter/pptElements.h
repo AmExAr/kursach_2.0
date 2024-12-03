@@ -503,9 +503,9 @@ private:
     BinaryBlock Pictures;
 
 public:
-    PPT(wchar_t *filePath);
+    PPT(const wchar_t *filePath);
     ~PPT();
-    void GetText(wchar_t *filePath);
+    void GetText(const wchar_t *filePath);
     void GetPics(std::wstring filePath);
 };
 

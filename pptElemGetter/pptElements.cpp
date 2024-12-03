@@ -564,7 +564,7 @@ NameMap.clear();
 DataStreams.clear();
 \endcode
 */
-PPT::PPT(wchar_t *filePath)
+PPT::PPT(const wchar_t *filePath)
 {
     FILE *file = _wfopen(filePath, L"rb");
 
@@ -907,7 +907,7 @@ else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType ==
 fclose(file);
 \endcode
 */
-void PPT::GetText(wchar_t *filePath)
+void PPT::GetText(const wchar_t *filePath)
 {
     BYTE *buffer = PowerPointDocument.data();
 
