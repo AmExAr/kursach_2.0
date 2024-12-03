@@ -31,7 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="../../boost_1_86_0" />
 		</Compiler>
+		<Linker>
+			<Add option="-static" />
+			<Add option="-municode" />
+			<Add library="../../boost_1_86_0/stage/lib/libboost_program_options-mgw8-mt-x64-1_86.a" />
+		</Linker>
 		<Unit filename="main.cpp" />
 		<Unit filename="pptElements.cpp" />
 		<Unit filename="pptElements.h" />

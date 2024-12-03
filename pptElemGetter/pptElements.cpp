@@ -5,8 +5,10 @@
 #include <map>
 #include <cassert>
 #include <wtypes.h>
-
-
+#include <cstdio>
+#include <sys/stat.h>
+#include <locale>
+#include <codecvt>
 
 namespace CompoundDocumentObject {
 
@@ -1183,9 +1185,8 @@ void PPT::GetPicture(const wchar_t *filePath)
         std::wcout << L"В презентации картинок не обнаружено" << std::endl;
         return;
     }
-    if(CreateDirectoryW(filePath, NULL) == 0 && GetLastError() == ERROR_PATH_NOT_FOUND && *filePath != L'\0')
+    if(!CheckAndCreateDir(filePath))
     {
-        std::wcout << L"Не удалось создать каталог: один или несколько промежуточных каталогов не существует!" << std::endl;
         return;
     }
 
@@ -1289,7 +1290,27 @@ void PPT::GetPicture(const wchar_t *filePath)
         delete[] path;
     }
 }
+      
+bool CheckAndCreateDir(const wchar_t *dirPath) {
+    DWORD ftyp = GetFileAttributesW(dirPath);
 
+    if (ftyp == INVALID_FILE_ATTRIBUTES) {
+        if (CreateDirectoryW(dirPath, NULL) || GetLastError() == ERROR_ALREADY_EXISTS) {
+            std::wcout << L"Директория создана: " << dirPath << std::endl;
+             return 0;
+        } else {
+            std::wcerr << L"Ошибка: не удалось создать директорию: " << dirPath << std::endl;
+            return 1;
+        }
+    } else if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {
+        //std::wcout << L"Директория уже существует: " << dirPath << std::endl;
+        return 0;
+    } else {
+        std::wcerr << L"Ошибка: путь существует, но это не директория: " << dirPath << std::endl;
+        return 1;
+    }
+}
+      
 wchar_t *MakePictureName(const wchar_t *path, wchar_t *format, WORD number)
 {
     BYTE numeralCount = 0;

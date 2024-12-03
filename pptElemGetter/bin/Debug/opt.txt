@@ -1,0 +1,1 @@
+-f "руский.ppt" -t haha.txt -p pictures

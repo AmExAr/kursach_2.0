@@ -219,11 +219,11 @@ typedef struct
 
 } OfficeArtSpContainer;
 
-
 typedef struct {
     RecordHeader rh;
     BYTE rgbUid[16];
     BYTE metafileHeader[34];
+
 } OfficeArtBlipMetafileOneUID; // для EMF, WMF, PICT
 
 typedef struct {
@@ -518,7 +518,8 @@ enum class RecordVerAndInstanceEnum : WORD
 \param Pictures Поток Pictures
 \param PPT Конструктор PPT файла
 \param PPT Деструктор PPT файла
-\param GetText Метод, с помощью которого достется текст и записывается в файл
+GetText Метод, с помощью которого достется текст и записывается в файл
+GetPics Метод, с помощью которого достаются картинки и записываются в файл
 */
 class PPT
 {
@@ -538,6 +539,8 @@ public:
 Функция для перевода в UTF-16LE
 */
 BYTE *TextBytesToChars(BYTE *data, DWORD dataSize);
+
+bool CheckAndCreateDir(const wchar_t *dirPath);
 
 wchar_t *MakePictureName(const wchar_t *path, wchar_t *format, WORD number);
 
