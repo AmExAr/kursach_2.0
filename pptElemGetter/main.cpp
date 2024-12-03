@@ -4,9 +4,11 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    PPT presentation(L"Language 2007+.ppt");
+    PPT presentation(L"C:\\Users\\Artyom\\Downloads\\FAT.ppt");
 
-    presentation.GetText(L"test1.txt");
+    //presentation.GetPicture(L"ПАПКА для картинок1");
+
+    presentation.GetText(L"test2.txt");
 
     return 0;
 }
