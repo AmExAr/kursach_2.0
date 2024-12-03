@@ -1185,7 +1185,7 @@ void PPT::GetPicture(const wchar_t *filePath)
         std::wcout << L"В презентации картинок не обнаружено" << std::endl;
         return;
     }
-    if(!CheckAndCreateDir(filePath))
+    if(CheckAndCreateDir(filePath))
     {
         return;
     }
@@ -1290,7 +1290,7 @@ void PPT::GetPicture(const wchar_t *filePath)
         delete[] path;
     }
 }
-      
+
 bool CheckAndCreateDir(const wchar_t *dirPath) {
     DWORD ftyp = GetFileAttributesW(dirPath);
 
@@ -1310,7 +1310,7 @@ bool CheckAndCreateDir(const wchar_t *dirPath) {
         return 1;
     }
 }
-      
+
 wchar_t *MakePictureName(const wchar_t *path, wchar_t *format, WORD number)
 {
     BYTE numeralCount = 0;

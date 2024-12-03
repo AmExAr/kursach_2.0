@@ -26,8 +26,7 @@ int wmain(int argc, const wchar_t *argv[])
         }
 
         const wchar_t *presentationFile = (vm["file"].as<std::wstring>()).c_str();
-        std::cout << "Pe" << std::endl;
-        std::wcout << L"Read presentation from: " << *presentationFile << std::endl;
+        std::wcout << L"Read presentation from: " << presentationFile << std::endl;
         PPT presentation(presentationFile);
 
 
@@ -42,9 +41,6 @@ int wmain(int argc, const wchar_t *argv[])
 
         if (vm.count("pictures")){
             const wchar_t *picturesDir = vm["pictures"].as<std::wstring>().c_str();
-
-            CheckAndCreateDir(picturesDir);
-            std::wcout << "Pictures will be saved to: " << picturesDir << std::endl;
 
             presentation.GetPicture(picturesDir);
         }

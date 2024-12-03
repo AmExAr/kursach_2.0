@@ -60,18 +60,18 @@
 1732358933 source:c:\users\artyom\documents\kursach_2.0\pptelemgetter\main.cpp
 	"pptElements.h"
 
-1732480031 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\main.cpp
+1733224795 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\main.cpp
 	"pptElements.h"
 	<boost/program_options.hpp>
 
-1733063752 c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.h
+1733224615 c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.h
 	<iostream>
 	<vector>
 	<map>
 	<cassert>
 	<wtypes.h>
 
-1733063790 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.cpp
+1733224996 source:c:\users\mcpoh\desktop\kursach_2.0\pptelemgetter\pptelements.cpp
 	"pptElements.h"
 	<iostream>
 	<stdio.h>
@@ -1836,3 +1836,4 @@
 	<set>
 
 1723068428 c:\users\mcpoh\desktop\boost_1_86_0\boost\program_options\version.hpp
+
