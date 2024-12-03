@@ -1,20 +1,18 @@
 # depslib dependency file v1.0
-1732046148 source:c:\users\artyom\documents\pptelemgetter\main.cpp
+1733163066 source:c:\users\artyom\documents\pptelemgetter\main.cpp
 	"pptElements.h"
 
-1731865167 c:\users\artyom\documents\pptelemgetter\pptelements.h
-	<iostream>
+1733078481 c:\users\artyom\documents\pptelemgetter\pptelements.h
 	<iostream>
 	<vector>
 	<map>
 	<cassert>
 	<wtypes.h>
 
-1732048070 source:c:\users\artyom\documents\pptelemgetter\pptelements.cpp
+1733162488 source:c:\users\artyom\documents\pptelemgetter\pptelements.cpp
 	"pptElements.h"
 	<iostream>
 	<stdio.h>
-	<iostream>
 	<vector>
 	<map>
 	<cassert>
@@ -1838,4 +1836,3 @@
 	<set>
 
 1723068428 c:\users\mcpoh\desktop\boost_1_86_0\boost\program_options\version.hpp
-

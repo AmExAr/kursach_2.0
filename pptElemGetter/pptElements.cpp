@@ -598,7 +598,7 @@ PPT::PPT(const wchar_t *filePath)
 
     ULONGLONG powerPointDocumentIndex = NULL;
     ULONGLONG currentUserIndex = NULL;
-    ULONGLONG picturesIndex;
+    ULONGLONG picturesIndex = NULL;
 
     for(std::map<std::wstring, ULONGLONG>::const_iterator i=NameMap.begin(); i!=NameMap.end(); i++)
     {
@@ -617,23 +617,19 @@ PPT::PPT(const wchar_t *filePath)
         }
     }
 
-    if(currentUserIndex == NULL)
+    if(picturesIndex == NULL || powerPointDocumentIndex == NULL)
     {
-        std::wcout << L"не найден поток Current User" << std::endl;
+        std::wcout << L"программа при разборе файла не нашла поток Current User" << std::endl;
+        return;
     }
-    if(powerPointDocumentIndex == NULL)
-    {
-        std::wcout << L"не найден поток PowerPoint Document" << std::endl;
-    }
-    else
-    {
-        BinaryBlock CurrentUser = DataStreams[currentUserIndex];
-        PowerPointDocument = DataStreams[powerPointDocumentIndex];
 
-        CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
+    BinaryBlock CurrentUser = DataStreams[currentUserIndex];
+    PowerPointDocument = DataStreams[powerPointDocumentIndex];
 
-        offsetToCurrentEdit = user->offsetToCurrentEdit;
-    }
+    CurrentUserAtom *user = (CurrentUserAtom*)CurrentUser.data();
+
+
+    offsetToCurrentEdit = user->offsetToCurrentEdit;
 
 
     // Очистить память
@@ -917,15 +913,50 @@ void PPT::GetText(const wchar_t *filePath)
 
     UserEditAtom *userEdit = (UserEditAtom*)buffer;
 
+    DWORD directoryEntryCount = userEdit->persistIdSeed;
+    DWORD directoryEntry[directoryEntryCount];
+    DWORD directoryEntryCurrentElem = directoryEntryCount - 1;
+    DWORD lastDocumentContainer = NULL;
+
+    while(userEdit->offsetLastEdit != 0x00000000)
+    {
+        buffer = powerPointDocumentBegin + userEdit->offsetPersistDirectory + sizeof(RecordHeader);
+        persistIdAndcPersist *idAndCount = (persistIdAndcPersist*)buffer;
+
+        DWORD cPersist = (*idAndCount >> 12) & 0xFFFFF;
+        cPersist = (cPersist & 0xFF) << 8 | (cPersist & 0xFF00) >>  8;
+
+        DWORD *currentDirectoryEntry = (DWORD*)(buffer + sizeof(persistIdAndcPersist));
+
+        if(lastDocumentContainer == NULL)
+        {
+            lastDocumentContainer = currentDirectoryEntry[0];
+        }
+
+        for(DWORD i = 0; i < cPersist; i++)
+        {
+            directoryEntry[directoryEntryCurrentElem--] = currentDirectoryEntry[cPersist - i - 1];
+        }
+
+        buffer = powerPointDocumentBegin + userEdit->offsetLastEdit;
+        userEdit = (UserEditAtom*)buffer;
+
+    }
+
     buffer = powerPointDocumentBegin + userEdit->offsetPersistDirectory + sizeof(RecordHeader);
     persistIdAndcPersist *idAndCount = (persistIdAndcPersist*)buffer;
 
     DWORD cPersist = (*idAndCount >> 12) & 0xFFFFF;
     cPersist = (cPersist & 0xFF) << 8 | (cPersist & 0xFF00) >>  8;
 
-    DWORD *directoryEntry = (DWORD*)(buffer + sizeof(persistIdAndcPersist));
+    DWORD *currentDirectoryEntry = (DWORD*)(buffer + sizeof(persistIdAndcPersist));
 
-    buffer = powerPointDocumentBegin + directoryEntry[0] + sizeof(RecordHeader);
+    for(DWORD i = 0; i < cPersist; i++)
+    {
+        directoryEntry[directoryEntryCurrentElem--] = currentDirectoryEntry[cPersist - i - 1];
+    }
+
+    buffer = powerPointDocumentBegin + lastDocumentContainer + sizeof(RecordHeader);
 
     RecordHeader *rh = (RecordHeader*)buffer;
 
@@ -980,110 +1011,146 @@ void PPT::GetText(const wchar_t *filePath)
         buffer += sizeof(RecordHeader) + rh->recLen;
         rh = (RecordHeader*)buffer;
     }
-
     std::wcout << L"DocumentContainer успешно просмотрен" << std::endl << std::endl;
 
-    fclose(file);
-    if(isTextHere)
+    for(DWORD i = 0; i < directoryEntryCount; i++)
     {
-        std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
-    }
+        buffer = powerPointDocumentBegin + directoryEntry[i];
+        rh = (RecordHeader*)buffer;
 
-    else
-    {
-        std::wcout << L"Данная презентация была создана офисом версии после 2003 года!" << std::endl << std::endl;
-        _wfopen(filePath, L"wb");
-
-        for(DWORD i = 2; i < cPersist; i++)
+        if(rh->recType != (WORD)RecordTypeEnum::RT_Slide || rh->recVerAndInstance != 0x000F)
         {
-            if(i > 2)
-            {
-                fwprintf(file, L"\n");
-            }
-            fwprintf(file, L"Слайд номер %u: \n", (i - 1));
-
-            buffer = powerPointDocumentBegin + directoryEntry[i];
-
-            rh = (RecordHeader*)buffer;
-
-            BYTE *endOfSlide = buffer + rh->recLen + sizeof(RecordHeader);
-
-            buffer += sizeof(SlideContainer) + sizeof(OfficeArtDgContainer);
-
-            rh = (RecordHeader*)buffer;
-            while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtSpContainer || rh->recVerAndInstance != 0x000F)
-            {
-                buffer += rh->recLen + sizeof(RecordHeader);
-                rh = (RecordHeader*)buffer;
-            }
-            std::wcout << L"OfficeArtSpContainer успешно найден" << std::endl << std::endl;
-
-            buffer += sizeof(RecordHeader);
-            rh = (RecordHeader*)buffer;
-
-            while(rh->recType != (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox || rh->recVerAndInstance != 0x000F)
-            {
-                buffer += rh->recLen + sizeof(RecordHeader);;
-                rh = (RecordHeader*)buffer;
-            }
-            std::wcout << L"OfficeArtClientTextbox успешно найден" << std::endl << std::endl;
-
-            buffer += sizeof(RecordHeader);
-            rh = (RecordHeader*)buffer;
-
-            while(buffer != endOfSlide)
-            {
-                if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAndInstance == 0x000F)
-                {
-                    BYTE *endOfSpContainer = buffer + sizeof(RecordHeader) + rh->recLen;
-
-                    buffer += sizeof(RecordHeader);;
-                    rh = (RecordHeader*)buffer;
-
-                    while(buffer != endOfSpContainer)
-                    {
-                        buffer += rh->recLen + sizeof(RecordHeader);;
-                        rh = (RecordHeader*)buffer;
-
-                        if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox && rh->recVerAndInstance == 0x000F)
-                        {
-                            buffer += sizeof(RecordHeader);
-                            rh = (RecordHeader*)buffer;
-
-                            break;
-                        }
-                    }
-                }
-                else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
-                         rh->recVerAndInstance == 0x0000)
-                {
-                    if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
-                    {
-                        WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
-
-                        fwrite(text, 2, (rh->recLen)/2, file);
-                        fwprintf(file, L"\n");
-                    }
-                    else
-                    {
-                        BYTE *text = buffer + sizeof(RecordHeader);
-
-                        WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
-
-                        fwrite(chars, 2, rh->recLen, file);
-                        fwprintf(file, L"\n");
-
-                        delete[] chars;
-                    }
-                }
-                buffer += sizeof(RecordHeader) + rh->recLen;
-                rh = (RecordHeader*)buffer;
-            }
-            std::wcout << L"слайд номер " << i - 1 << L" успешно просмотрен" << std::endl << std::endl;
+            continue;
         }
-        fclose(file);
-        std::wcout << L"Текст из презентации был успешно сохранён в файл: " << *filePath  << std::endl;
+
+        BYTE *endOfSlide = buffer + rh->recLen + sizeof(RecordHeader);
+
+        buffer += sizeof(SlideContainer);
+        rh = (RecordHeader*)buffer;
+
+        while(rh->recType != (WORD)RecordTypeEnum::RT_Drawing || rh->recVerAndInstance != 0x000F)
+        {
+            buffer += rh->recLen + sizeof(RecordHeader);
+            rh = (RecordHeader*)buffer;
+        }
+
+        buffer += sizeof(RecordHeader)*2;
+        rh = (RecordHeader*)buffer;
+
+        while(buffer != endOfSlide)
+        {
+            if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpgrContainer && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+                     rh->recVerAndInstance == 0x0000)
+            {
+                if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
+                {
+                    WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
+
+                    fwrite(text, 2, (rh->recLen)/2, file);
+                    fwprintf(file, L"\n");
+                }
+                else
+                {
+                    BYTE *text = buffer + sizeof(RecordHeader);
+
+                    WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
+
+                    fwrite(chars, 2, rh->recLen, file);
+                    fwprintf(file, L"\n");
+
+                    delete[] chars;
+                }
+            }
+
+            buffer += rh->recLen + sizeof(RecordHeader);
+            rh = (RecordHeader*)buffer;
+        }
     }
+
+    for(DWORD i = 0; i < directoryEntryCount; i++)
+    {
+        buffer = powerPointDocumentBegin + directoryEntry[i];
+        rh = (RecordHeader*)buffer;
+
+        if(rh->recType != (WORD)RecordTypeEnum::RT_Notes || rh->recVerAndInstance != 0x000F)
+        {
+            continue;
+        }
+
+        BYTE *endOfNote = buffer + rh->recLen + sizeof(RecordHeader);
+
+        buffer += sizeof(NotesContainer) + sizeof(RecordHeader)*2;
+
+        rh = (RecordHeader*)buffer;
+
+        while(buffer != endOfNote)
+        {
+            if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpgrContainer && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtSpContainer && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtClientTextbox && rh->recVerAndInstance == 0x000F)
+            {
+                buffer += sizeof(RecordHeader);
+                rh = (RecordHeader*)buffer;
+                continue;
+            }
+            else if((rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom || rh->recType == (WORD)RecordTypeEnum::RT_TextBytesAtom) &&
+                     rh->recVerAndInstance == 0x0000)
+            {
+                if(rh->recType == (WORD)RecordTypeEnum::RT_TextCharsAtom)
+                {
+                    WORD *text = (WORD*)(buffer + sizeof(RecordHeader));
+
+                    fwrite(text, 2, (rh->recLen)/2, file);
+                    fwprintf(file, L"\n");
+                }
+                else
+                {
+                    BYTE *text = buffer + sizeof(RecordHeader);
+
+                    WORD *chars = (WORD*)(TextBytesToChars(text, rh->recLen));
+
+                    fwrite(chars, 2, rh->recLen, file);
+                    fwprintf(file, L"\n");
+
+                    delete[] chars;
+                }
+            }
+
+            buffer += rh->recLen + sizeof(RecordHeader);
+            rh = (RecordHeader*)buffer;
+        }
+    }
+
+    fclose(file);
+    std::wcout << L"Текст из презентации был успешно сохранён в ваш файл!" << std::endl;
 }
 
 /**
@@ -1111,241 +1178,220 @@ BYTE *TextBytesToChars(BYTE *text, DWORD textSize)
     return chars;
 }
 
-void PPT::GetPics(std::wstring filePath)
+void PPT::GetPicture(const wchar_t *filePath)
 {
-    if (Pictures.size() == 0) {
+    if(Pictures.size() == 0)
+    {
         std::wcout << L"В презентации картинок не обнаружено" << std::endl;
+        return;
+    }
+    if(!CheckAndCreateDir(filePath))
+    {
         return;
     }
 
     BYTE *buffer = Pictures.data();
-    size_t bufferSize = Pictures.size(); // Размер буфера
-    DWORD sizeImg = 0;
-    RecordHeader *rh = (RecordHeader*)buffer; // Применение структуры RecordHeader
-    size_t bytesParsed = 0;
-    int imageIndex = 0;
-    while (bytesParsed < bufferSize) {
-        RecordHeader *rh = (RecordHeader*)buffer;
+    size_t bufferSize = Pictures.size();
+    BYTE *endOfBuffer = buffer + bufferSize - 1;
 
-        std::wstring fileFormat;
-        bool isValidImage = 0;
+    RecordHeader *rh;
 
-        // Определяем тип изображения
-        if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePNG1)
+    WORD pictureNumber = 0;
+    while(buffer != endOfBuffer)
+    {
+        if(pictureNumber > 0)
         {
-            fileFormat = L".png";
-            isValidImage = 1;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG1_1 || rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG1_2)
-        {
-            fileFormat = L".jpg";
-            isValidImage = 1;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceDIB1)
-        {
-            fileFormat = L".dib";
-            isValidImage = 1;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceTIFF1)
-        {
-            fileFormat = L".tiff";
-            isValidImage = 1;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePNG2)
-        {
-            fileFormat = L".png";
-            isValidImage = 2;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG2_1 || rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceJPEG2_2)
-        {
-            fileFormat = L".jpg";
-            isValidImage = 2;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceDIB2)
-        {
-            fileFormat = L".dib";
-            isValidImage = 2;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceTIFF2)
-        {
-            fileFormat = L".tiff";
-            isValidImage = 2;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceWMF1)
-        {
-            fileFormat = L".wmf";
-            isValidImage = 3;
+            buffer++;
         }
 
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceWMF2)
+        rh = (RecordHeader*)buffer;
+        DWORD pictureSize;
+
+        if(rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceDIBOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceEMFOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceJPEGInCMYKOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceJPEGInRGBOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstancePICTOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstancePNGOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceTIFFOneUUID ||
+           rh->recVerAndInstance == (WORD)RecordVerAndInstanceEnum::RVAI_recVerAndInstanceWMFOneUUID)
         {
-            fileFormat = L".wmf";
-            isValidImage = 4;
-        }
-
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceEMF1)
-        {
-            fileFormat = L".emf";
-            isValidImage = 3;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstanceEMF2)
-        {
-            fileFormat = L".emf";
-            isValidImage = 4;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePICT1)
-        {
-            fileFormat = L".pict";
-            isValidImage = 3;
-        }
-        else if (rh->recVerAndInstance == (WORD)PngTypeEnum::RT_recVerAndInstancePICT2)
-        {
-            fileFormat = L".pict";
-            isValidImage = 4;
-        }
-
-
-        if (isValidImage == 1)
-        {
-            // Указатель на начало блока данных
-            BYTE *powerPicturesBegin = buffer;
-
-            OfficeArtBlipTagUid1 *officeBlip = (OfficeArtBlipTagUid1*)buffer;
-
-            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->tag);
-
-            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
-
-            // Создаем имя файла
-            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
-            // Открываем файл для записи
-            FILE *file = _wfopen(fileName.c_str(), L"wb");
-
-            // Записываем данные в файл
-            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
-            fclose(file);
-            if (bytesWritten == sizeImg)
+            if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipEMF || rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipWMF ||
+               rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipPICT)
             {
-                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+                buffer += sizeof(OfficeArtBlipMetafileOneUID);
+                pictureSize = rh->recLen - sizeof(OfficeArtBlipMetafileOneUID) + sizeof(RecordHeader);
             }
-            // Сдвигаем на следующий блок данных
-            buffer += sizeImg;
-            bytesParsed += sizeof(OfficeArtBlipTagUid1) + sizeImg;
-
-        }
-
-        else if (isValidImage == 2)
-        {
-            // Указатель на начало блока данных
-            BYTE *powerPicturesBegin = buffer;
-
-            OfficeArtBlipTagUid1andUid2 *officeBlip = (OfficeArtBlipTagUid1andUid2*)buffer;
-
-            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->tag);
-
-            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->tag) + sizeof(*rh);
-
-            // Создаем имя файла
-            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
-
-            // Открываем файл для записи
-            FILE *file = _wfopen(fileName.c_str(), L"wb");
-
-            // Записываем данные в файл
-            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
-            if (bytesWritten == sizeImg)
+            else
             {
-                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
+                buffer += sizeof(OfficeArtBlipTagOneUID);
+                pictureSize = rh->recLen - sizeof(OfficeArtBlipTagOneUID) + sizeof(RecordHeader);
             }
-            fclose(file);
-
-            // Сдвигаем на следующий блок данных
-            buffer += sizeImg;
-            bytesParsed += sizeof(OfficeArtBlipTagUid1andUid2) + sizeImg;
-
         }
-        else if (isValidImage == 3)
-        {
-            // Указатель на начало блока данных
-            BYTE *powerPicturesBegin = buffer;
-
-            OfficeArtBlipMetafileUid1 *officeBlip = (OfficeArtBlipMetafileUid1*)buffer;
-
-            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->metafileHeader);
-
-            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
-
-            // Создаем имя файла
-            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
-
-            // Открываем файл для записи
-            FILE *file = _wfopen(fileName.c_str(), L"wb");
-
-            // Записываем данные в файл
-            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
-            if (bytesWritten == sizeImg)
-            {
-                //std::wcout << L"Успешно записан файл: " << fileName << std::endl;
-            }
-            fclose(file);
-
-            // Сдвигаем на следующий блок данных
-            buffer += sizeImg;
-            bytesParsed += sizeof(OfficeArtBlipMetafileUid1) + sizeImg;
-
-        }
-        else if (isValidImage == 4)
-        {
-            // Указатель на начало блока данных
-            BYTE *powerPicturesBegin = buffer;
-
-            OfficeArtBlipMetafileUid1andUid2 *officeBlip = (OfficeArtBlipMetafileUid1andUid2*)buffer;
-
-            sizeImg = rh->recLen - sizeof(officeBlip->rgbUid) - sizeof(officeBlip->metafileHeader);
-
-            buffer += sizeof(officeBlip->rgbUid) + sizeof(officeBlip->metafileHeader) + sizeof(*rh);
-
-            // Создаем имя файла
-            std::wstring fileName = filePath + L"\\" + L"image_" + std::to_wstring(imageIndex++) + fileFormat;
-
-            // Открываем файл для записи
-            FILE *file = _wfopen(fileName.c_str(), L"wb");
-
-            // Записываем данные в файл
-            size_t bytesWritten = fwrite(buffer, 1, sizeImg, file);
-            if (bytesWritten == sizeImg)
-            {
-               // std::wcout << L"Успешно записан файл: " << fileName << std::endl;
-            }
-            fclose(file);
-
-            // Сдвигае на следующий блок данных
-            buffer += sizeImg;
-            bytesParsed += sizeof(OfficeArtBlipMetafileUid1andUid2) + sizeImg;
-
-        }
-
         else
         {
-            // Пропускаем текущий заголовок
-            buffer += sizeof(RecordHeader) + rh->recLen;
-            bytesParsed += sizeof(RecordHeader) + rh->recLen;
+            if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipEMF || rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipWMF ||
+               rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipPICT)
+            {
+                buffer += sizeof(OfficeArtBlipMetafileOneUID);
+                pictureSize = rh->recLen - sizeof(OfficeArtBlipMetafileOneUID) + sizeof(RecordHeader);
+            }
+            else
+            {
+                buffer += sizeof(OfficeArtBlipTagOneUID);
+                pictureSize = rh->recLen - sizeof(OfficeArtBlipTagOneUID) + sizeof(RecordHeader);
+            }
         }
+
+        wchar_t *path;
+
+        if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipDIB)
+        {
+            path = MakePictureName(filePath, L"dib", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipEMF)
+        {
+            path = MakePictureName(filePath, L"emf", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipJPEG || rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipJPEGException)
+        {
+            path = MakePictureName(filePath, L"jpeg", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipPICT)
+        {
+            path = MakePictureName(filePath, L"pict", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipPNG)
+        {
+            path = MakePictureName(filePath, L"png", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipTIFF)
+        {
+            path = MakePictureName(filePath, L"tiff", ++pictureNumber);
+        }
+        else if(rh->recType == (WORD)RecordTypeEnum::RT_OfficeArtBlipWMF)
+        {
+            path = MakePictureName(filePath, L"wmf", ++pictureNumber);
+        }
+        else if(rh->recType == 0x0000 && rh->recVerAndInstance == 0x0000)
+        {
+            std::wcout << L"Поток Pictures содержит пустоты или в конце забит нулями!" << std::endl;
+            return;
+        }
+
+        std::wcout << path << std::endl;
+
+        FILE *file = _wfopen(path, L"wb");
+        fwrite(buffer, 1, pictureSize, file);
+        fclose(file);
+
+        buffer += pictureSize - 1;
+
+        delete[] path;
     }
 }
-
-void CheckAndCreateDir(const std::wstring& dirPath) {
-    DWORD ftyp = GetFileAttributesW(dirPath.c_str());
+      
+bool CheckAndCreateDir(const wchar_t *dirPath) {
+    DWORD ftyp = GetFileAttributesW(dirPath);
 
     if (ftyp == INVALID_FILE_ATTRIBUTES) {
-        if (CreateDirectoryW(dirPath.c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS) {
+        if (CreateDirectoryW(dirPath, NULL) || GetLastError() == ERROR_ALREADY_EXISTS) {
             std::wcout << L"Директория создана: " << dirPath << std::endl;
+             return 0;
         } else {
             std::wcerr << L"Ошибка: не удалось создать директорию: " << dirPath << std::endl;
+            return 1;
         }
     } else if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {
-        std::wcout << L"Директория уже существует: " << dirPath << std::endl;
+        //std::wcout << L"Директория уже существует: " << dirPath << std::endl;
+        return 0;
     } else {
         std::wcerr << L"Ошибка: путь существует, но это не директория: " << dirPath << std::endl;
+        return 1;
+    }
+}
+      
+wchar_t *MakePictureName(const wchar_t *path, wchar_t *format, WORD number)
+{
+    BYTE numeralCount = 0;
+    WORD num = number;
+    WORD mirrorNumber = 0;
+
+    while(num > 0)
+    {
+        mirrorNumber = mirrorNumber * 10 + num % 10;
+
+        numeralCount++;
+        num /= 10;
+    }
+
+    BYTE formatLength = 0;
+    WORD pathLength = 0;
+
+    while(format[formatLength] != L'\0')
+    {
+        formatLength++;
+    }
+    while(path[pathLength] != L'\0')
+    {
+        pathLength++;
+    }
+
+    if(pathLength == 0)
+    {
+        wchar_t *name = new wchar_t[numeralCount + formatLength + pathLength + 4];
+
+        for(BYTE i = 0; i < numeralCount + formatLength + pathLength + 4; i++)
+        {
+            if(i == pathLength)
+            {
+                name[i++] = L'.';
+                name[i] = L'\\';
+            }
+            else if(i > pathLength && i < numeralCount + pathLength + 2)
+            {
+                name[i] = L'0' + (mirrorNumber % 10);
+                mirrorNumber /= 10;
+            }
+            else if(i == pathLength + numeralCount + 2)
+            {
+                name[i] = L'.';
+            }
+            else
+            {
+                name[i] = format[i - pathLength - numeralCount - 3];
+            }
+        }
+        return name;
+    }
+    else
+    {
+        wchar_t *name = new wchar_t[numeralCount + formatLength + pathLength + 3];
+
+        for(BYTE i = 0; i < numeralCount + formatLength + pathLength + 3; i++)
+        {
+            if(i < pathLength)
+            {
+                name[i] = path[i];
+            }
+            else if(i == pathLength)
+            {
+                name[i] = L'\\';
+            }
+            else if(i > pathLength && i < numeralCount + pathLength + 1)
+            {
+                name[i] = L'0' + (mirrorNumber % 10);
+                mirrorNumber /= 10;
+            }
+            else if(i == pathLength + numeralCount + 1)
+            {
+                name[i] = L'.';
+            }
+            else
+            {
+                name[i] = format[i - pathLength - numeralCount - 2];
+            }
+        }
+        return name;
     }
 }

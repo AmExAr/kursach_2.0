@@ -101,7 +101,7 @@ DWORD GetCompoundDocumentInfo(
 
 }
 
-typedef uint32_t persistIdAndcPersist; ///< \brief Id и количество DirectoryEntry
+typedef DWORD persistIdAndcPersist; ///< \brief Id и количество DirectoryEntry
 
 #pragma pack(push, 1)
 
@@ -154,6 +154,8 @@ typedef struct
     BYTE majorVersion;
     DWORD offsetLastEdit;
     DWORD offsetPersistDirectory;
+    DWORD docPersistIdRef;
+    DWORD persistIdSeed;
 
 } UserEditAtom;
 
@@ -179,9 +181,15 @@ typedef struct
 {
     RecordHeader rh;
     BYTE slideAtom[32];
-    BYTE slideShowSlideInfoAtom[24];
 
 } SlideContainer;
+
+typedef struct
+{
+    RecordHeader rh;
+    BYTE notesAtom[16];
+
+} NotesContainer;
 
 /**
 Контейнер, который описывает все записи рисуемого объекта
@@ -215,25 +223,26 @@ typedef struct {
     RecordHeader rh;
     BYTE rgbUid[16];
     BYTE metafileHeader[34];
-} OfficeArtBlipMetafileUid1; // для EMF, WMF, PICT
+
+} OfficeArtBlipMetafileOneUID; // для EMF, WMF, PICT
 
 typedef struct {
     RecordHeader rh;
     BYTE rgbUid[16];
     BYTE tag[1];
-} OfficeArtBlipTagUid1; // для JPEG, PNG, DIB, TIFF
+} OfficeArtBlipTagOneUID; // для JPEG, PNG, DIB, TIFF
 
 typedef struct {
     RecordHeader rh;
     BYTE rgbUid[32];
     BYTE metafileHeader[34];
-} OfficeArtBlipMetafileUid1andUid2; // для EMF, WMF, PICT
+} OfficeArtBlipMetafileTwoUID; // для EMF, WMF, PICT
 
 typedef struct {
     RecordHeader rh;
     BYTE rgbUid[32];
     BYTE tag[1];
-} OfficeArtBlipTagUid1andUid2; // для JPEG, PNG, DIB, TIFF
+} OfficeArtBlipTagTwoUID; // для JPEG, PNG, DIB, TIFF
 
 #pragma pack(pop)
 
@@ -242,6 +251,16 @@ typedef struct {
 */
 enum class RecordTypeEnum : WORD
 {
+    RT_OfficeArtBlipEMF = 0xF01A,
+    RT_OfficeArtBlipWMF = 0xF01B,
+    RT_OfficeArtBlipPICT = 0xF01C,
+    RT_OfficeArtBlipJPEG = 0xF01D,
+    RT_OfficeArtBlipJPEGException = 0xF02A,
+    RT_OfficeArtBlipPNG = 0xF01E,
+    RT_OfficeArtBlipDIB = 0xF01F,
+    RT_OfficeArtBlipTIFF = 0xF029,
+
+    RT_OfficeArtSpgrContainer = 0xF003,
     RT_OfficeArtSpContainer = 0xF004,
     RT_OfficeArtClientTextbox = 0xF00D,
 
@@ -465,24 +484,31 @@ enum class RecordTypeEnum : WORD
     RT_TimeSubEffectContainer = 0xF145,
 };
 
-enum class PngTypeEnum : WORD
+enum class RecordVerAndInstanceEnum : WORD
 {
-    RT_recVerAndInstancePNG1 = 0x6E00,
-    RT_recVerAndInstancePNG2 = 0x6E01,
-    RT_recVerAndInstanceWMF1 = 0x2106,
-    RT_recVerAndInstanceWMF2 = 0x2107,
-    RT_recVerAndInstanceEMF1 = 0x3D04,
-    RT_recVerAndInstanceEMF2 = 0x3D05,
-    RT_recVerAndInstancePICT1 = 0x5402,
-    RT_recVerAndInstancePICT2 = 0x5403,
-    RT_recVerAndInstanceDIB1 = 0x7A08,
-    RT_recVerAndInstanceDIB2 = 0x7A09,
-    RT_recVerAndInstanceTIFF1 = 0x6E04,
-    RT_recVerAndInstanceTIFF2 = 0x6E05,
-    RT_recVerAndInstanceJPEG1_1 = 0x46A0,
-    RT_recVerAndInstanceJPEG1_2 = 0x6E20,
-    RT_recVerAndInstanceJPEG2_1 = 0x46B0,
-    RT_recVerAndInstanceJPEG2_2 = 0x6E30
+    RVAI_recVerAndInstancePNGOneUUID = 0x6E00,
+    RVAI_recVerAndInstancePNGTwoUUID = 0x6E10,
+
+    RVAI_recVerAndInstanceWMFOneUUID = 0x2160,
+    RVAI_recVerAndInstanceWMFTwoUUID = 0x2170,
+
+    RVAI_recVerAndInstanceEMFOneUUID = 0x3D40,
+    RVAI_recVerAndInstanceEMFTwoUUID = 0x3D50,
+
+    RVAI_recVerAndInstancePICTOneUUID = 0x5420,
+    RVAI_recVerAndInstancePICTTwoUUID = 0x5430,
+
+    RVAI_recVerAndInstanceDIBOneUUID = 0x7A80,
+    RVAI_recVerAndInstanceDIBTwoUUID = 0x7A90,
+
+    RVAI_recVerAndInstanceTIFFOneUUID = 0x6E40,
+    RVAI_recVerAndInstanceTIFFTwoUUID = 0x6E50,
+
+    RVAI_recVerAndInstanceJPEGInRGBOneUUID = 0x46A0,
+    RVAI_recVerAndInstanceJPEGInRGBTwoUUID = 0x46B0,
+
+    RVAI_recVerAndInstanceJPEGInCMYKOneUUID = 0x6E20,
+    RVAI_recVerAndInstanceJPEGInCMYKTwoUUID = 0x6E30
 };
 
 /**
@@ -506,7 +532,7 @@ public:
     PPT(const wchar_t *filePath);
     ~PPT();
     void GetText(const wchar_t *filePath);
-    void GetPics(std::wstring filePath);
+    void GetPicture(const wchar_t *filePath);
 };
 
 /**
@@ -514,6 +540,8 @@ public:
 */
 BYTE *TextBytesToChars(BYTE *data, DWORD dataSize);
 
+bool CheckAndCreateDir(const wchar_t *dirPath);
 
-void CheckAndCreateDir(const std::wstring& dirPath);
+wchar_t *MakePictureName(const wchar_t *path, wchar_t *format, WORD number);
+
 #endif // pptElementsH

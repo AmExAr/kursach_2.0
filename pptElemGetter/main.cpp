@@ -41,12 +41,12 @@ int wmain(int argc, const wchar_t *argv[])
 
 
         if (vm.count("pictures")){
-            std::wstring picturesDir = vm["pictures"].as<std::wstring>();
+            const wchar_t *picturesDir = vm["pictures"].as<std::wstring>().c_str();
 
             CheckAndCreateDir(picturesDir);
             std::wcout << "Pictures will be saved to: " << picturesDir << std::endl;
 
-            presentation.GetPics(picturesDir);
+            presentation.GetPicture(picturesDir);
         }
 
     }
@@ -55,14 +55,4 @@ int wmain(int argc, const wchar_t *argv[])
     }
 
     return 0;
-
-    /*
-    //PPT presentation(L"2003_bouth.ppt");
-    //PPT presentation(L"2007_bouth.ppt");
-    //PPT presentation(L"PICTUR.ppt");
-
-    presentation.GetPics((std::wstring)L"C:\\Users\\McPoh\\Desktop\\kursach_2.0\\pptElemGetter\\New_folder\\");
-
-    return 0;
-    */
 }
